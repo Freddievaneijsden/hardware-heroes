@@ -1,2 +1,3 @@
 database/connectionMySQL.js
 database/.env
+schema.sql

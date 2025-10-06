@@ -1,1 +1,2 @@
-/persistence/connectionMySQL.js
+database/connectionMySQL.js
+database/.env

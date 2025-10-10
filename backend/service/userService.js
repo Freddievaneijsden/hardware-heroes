@@ -33,10 +33,11 @@ async function updateUser(userName, userPassword, rolesId, userId) {
 
 
 async function deleteUser(userId) {
-    let sql = "DELETE FROM users WHERE userId = ?";
-    let params = [userId];
-
-    let [rows] = await connectionMySQL.promise().query(sql, params);
+let progressSql = "DELETE FROM progress WHERE progressUserId = ?";
+    await connectionMySQL.promise().query(progressSql, [userId]);
+    
+    let userSql = "DELETE FROM users WHERE userId = ?";
+    let [rows] = await connectionMySQL.promise().query(userSql, [userId]);
     return rows;
 }
 

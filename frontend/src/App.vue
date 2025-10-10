@@ -3,6 +3,8 @@ import { RouterLink, RouterView } from 'vue-router'
 import Home from './components/Home.vue'
 import UsersGet from './components/UsersGet.vue';
 import UsersCreate from './components/UsersCreate.vue';
+import UsersUpdate from './components/UsersUpdate.vue';
+import UsersDelete from './components/UsersDelete.vue';
 import Nav from './components/Nav.vue';
 
 </script>
@@ -15,6 +17,8 @@ import Nav from './components/Nav.vue';
   <Home />
   <UsersCreate />
   <UsersGet />
+  <UsersUpdate />
+  <UsersDelete />
   </body>
 </template>
 

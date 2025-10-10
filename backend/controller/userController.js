@@ -112,7 +112,11 @@ async function deleteUser(req, res) {
 
     try {
         await userService.deleteUser(userId);
-        return res.status(204).json();
+        return res.status(200).json({
+            success: true, 
+            data: result,
+            message: 'You have deleted an account!'
+        });
     } catch (error) {
         return res.status(500).json({
             success: false, 

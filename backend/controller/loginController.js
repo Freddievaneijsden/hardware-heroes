@@ -1,7 +1,7 @@
 const loginService = require('../service/loginService');
 
 async function getUserByName(req, res) {
-    let {userName} = req.params;
+    let {userName} = req.query
 
     if (!userName) {
          return res.status(400).json({
@@ -12,6 +12,14 @@ async function getUserByName(req, res) {
 
     try {
         let result = await loginService.getUserByName(userName);
+
+         if (!result) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+
         return res.status(200).json({
             success: true, 
             data: result

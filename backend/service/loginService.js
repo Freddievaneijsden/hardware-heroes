@@ -7,3 +7,7 @@ async function getUserByName(userName) {
     let [rows] = await connectionMySQL.promise().query(sql, params);
     return rows[0];
 }
+
+module.exports = {
+    getUserByName
+}

@@ -1,12 +1,13 @@
 <script setup>
-import { ref } from 'vue'
-import imageHome from '../assets/completeComputer-removebg-preview.png'
+import HomeView from '../HomeView.vue'
 
-const output = ref('Test')
+
 </script>
 
 <template>
-  <h1>Hello!</h1>
-  <p>{{ output }}</p>
-  <img :src="imageHome" alt="Computer" />
+  <header>
+  </header>
+  <main>
+  <HomeView />
+  </main>
 </template>

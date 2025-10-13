@@ -1,4 +1,7 @@
 const loginService = require('../service/loginService');
+const jwt = require('jsonwebtoken');
+
+const SECRET_KEY = 'secret-key'; 
 
 async function getUserByName(req, res) {
     let {userName, userPassword} = req.body
@@ -27,10 +30,21 @@ async function getUserByName(req, res) {
             })
         }
 
+    const token = jwt.sign(
+      { id: result.userId, userName: result.userName },
+      SECRET_KEY,
+      { expiresIn: '2h' }
+    );
+
         return res.status(200).json({
             success: true, 
             message: 'Login successful',
-            data: result
+            token,
+            data: {
+        userId: result.userId,
+        userName: result.userName,
+        rolesId: result.rolesId
+    }
         })
     } catch (error) {
         return res.status(500).json({

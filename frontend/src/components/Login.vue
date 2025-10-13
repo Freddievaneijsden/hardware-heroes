@@ -1,10 +1,29 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 const userName = ref(null)
 const userPassword = ref(null)
 const success = ref(false)
 const error = ref(false)
+const token = ref(null)
+const user = ref(null)
+
+onMounted(() => {
+  const storedToken = localStorage.getItem('token')
+  const storedUser = localStorage.getItem('user')
+
+  if (storedToken && storedUser) {
+    token.value = storedToken
+    user.value = JSON.parse(storedUser)
+  }
+})
+
+watch(token, (newToken) => {
+  if (!newToken) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+  }
+})
 
 const validLogin = async () => {
   success.value = false
@@ -26,6 +45,9 @@ const validLogin = async () => {
 
     if (!response.ok) throw new Error(result.error || 'Login failed')
 
+    token.value = result.token
+    user.value = result.data
+
     localStorage.setItem('token', result.token)
     localStorage.setItem('user', JSON.stringify(result.data))
 
@@ -37,15 +59,26 @@ const validLogin = async () => {
     error.value = err.message
   }
 }
+
+const logout = () => {
+  token.value = null
+  user.value = null
+}
 </script>
 
 <template>
   <div>
-    <form @submit.prevent="validLogin">
+    <form @submit.prevent="validLogin" v-if="!token">
       <input v-model="userName" type="text" placeholder="Username" required /> <br />
       <input v-model="userPassword" type="password" placeholder="Password" required /> <br />
       <button>Login</button>
     </form>
+
+    <div v-else>
+      <button>{{ user?.userName || 'User' }}</button>
+      <button @click="logout">Logout</button>
+    </div>
+
     <p v-if="success">✅ Successfull Login!</p>
     <p v-if="error">❌ {{ error }}</p>
   </div>

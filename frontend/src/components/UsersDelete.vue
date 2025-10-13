@@ -2,11 +2,14 @@
 import { ref } from 'vue';
 
 const userId = ref('');
-const error = ref(false);
+const error = ref(null);
 const deleting = ref(false);
+const success = ref(false);
 
 const deleteUser = async () => {
    error.value = null;
+   success.value = false;
+
     if (!userId.value) {
         error.value = "Please enter a user ID";
         return;
@@ -14,7 +17,7 @@ const deleteUser = async () => {
 
     deleting.value = true;
 
-    try {
+   try {
         const response = await fetch(`http://localhost:3000/users/${userId.value}`, {
             method: 'DELETE',
             headers: {
@@ -22,11 +25,16 @@ const deleteUser = async () => {
             }
         });
 
+        if (response.status === 404) {
+            throw new Error(`User with ID ${userId.value} not found`);
+        }
+
         if (!response.ok) {
-            throw new Error('Could not delete user: ' + response.status);
+            throw new Error(`Could not delete user ${response.status}`);
         }
        
-        userId.value = ''; // Rensa input
+        success.value = true;
+        userId.value = '';
 
     } catch (err) {
         error.value = err.message;
@@ -41,6 +49,7 @@ const deleteUser = async () => {
         <h1>Delete User</h1>
         
         <p v-if="error" style="color: red">{{ error }}</p>
+        <p v-if="success" style="color: green">User {{userId.value}} successfully deleted!</p>
         <form @submit.prevent="deleteUser">
             <input v-model="userId" type="number"placeholder="User ID" />
             <button>

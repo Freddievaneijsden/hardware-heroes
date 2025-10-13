@@ -110,13 +110,23 @@ async function deleteUser(req, res) {
         })
     }
 
-    try {
+   try {
+        const user = await userService.getUserById(userId);
+        
+        if (!user || user.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+
         await userService.deleteUser(userId);
+        
         return res.status(200).json({
             success: true, 
-            data: result,
             message: 'You have deleted an account!'
         });
+        
     } catch (error) {
         return res.status(500).json({
             success: false, 

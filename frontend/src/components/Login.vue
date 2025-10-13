@@ -26,6 +26,9 @@ const validLogin = async () => {
 
     if (!response.ok) throw new Error(result.error || 'Login failed')
 
+    localStorage.setItem('token', result.token)
+    localStorage.setItem('user', JSON.stringify(result.data))
+
     console.log('✅ Logged in:', result)
     success.value = true
     userName.value = null

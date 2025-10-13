@@ -1,3 +1,4 @@
 database/connectionMySQL.js
 database/.env
 schema.sql
+process.env.JWT_SECRET

@@ -2,3 +2,6 @@ database/connectionMySQL.js
 database/.env
 schema.sql
 process.env.JWT_SECRET
+node_modules
+package.json
+package-lock.json

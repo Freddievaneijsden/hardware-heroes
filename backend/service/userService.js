@@ -31,7 +31,6 @@ async function updateUser(userName, userPassword, rolesId, userId) {
     return rows;
 }
 
-
 async function deleteUser(userId) {
 let progressSql = "DELETE FROM progress WHERE progressUserId = ?";
     await connectionMySQL.promise().query(progressSql, [userId]);

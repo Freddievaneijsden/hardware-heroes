@@ -1,12 +1,12 @@
 const loginService = require('../service/loginService');
 
 async function getUserByName(req, res) {
-    let {userName} = req.query
+    let {userName, userPassword} = req.body
 
-    if (!userName) {
+    if (!userName || !userPassword) {
          return res.status(400).json({
             success: false, 
-            error: "Username must be included"
+            error: "Username and password must be included"
         })
     }
 
@@ -20,8 +20,16 @@ async function getUserByName(req, res) {
             });
         }
 
+        if (result.userPassword !== userPassword) {
+            return res.status(401).json({
+                success: false,
+                error: 'Invalid password'
+            })
+        }
+
         return res.status(200).json({
             success: true, 
+            message: 'Login successful',
             data: result
         })
     } catch (error) {

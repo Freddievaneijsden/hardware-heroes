@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AllComponentsView from '@/views/AllComponentsView.vue'
+import ComponentView from '@/views/ComponentView.vue'
+import HardwareKnowledgeView from '@/views/HardwareKnowledgeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,6 +11,23 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+    },
+    {
+      path: '/HardwareKnowledge',
+      name: 'HardwareKnowledge',
+      component: HardwareKnowledgeView,
+      children: [
+        {
+          path: 'users',
+          component: AllComponentsView,
+          children: [
+            {
+              path: ':id',
+              component: ComponentView
+            }
+        ]
+        }
+      ]
     },
     {
       path: '/about',

@@ -1,46 +1,62 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useAuth } from '@/composables/useAuth'
 
+const { token, user, logout } = useAuth()
+const output = ref('Test')
 </script>
 
 <template>
   <header>
-    <h1>Hardware Heros</h1>
-    <div class="btnWrapper">
-      <RouterLink to="/">Home
-      <button>Home</button>
-    </RouterLink>
-      <RouterLink to="/login">
+    <h1>Hardware Heroes</h1>
+    <nav class="nav">
+      <RouterLink to="/">
+        <button>Home</button>
+      </RouterLink>
+
+      <RouterLink v-if="!token" to="/login">
         <button>Login</button>
       </RouterLink>
-    </div>
+      <div v-else class="user-actions">
+        <button>{{ user?.userName || 'User' }}</button>
+        <button @click="logout">Logout</button>
+      </div>
+    </nav>
   </header>
 </template>
 
-<style >
-
+<style>
 h1 {
-  color:#000000;
+  color: #000000;
   text-align: center;
 }
 
 header {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  background-color: #14B8A6;
+  background-color: #14b8a6;
   padding: 10px 20px;
   gap: 700px;
 }
 
-.btnWrapper {
+.nav {
   display: flex;
-  gap: 10px;
-  height: 32px
+  align-items: center;
+  gap: 15px;
 }
-button{
-    font-weight: bold;
-    border-radius: 20%;
-    background-color: #EC4899;
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+button {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 0.6rem 0.2rem;
+  border-radius: 20%;
+  background-color: #ec4899;
 }
 </style>

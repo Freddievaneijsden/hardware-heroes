@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AllComponentsView from '@/views/AllComponentsView.vue'
 import ComponentView from '@/views/ComponentView.vue'
 import HardwareKnowledgeView from '@/views/HardwareKnowledgeView.vue'
-import Login from '@/components/Login.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,7 +33,7 @@ const router = createRouter({
   {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: LoginView,
     },
     
   

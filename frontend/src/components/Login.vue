@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { ref } from 'vue'
 import SignUp from '@/components/SignUp.vue'
 
 const userName = ref(null)

@@ -13,14 +13,10 @@ async function getUserByName(req, res) {
             error: "Username and password must be included"
         })
     }
-
-         let result;
-
-
+   
     try {
-        result = await loginService.getUserByName(userName);
-            console.log('Received:', userName, userPassword)
-
+        
+       let result = await loginService.getUserByName(userName);            
         
          if (!result) {
             return res.status(404).json({
@@ -36,7 +32,6 @@ async function getUserByName(req, res) {
             })
         }
         
-
     const token = jwt.sign(
       { id: result.userId, userName: result.userName },
       SECRET_KEY,

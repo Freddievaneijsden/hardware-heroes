@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import SignUp from '@/components/SignUp.vue'
 
 const userName = ref(null)
 const userPassword = ref(null)
@@ -24,6 +25,7 @@ watch(token, (newToken) => {
     localStorage.removeItem('user')
   }
 })
+const showSignUp = ref(false)
 
 const validLogin = async () => {
   success.value = false
@@ -66,6 +68,7 @@ const logout = () => {
 }
 </script>
 
+
 <template>
   <div>
     <form @submit.prevent="validLogin" v-if="!token">
@@ -81,5 +84,25 @@ const logout = () => {
 
     <p v-if="success">✅ Successfull Login!</p>
     <p v-if="error">❌ {{ error }}</p>
+
+
+  <div class="login-view">
+    <div class="form-stack">
+      <div class="form-container">
+        <form class="form" @submit.prevent="validLogin">
+          <h1>Login</h1>
+          <input class="input" v-model="userName" type="text" placeholder="Username" required />
+          <input class="input" v-model="userPassword" type="password" placeholder="Password" required />
+          <button>Login</button>
+          <button type="button" @click="showSignUp = !showSignUp">Sign Up</button>
+        </form>
+        <p v-if="success">✅ Successfull Login!</p>
+        <p v-if="error">❌ {{ error }}</p>
+      </div>
+</div>
+  <SignUp v-if="showSignUp"/>
+    </div>
   </div>
 </template>
+
+    

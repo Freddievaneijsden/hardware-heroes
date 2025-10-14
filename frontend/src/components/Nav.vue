@@ -9,11 +9,10 @@ import { ref } from 'vue'
     <div class="btnWrapper">
       <RouterLink to="/">Home
       <button>Home</button>
-      <router-link to="/login">
+    </RouterLink>
+      <RouterLink to="/login">
         <button>Login</button>
-      </router-link>
       </RouterLink>
-      <button>Login</button>
     </div>
   </header>
 </template>

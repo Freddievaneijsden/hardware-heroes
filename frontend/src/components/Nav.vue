@@ -1,17 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 
-const output = ref('Test')
 </script>
 
 <template>
   <header>
     <h1>Hardware Heros</h1>
     <div class="btnWrapper">
+      <RouterLink to="/">Home
       <button>Home</button>
-      <router-link to="/login">
+    </RouterLink>
+      <RouterLink to="/login">
         <button>Login</button>
-      </router-link>
+      </RouterLink>
     </div>
   </header>
 </template>

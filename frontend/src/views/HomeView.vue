@@ -21,3 +21,16 @@ import imageHome from '../assets/completeComputer-removebg-preview.png'
   <UsersDelete />  
   </main>
 </template>
+
+<style scoped>
+main{
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+  background-color: #FCD34D;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 2rem;
+}
+</style>

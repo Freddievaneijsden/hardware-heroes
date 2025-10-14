@@ -1,80 +1,38 @@
-
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import ComponentList from '@/components/ComponentList.vue'
+import ComponentDetails from '@/components/ComponentDetails.vue'
 
-const selectedComponent = ref(null);
-const componentList = ref(null);
-const loading = ref(false);
-const error = ref(null);
-const result = ref(null); 
-
-const fetchData = async () => {
-    loading.value = true;
-    error.value = null;
-    try {
-        const response = await fetch('http://localhost:3000/components')
-
-        if (!response.ok) {
-            throw new Error('Could not fetch components: ' + response.status)
-        }
-
-        result.value = await response.json(); 
-        componentList.value = result.value.data;
-    } catch (err) {
-        error.value = err.message;
-
-    } finally {
-        loading.value = false;
-    }
-}
-
-const showComponent = (component) => {
-    selectedComponent.value = component;
-}
-
-onMounted(fetchData)
+const selectedComponent = ref(null)
 </script>
 
 <template>
   <main>
-  <div class="components">
     <h1>Components</h1>
     <p>Den här sidan visar alla components</p>
 
-    <div class="component-list">
-      <ul>
-        <li v-for="component in componentList" :key="component.componentId" @click="showComponent(component)">
-          {{ component.componentName }} 
-        </li>
-      </ul>
+    <div class="grid">
+      <ComponentList @select="selectedComponent = $event" />
+      <ComponentDetails 
+        v-if="selectedComponent" 
+        :component="selectedComponent" 
+        @close="selectedComponent = null"
+      />
     </div>
-
-  </div>
-  <div v-if="selectedComponent">
-    <h2>Selected Component</h2>
-    <p>ID: {{ selectedComponent.componentId }}</p>
-    <p>Name: {{ selectedComponent.componentName }}</p>
-    <p>Description: {{ selectedComponent.componentArticle }}</p>
-    <button @click="selectedComponent = null">stäng</button>
-  
-  </div>
-</main>
+  </main>
 </template>
 
 <style scoped>
-
-main{
+main {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  font-weight: normal;
   background-color: #FCD34D;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 0 2rem;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
 </style>
-
-
-

@@ -1,4 +1,5 @@
 <script setup>
+import { ref, onMounted, watch } from 'vue'
 import { ref } from 'vue'
 import SignUp from '@/components/SignUp.vue'
 
@@ -9,6 +10,22 @@ const error = ref(false)
 const token = ref(null)
 const user = ref(null)
 
+onMounted(() => {
+  const storedToken = localStorage.getItem('token')
+  const storedUser = localStorage.getItem('user')
+
+  if (storedToken && storedUser) {
+    token.value = storedToken
+    user.value = JSON.parse(storedUser)
+  }
+})
+
+watch(token, (newToken) => {
+  if (!newToken) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+  }
+})
 const showSignUp = ref(false)
 
 const validLogin = async () => {
@@ -47,6 +64,7 @@ const validLogin = async () => {
 }
 </script>
 
+
 <template>
   <div class="login-view">
     <div class="form-stack">
@@ -73,3 +91,5 @@ const validLogin = async () => {
     </div>
   </div>
 </template>
+
+    

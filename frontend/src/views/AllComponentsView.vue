@@ -36,27 +36,45 @@ onMounted(fetchData)
 </script>
 
 <template>
+  <main>
   <div class="components">
     <h1>Components</h1>
     <p>Den här sidan visar alla components</p>
 
-
-    <ul>
-      <li v-for="component in componentList" :key="component.componentId" @click="showComponent(component)">
-        {{ component.componentName }} 
-      </li>
-    </ul>
-
-    <div v-if="selectedComponent">
-      <h2>Selected Component</h2>
-      <p>ID: {{ selectedComponent.componentId }}</p>
-      <p>Name: {{ selectedComponent.componentName }}</p>
-      <p>Description: {{ selectedComponent.componentArticle }}</p>
-      <button @click="selectedComponent = null">stäng</button>
-
+    <div class="component-list">
+      <ul>
+        <li v-for="component in componentList" :key="component.componentId" @click="showComponent(component)">
+          {{ component.componentName }} 
+        </li>
+      </ul>
     </div>
+
   </div>
+  <div v-if="selectedComponent">
+    <h2>Selected Component</h2>
+    <p>ID: {{ selectedComponent.componentId }}</p>
+    <p>Name: {{ selectedComponent.componentName }}</p>
+    <p>Description: {{ selectedComponent.componentArticle }}</p>
+    <button @click="selectedComponent = null">stäng</button>
+  
+  </div>
+</main>
 </template>
+
+<style scoped>
+
+main{
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+  background-color: #FCD34D;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 2rem;
+}
+
+</style>
 
 
 

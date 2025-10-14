@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AllComponentsView from '@/views/AllComponentsView.vue'
-import ComponentView from '@/views/ComponentView.vue'
 import HardwareKnowledgeView from '@/views/HardwareKnowledgeView.vue'
 import LoginView from '@/views/LoginView.vue'
 
@@ -19,14 +18,8 @@ const router = createRouter({
       component: HardwareKnowledgeView,
       children: [
         {
-          path: 'users',
+          path: 'components',
           component: AllComponentsView,
-          children: [
-            {
-              path: ':id',
-              component: ComponentView
-            }
-        ]
         }
       ]
     },

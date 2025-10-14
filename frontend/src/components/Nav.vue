@@ -9,7 +9,9 @@ const output = ref('Test')
     <h1>Hardware Heros</h1>
     <div class="btnWrapper">
       <button>Home</button>
-      <button>Login</button>
+      <router-link to="/login">
+        <button>Login</button>
+      </router-link>
     </div>
   </header>
 </template>
@@ -40,6 +42,4 @@ button{
     border-radius: 20%;
     background-color: #EC4899;
 }
-
-
 </style>

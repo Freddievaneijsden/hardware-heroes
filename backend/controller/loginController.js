@@ -6,6 +6,7 @@ const SECRET_KEY = 'secret-key';
 async function getUserByName(req, res) {
     let {userName, userPassword} = req.body
 
+
     if (!userName || !userPassword) {
          return res.status(400).json({
             success: false, 
@@ -13,9 +14,14 @@ async function getUserByName(req, res) {
         })
     }
 
-    try {
-        let result = await loginService.getUserByName(userName);
+         let result;
 
+
+    try {
+        result = await loginService.getUserByName(userName);
+            console.log('Received:', userName, userPassword)
+
+        
          if (!result) {
             return res.status(404).json({
                 success: false,
@@ -29,6 +35,7 @@ async function getUserByName(req, res) {
                 error: 'Invalid password'
             })
         }
+        
 
     const token = jwt.sign(
       { id: result.userId, userName: result.userName },

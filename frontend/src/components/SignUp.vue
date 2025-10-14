@@ -51,38 +51,18 @@ const handleSubmit = async() => {
 </script>
 
 <template>
-    <div>
-        <h1>Sign up</h1>
+    <div class="form-container">
+    <form class="form" @submit.prevent="handleSubmit">
         <p v-if="error" style="color: red">{{error}}</p>
-
-        <form @submit.prevent="handleSubmit">
-        <input v-model="userName" type="text" placeholder="Name" /> 
-        <input v-model="userPassword" type="password" placeholder="Password" /> 
-        <input v-model="userRole" type="text" placeholder="Roles id" /> 
+        <h1>Sign up</h1>
+        <input class="input" v-model="userName" type="text" placeholder="Name" /> 
+        <input class="input" v-model="userPassword" type="password" placeholder="Password" /> 
+        <input class="input" v-model="userRole" type="text" placeholder="Roles id" /> 
         <button>Register</button>
         </form>
-
         <p v-if="success" style="color: green">Thank you for signing up</p>
     </div>
 </template>
 
-<style scoped>
-.signup-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-form {
-  display: flex;
-  flex-direction: column;
-}
-input {
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  font-size: 1rem;
-}
 
-</style>
+

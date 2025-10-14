@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AllComponentsView from '@/views/AllComponentsView.vue'
 import ComponentView from '@/views/ComponentView.vue'
 import HardwareKnowledgeView from '@/views/HardwareKnowledgeView.vue'
+import Login from '@/components/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,13 @@ const router = createRouter({
         }
       ]
     },
+  {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
+    
+  
     {
       path: '/about',
       name: 'about',
@@ -37,13 +45,6 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
-    {
-      path: '/SignUp',
-      name: 'SignUp',
-      component: () => import('../views/SignUpView.vue'),
-    },
-    {
-    }
   ],
 })
 

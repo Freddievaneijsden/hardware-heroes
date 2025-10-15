@@ -13,24 +13,39 @@ import imageHome from '../assets/completeComputer-removebg-preview.png'
   <Nav />
   </header>
   <main>
-    <img :src="imageHome" alt="Home Image" />
-  <RouterLink to="/hardwareKnowledge">Gå till HardwareKnowledge</RouterLink>
-  <UsersCreate />
-  <UsersGet />
-  <UsersUpdate />
-  <UsersDelete />  
+    <div class="sideBar">
+    <ul>
+      <li>
+        <h2><RouterLink to="/hardwareKnowledge">Hardware Knowledge</RouterLink></h2>
+      </li>
+      <li>
+        <h2><RouterLink to="/hardwareQuiz">Hardware Quiz</RouterLink></h2>
+      </li>
+      <li>
+        <h2><RouterLink to="/Statistics">Statistics</RouterLink></h2>
+      </li>
+    </ul> 
+
+    <h2><RouterLink to="/aboutUs">About Us</RouterLink></h2>
+    </div>
+    <RouterLink to="/hardwareKnowledge"><img :src="imageHome" alt="Home Image" /></RouterLink>
   </main>
 </template>
 
 <style scoped>
 main{
-  max-width: 1280px;
+  max-width: 200%;
   margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
   background-color: #FCD34D;
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 0 2rem;
+}
+.sideBar{
+  background-color: #FEF3C7;
+  max-width: 400px;
+  height: 100%;
+  padding: 1rem;
 }
 </style>

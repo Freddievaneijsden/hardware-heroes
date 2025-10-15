@@ -26,6 +26,10 @@ const output = ref('Test')
 </template>
 
 <style>
+body{
+  width: 100%;
+}
+
 h1 {
   text-align: center;
 }
@@ -37,6 +41,8 @@ header {
   background-color: #14b8a6;
   padding: 10px 20px;
   gap: 700px;
+  width: 100%;
+  left: 0;
 }
 
 .nav {

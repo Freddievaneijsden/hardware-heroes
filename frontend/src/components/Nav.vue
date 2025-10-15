@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useAuth } from '@/composables/useAuth'
+import UserMenu from './UserMenu.vue'
 
 const { token, user, logout } = useAuth()
 const output = ref('Test')
@@ -18,8 +19,7 @@ const output = ref('Test')
         <button>Login</button>
       </RouterLink>
       <div v-else class="user-actions">
-        <button>{{ user?.userName || 'User' }}</button>
-        <button @click="logout">Logout</button>
+        <UserMenu />
       </div>
     </nav>
   </header>
@@ -55,8 +55,9 @@ header {
 button {
   font-weight: bold;
   font-size: 16px;
-  padding: 0.6rem 0.2rem;
-  border-radius: 20%;
+  padding: 0.8rem 0.2rem;
+  border-radius: 8px;
   background-color: #ec4899;
+  min-width: 100px;
 }
 </style>

@@ -51,7 +51,6 @@ const imageMap = {
 <style scoped>
 .details {
   padding: 1rem;
-  border-radius: 8px;
 }
 button {
   margin-top: 1rem;

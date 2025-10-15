@@ -82,6 +82,8 @@ onMounted(fetchData)
 ul {
   list-style: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 li {
   display: flex;

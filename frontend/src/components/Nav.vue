@@ -27,7 +27,6 @@ const output = ref('Test')
 
 <style>
 h1 {
-  color: #000000;
   text-align: center;
 }
 

@@ -37,8 +37,6 @@ const imageMap = {
       v-if="component.componentImg"
       :src="imageMap[component.componentImg]"
       :alt="component.componentName"
-      width="150"
-      height="150"
       @error="(e) => console.log('Selected image error:', e.target.src)"
       @load="(e) => console.log('Selected image loaded:', e.target.src)"
     />
@@ -66,4 +64,8 @@ button {
 button:hover {
   background: #eab308;
 }
+img {
+  object-fit: cover;
+}
+
 </style>

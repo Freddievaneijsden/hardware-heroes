@@ -67,12 +67,9 @@ onMounted(fetchData)
           v-if="component.componentImg"
           :src="imageMap[component.componentImg]"
           :alt="component.componentName"
-          width="30"
-          height="30"
           @error="(e) => console.log('Image error:', e.target.src)"
           @load="(e) => console.log('Image loaded:', e.target.src)"
         />
-        {{ component.componentName }}
       </li>
     </ul>
   </section>
@@ -100,5 +97,6 @@ li:hover {
 }
 img {
   border-radius: 4px;
+  object-fit: cover;
 }
 </style>

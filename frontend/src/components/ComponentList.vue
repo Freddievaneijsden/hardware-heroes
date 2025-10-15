@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-import imageCpu from '../assets/img/cpu.png';
-import imageGpu from '../assets/img/gpu.png';
-import imageMotherboard from '../assets/img/motherboard.png';
-import imageCooling from '../assets/img/cooling.png';
-import imageRam from '../assets/img/ram.png';
-import imagePSU from '../assets/img/psu.png';
-import imageChassi from '../assets/img/chassi.png';
-import imageHarddrive from '../assets/img/harddrive.png';
+import imageCpu from '../assets/img/imgcpu.png';
+import imageGpu from '../assets/img/imggpu.png';
+import imageMotherboard from '../assets/img/imgmotherboard.png';
+import imageCooling from '../assets/img/imgcooling.png';
+import imageRam from '../assets/img/imgram.png';
+import imagePSU from '../assets/img/imgpsu.png';
+import imageChassi from '../assets/img/imgchassi.png';
+import imageHarddrive from '../assets/img/imgharddrive.png';
 
 const emit = defineEmits(['select'])
 

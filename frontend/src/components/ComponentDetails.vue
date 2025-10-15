@@ -1,4 +1,13 @@
 <script setup>
+import imageCpu from '../assets/img/cpu.png';
+import imageGpu from '../assets/img/gpu.png';
+import imageMotherboard from '../assets/img/motherboard.png';
+import imageCooling from '../assets/img/cooling.png';
+import imageRam from '../assets/img/ram.png';
+import imagePSU from '../assets/img/psu.png';
+import imageChassi from '../assets/img/chassi.png';
+import imageHarddrive from '../assets/img/harddrive.png';
+
 const props = defineProps({
   component: {
     type: Object,
@@ -8,9 +17,15 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const getImageUrl = (imageName) => {
-  if (!imageName) return null
-  return `/img/${imageName}`
+const imageMap = {
+  'imageCpu': imageCpu,
+  'imageGpu': imageGpu,
+  'imageMotherboard': imageMotherboard,
+  'imageCooling': imageCooling,
+  'imageRam': imageRam,
+  'imagePSU': imagePSU,
+  'imageChassi': imageChassi,
+  'imageHarddrive': imageHarddrive,
 }
 </script>
 
@@ -20,7 +35,7 @@ const getImageUrl = (imageName) => {
 
     <img
       v-if="component.componentImg"
-      :src="getImageUrl(component.componentImg)"
+      :src="imageMap[component.componentImg]"
       :alt="component.componentName"
       width="150"
       height="150"

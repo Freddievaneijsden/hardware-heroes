@@ -1,15 +1,30 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
+import imageCpu from '../assets/img/cpu.png';
+import imageGpu from '../assets/img/gpu.png';
+import imageMotherboard from '../assets/img/motherboard.png';
+import imageCooling from '../assets/img/cooling.png';
+import imageRam from '../assets/img/ram.png';
+import imagePSU from '../assets/img/psu.png';
+import imageChassi from '../assets/img/chassi.png';
+import imageHarddrive from '../assets/img/harddrive.png';
+
 const emit = defineEmits(['select'])
 
 const componentList = ref([])
 const loading = ref(false)
 const error = ref(null)
 
-const getImageUrl = (imageName) => {
-  if (!imageName) return null
-  return `/img/${imageName}`
+const imageMap = {
+  'imageCpu': imageCpu,
+  'imageGpu': imageGpu,
+  'imageMotherboard': imageMotherboard,
+  'imageCooling': imageCooling,
+  'imageRam': imageRam,
+  'imagePSU': imagePSU,
+  'imageChassi': imageChassi,
+  'imageHarddrive': imageHarddrive,
 }
 
 const fetchData = async () => {
@@ -50,7 +65,7 @@ onMounted(fetchData)
       >
         <img
           v-if="component.componentImg"
-          :src="getImageUrl(component.componentImg)"
+          :src="imageMap[component.componentImg]"
           :alt="component.componentName"
           width="30"
           height="30"
@@ -72,7 +87,7 @@ li {
   display: flex;
   align-items: center;
   gap: 10px;
-  
+
   margin: 0.3rem 0;
   padding: 0.5rem;
   border-radius: 6px;

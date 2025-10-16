@@ -58,7 +58,7 @@ const handleSubmit = async() => {
         <input class="input" v-model="userName" type="text" placeholder="Name" /> 
         <input class="input" v-model="userPassword" type="password" placeholder="Password" /> 
         <input class="input" v-model="userRole" type="text" placeholder="Roles id" /> 
-        <button>Register</button>
+        <button class="custom-button">Register</button>
         </form>
         <p v-if="success" style="color: green">Thank you for signing up</p>
     </div>

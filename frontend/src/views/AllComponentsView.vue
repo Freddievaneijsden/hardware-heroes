@@ -41,8 +41,20 @@ main {
 }
 
 .grid {
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 2rem;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  main{
+    margin: 0 auto;
+    padding: 0.1rem;
+  }
+}
+
 </style>

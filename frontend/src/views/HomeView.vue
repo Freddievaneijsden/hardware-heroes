@@ -73,8 +73,8 @@ body {
 
 @media (max-width: 600px) and (min-width: 375px) {
   
-
    main {
+    margin-top: 50px;
     max-width: 100vw;
     width: 100vw;
     display: flex;
@@ -91,6 +91,8 @@ body {
   .sideBar {
     width: 100%;
     max-width: 100%;
+    height: auto;
+    margin-top: 100p;
     margin: 0;
     height: auto;
     box-sizing: border-box;

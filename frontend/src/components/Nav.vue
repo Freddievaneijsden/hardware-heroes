@@ -34,6 +34,17 @@ h1 {
   text-align: center;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #14b8a6;
+  padding: 0px;
+  gap: 700px;
+  width: 100%;
+  left: 0;
+}
+
 .nav {
   display: flex;
   gap: 15px;

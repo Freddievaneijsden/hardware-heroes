@@ -4,6 +4,7 @@ import Nav from '../components/Nav.vue'
 import imageHome from '../assets/img/imgcompleteComputer.png'
 
 </script>
+
 <template>
   <body>
     <header>
@@ -22,15 +23,15 @@ import imageHome from '../assets/img/imgcompleteComputer.png'
             <h2><RouterLink to="/Statistics">Statistics</RouterLink></h2>
           </li>
         </ul>
-        <h2 class="about"><RouterLink to="/aboutUs">About</RouterLink></h2>
-      </div>
+        <h2 class="about"><RouterLink to="/aboutUs">About Us</RouterLink></h2>
+    </div>
       <div class="imgContainer">
         <RouterLink to="/hardwareKnowledge"> <img :src="imageHome" alt="Home Image" class="imageGlow" /></RouterLink>
       </div>
     </main>
   </body>
-
-</template>
+    
+</template> 
 
 
 <style scoped>
@@ -102,7 +103,8 @@ body {
     list-style: none;
     padding: 0px;
   }
-  
+  .about{
+  }
   
 }
 

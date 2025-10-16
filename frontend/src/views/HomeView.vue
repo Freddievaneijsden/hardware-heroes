@@ -4,7 +4,7 @@ import UsersCreate from '../components/UsersCreate.vue'
 import UsersUpdate from '../components/UsersUpdate.vue'
 import UsersDelete from '../components/UsersDelete.vue'
 import Nav from '../components/Nav.vue'
-import imageHome from '../assets/completeComputer-removebg-preview.png'
+import imageHome from '../assets/img/imgcompleteComputer.png'
 </script>
 
 <template>
@@ -25,10 +25,13 @@ import imageHome from '../assets/completeComputer-removebg-preview.png'
             <h2><RouterLink to="/Statistics">Statistics</RouterLink></h2>
           </li>
         </ul>
-
         <h2><RouterLink to="/aboutUs">About</RouterLink></h2>
       </div>
-      <RouterLink to="/hardwareKnowledge"><img :src="imageHome" alt="Home Image" /></RouterLink>
+      <div class="imgContainer">
+        <RouterLink to="/hardwareKnowledge"
+          ><img :src="imageHome" alt="Home Image" class="imageGlow"
+        /></RouterLink>
+      </div>
     </main>
   </body>
 </template>
@@ -43,6 +46,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
 .sideBar {
   background-color: #fef3c7;
   display: flex;
@@ -50,6 +54,22 @@ main {
   justify-content: space-between;
   max-width: 400px;
   padding: 20px 20px;
+}
+
+.imgContainer {
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
+}
+
+.imageGlow {
+  transition: all 0.5s ease;
+}
+
+.imageGlow:hover {
+  box-shadow: 0 0 25px 10px #ec4899;
+  border-radius: 20px;
+  transform: scale(1.05);
 }
 
 ul {

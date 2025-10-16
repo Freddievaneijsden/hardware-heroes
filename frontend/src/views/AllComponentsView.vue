@@ -8,12 +8,11 @@ const selectedComponent = ref(null)
 
 <template>
   <main>
-    <div class="title-wrapper">
-      <h1>Components</h1>
-    </div>
     <div class="grid">
-      <ComponentList @select="selectedComponent = $event" />
+      <ComponentList @select="selectedComponent = $event" class="component-list" />
+
       <ComponentDetails
+        class="component-details"
         v-if="selectedComponent"
         :component="selectedComponent"
         @close="selectedComponent = null"
@@ -27,16 +26,23 @@ const selectedComponent = ref(null)
   padding-top: 60px;
 }
 
+.component-list {
+  background-color: #fef3c7;
+  padding-top: 100px;
+  padding-left: 25px;
+}
+
+.component-details {
+  padding-top: 100px;
+}
+
 main {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   background-color: #fcd34d;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 2rem;
 }
 </style>

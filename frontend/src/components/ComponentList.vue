@@ -63,12 +63,10 @@ onMounted(fetchData)
       >
         <div class="componentImg-wrapper">
           <img
-            class="imageGlow"
+            class="imageGlow imgSettings"
             v-if="component.componentImg"
             :src="imageMap[component.componentImg]"
             :alt="component.componentName"
-            @error="(e) => console.log('Image error:', e.target.src)"
-            @load="(e) => console.log('Image loaded:', e.target.src)"
           />
         </div>
       </li>
@@ -87,8 +85,7 @@ li {
   display: flex;
   align-items: center;
   gap: 10px;
-
-  margin: 2rem;
+  margin: 5px 5px;
   padding: 0;
   border-radius: 6px;
   cursor: pointer;
@@ -96,5 +93,10 @@ li {
 img {
   border-radius: 4px;
   object-fit: cover;
+}
+
+.imgSettings {
+  width: 180px;
+  height: auto;
 }
 </style>

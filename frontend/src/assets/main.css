@@ -27,10 +27,6 @@ h2, h3 {
   text-shadow: 1px 1px 0px #374151;
 }
 
-#app {
-  background-color: #FCD34D;;
-}
-
 p, input {
   font-family: 'Nunito';
   color: #374151; 
@@ -44,15 +40,15 @@ body {
 }
 
 .imageGlow {
-  transition: all 0.5s ease;
+  transition: all 0.2s ease;
 }
 
 .imageGlow:hover {
-  box-shadow: 0 0 25px 10px #ec4899;
+  box-shadow: 0 0 15px 15px #ec4899;
+  background-color: #ec4899;
   border-radius: 20px;
   transform: scale(1.05);
 }
-
 
 a,
 .green {
@@ -79,6 +75,7 @@ a,
     border-radius: 8px;
     background-color: #ec4899;
     min-width: 150px;
+    cursor: pointer;
     
 }
 .form-stack {

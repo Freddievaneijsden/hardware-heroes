@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  background-color: #14b8a6;
+}
+
 h1 {
   font-family: 'Baloo 2';
   color: #ec4899;
@@ -22,12 +34,20 @@ p, input {
   font-size: 18px;
 }
 
-#app{
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-  background-color: #FCD34D;
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.imageGlow {
+  transition: all 0.2s ease;
+}
+
+.imageGlow:hover {
+  box-shadow: 0 0 15px 15px #ec4899;
+  background-color: #ec4899;
+  border-radius: 20px;
+  transform: scale(1.05);
 }
 
 a,
@@ -43,7 +63,7 @@ a,
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  padding-top: 4rem;
+  padding-top: 130px;
   background-color: #FCD34D;
 }
 
@@ -55,6 +75,7 @@ a,
     border-radius: 8px;
     background-color: #ec4899;
     min-width: 150px;
+    cursor: pointer;
     
 }
 .form-stack {
@@ -103,25 +124,4 @@ input::placeholder {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
 }

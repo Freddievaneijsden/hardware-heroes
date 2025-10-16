@@ -9,45 +9,33 @@ const output = ref('Test')
 
 <template>
   <header>
-    <h1>Hardware Heroes</h1>
-    <nav class="nav">
-      <RouterLink to="/">
-        <button>Home</button>
-      </RouterLink>
+    <div class="header-left">
+      <h1>Hardware Heroes</h1>
+    </div>
+    <div class="header-right">
+      <nav class="nav">
+        <RouterLink to="/">
+          <button>Home</button>
+        </RouterLink>
 
-      <RouterLink v-if="!token" to="/login">
-        <button>Login</button>
-      </RouterLink>
-      <div v-else class="user-actions">
-        <UserMenu />
-      </div>
-    </nav>
+        <RouterLink v-if="!token" to="/login">
+          <button>Login</button>
+        </RouterLink>
+        <div v-else class="user-actions">
+          <UserMenu />
+        </div>
+      </nav>
+    </div>
   </header>
 </template>
 
 <style>
-body{
-  width: 100%;
-}
-
 h1 {
   text-align: center;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #14b8a6;
-  padding: 10px 20px;
-  gap: 700px;
-  width: 100%;
-  left: 0;
-}
-
 .nav {
   display: flex;
-  align-items: center;
   gap: 15px;
 }
 
@@ -57,6 +45,14 @@ header {
   gap: 15px;
 }
 
+.header-left {
+  padding: 0 20px;
+}
+
+.header-right {
+  padding-right: 20px;
+}
+
 button {
   font-weight: bold;
   font-size: 16px;
@@ -64,5 +60,6 @@ button {
   border-radius: 8px;
   background-color: #ec4899;
   min-width: 100px;
+  cursor: pointer;
 }
 </style>

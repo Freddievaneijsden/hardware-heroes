@@ -7,12 +7,14 @@ import AllComponentsView from './AllComponentsView.vue'
   <header>
     <Nav />
   </header>
-  <main>
-  <h1>Här är hardware knowledge view</h1>
-  <section>
-  <AllComponentsView />
-  </section>
-</main>
+
+  <body>
+    <main>
+      <section>
+        <AllComponentsView />
+      </section>
+    </main>
+  </body>
 </template>
 
-
+<style scope></style>

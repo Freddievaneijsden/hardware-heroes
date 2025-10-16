@@ -1,51 +1,74 @@
 <script setup>
-import UsersGet from '../components/UsersGet.vue';
-import UsersCreate from '../components/UsersCreate.vue';
-import UsersUpdate from '../components/UsersUpdate.vue';
-import UsersDelete from '../components/UsersDelete.vue';
-import Nav from '../components/Nav.vue';
-import imageHome from '../assets/completeComputer-removebg-preview.png'
-
+import UsersGet from '../components/UsersGet.vue'
+import UsersCreate from '../components/UsersCreate.vue'
+import UsersUpdate from '../components/UsersUpdate.vue'
+import UsersDelete from '../components/UsersDelete.vue'
+import Nav from '../components/Nav.vue'
+import imageHome from '../assets/img/imgcompleteComputer.png'
 </script>
 
 <template>
-<header>
-  <Nav />
-  </header>
-  <main>
-    <div class="sideBar">
-    <ul>
-      <li>
-        <h2><RouterLink to="/hardwareKnowledge">Hardware Knowledge</RouterLink></h2>
-      </li>
-      <li>
-        <h2><RouterLink to="/hardwareQuiz">Hardware Quiz</RouterLink></h2>
-      </li>
-      <li>
-        <h2><RouterLink to="/Statistics">Statistics</RouterLink></h2>
-      </li>
-    </ul> 
-
-    <h2><RouterLink to="/aboutUs">About Us</RouterLink></h2>
-    </div>
-    <RouterLink to="/hardwareKnowledge"><img :src="imageHome" alt="Home Image" /></RouterLink>
-  </main>
+  <body>
+    <header>
+      <Nav />
+    </header>
+    <main>
+      <div class="sideBar">
+        <ul>
+          <li>
+            <h2><RouterLink to="/hardwareKnowledge">Hardware Knowledge</RouterLink></h2>
+          </li>
+          <li>
+            <h2><RouterLink to="/hardwareQuiz">Hardware Quiz</RouterLink></h2>
+          </li>
+          <li>
+            <h2><RouterLink to="/Statistics">Statistics</RouterLink></h2>
+          </li>
+        </ul>
+        <h2><RouterLink to="/aboutUs">About</RouterLink></h2>
+      </div>
+      <div class="imgContainer">
+        <RouterLink to="/hardwareKnowledge"
+          ><img :src="imageHome" alt="Home Image" class="imageGlow"
+        /></RouterLink>
+      </div>
+    </main>
+  </body>
 </template>
 
 <style scoped>
-main{
+main {
   max-width: 200%;
+  min-height: 90vh;
   margin: 0 auto;
   font-weight: normal;
-  background-color: #FCD34D;
+  background-color: #fcd34d;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding: 0 2rem;
 }
-.sideBar{
-  background-color: #FEF3C7;
+
+.sideBar {
+  background-color: #fef3c7;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   max-width: 400px;
-  height: 100%;
-  padding: 1rem;
+  padding: 20px 20px;
+}
+
+.imgContainer {
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
+}
+
+ul {
+  list-style: none;
+  padding: 10px 0;
+}
+
+body {
+  padding-top: 80px;
+  background-color: #fcd34d;
 }
 </style>

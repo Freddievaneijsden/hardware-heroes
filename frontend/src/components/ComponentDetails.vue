@@ -32,19 +32,18 @@ const imageMap = {
 <template>
   <section class="details">
     <h2>{{ component.componentName }}</h2>
-
-    <img
-      v-if="component.componentImg"
-      :src="imageMap[component.componentImg]"
-      :alt="component.componentName"
-      @error="(e) => console.log('Selected image error:', e.target.src)"
-      @load="(e) => console.log('Selected image loaded:', e.target.src)"
-    />
-
-    <p><strong>ID:</strong> {{ component.componentId }}</p>
-    <p><strong>Beskrivning:</strong> {{ component.componentArticle }}</p>
-
-    <button @click="emit('close')">Stäng</button>
+    <div class="article-content">
+      <img
+        v-if="component.componentImg"
+        :src="imageMap[component.componentImg]"
+        :alt="component.componentName"
+        class="article-image"
+        @error="(e) => console.log('Selected image error:', e.target.src)"
+        @load="(e) => console.log('Selected image loaded:', e.target.src)"
+      />
+      <p class="article-text">{{ component.componentArticle }}</p>
+      <button @click="emit('close')">Close</button>
+    </div>
   </section>
 </template>
 
@@ -53,7 +52,30 @@ const imageMap = {
   padding: 1rem;
 }
 
-img {
+h2 {
+  font-size: 32px;
+  text-align: center;
+}
+
+.article-text {
+  white-space: pre-line;
+}
+
+.article-content {
+  text-align: justify;
+  line-height: 1.6;
+  padding: 0 80px;
+}
+
+.article-image {
+  float: left;
+  margin: 0 10px 10px 0;
+  max-width: 200px;
+  height: auto;
   object-fit: cover;
+}
+
+button {
+  margin-top: 10px;
 }
 </style>

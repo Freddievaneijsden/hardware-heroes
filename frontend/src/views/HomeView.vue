@@ -4,6 +4,7 @@ import Nav from '../components/Nav.vue'
 import imageHome from '../assets/img/imgcompleteComputer.png'
 
 
+
 </script>
 <template>
   <body>

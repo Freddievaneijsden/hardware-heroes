@@ -78,8 +78,8 @@ const validLogin = async () => {
             placeholder="Password"
             required
           />
-          <button>Login</button>
-          <button type="button" @click="showSignUp = !showSignUp">Sign Up</button>
+          <button class="custom-button">Login</button>
+          <button class="custom-button" @click="showSignUp = !showSignUp">Sign Up</button>
         </form>
         <p v-if="success">✅ Successfull Login!</p>
         <p v-if="error">❌ {{ error }}</p>

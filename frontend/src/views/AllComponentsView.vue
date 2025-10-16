@@ -8,14 +8,14 @@ const selectedComponent = ref(null)
 
 <template>
   <main>
-    <h1>Components</h1>
-    <p>Den här sidan visar alla components</p>
-
+    <div class="title-wrapper">
+      <h1>Components</h1>
+    </div>
     <div class="grid">
       <ComponentList @select="selectedComponent = $event" />
-      <ComponentDetails 
-        v-if="selectedComponent" 
-        :component="selectedComponent" 
+      <ComponentDetails
+        v-if="selectedComponent"
+        :component="selectedComponent"
         @close="selectedComponent = null"
       />
     </div>
@@ -23,11 +23,15 @@ const selectedComponent = ref(null)
 </template>
 
 <style scoped>
+.title-wrapper {
+  padding-top: 60px;
+}
+
 main {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: #FCD34D;
+  background-color: #fcd34d;
 }
 
 .grid {

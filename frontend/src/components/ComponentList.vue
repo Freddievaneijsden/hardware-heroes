@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-import imageCpu from '../assets/img/imgcpu.png';
-import imageGpu from '../assets/img/imggpu.png';
-import imageMotherboard from '../assets/img/imgmotherboard.png';
-import imageCooling from '../assets/img/imgcooling.png';
-import imageRam from '../assets/img/imgram.png';
-import imagePSU from '../assets/img/imgpsu.png';
-import imageChassi from '../assets/img/imgchassi.png';
-import imageHarddrive from '../assets/img/imgharddrive.png';
+import imageCpu from '../assets/img/imgcpu.png'
+import imageGpu from '../assets/img/imggpu.png'
+import imageMotherboard from '../assets/img/imgmotherboard.png'
+import imageCooling from '../assets/img/imgcooling.png'
+import imageRam from '../assets/img/imgram.png'
+import imagePSU from '../assets/img/imgpsu.png'
+import imageChassi from '../assets/img/imgchassi.png'
+import imageHarddrive from '../assets/img/imgharddrive.png'
 
 const emit = defineEmits(['select'])
 
@@ -17,14 +17,14 @@ const loading = ref(false)
 const error = ref(null)
 
 const imageMap = {
-  'imageCpu': imageCpu,
-  'imageGpu': imageGpu,
-  'imageMotherboard': imageMotherboard,
-  'imageCooling': imageCooling,
-  'imageRam': imageRam,
-  'imagePSU': imagePSU,
-  'imageChassi': imageChassi,
-  'imageHarddrive': imageHarddrive,
+  imageCpu: imageCpu,
+  imageGpu: imageGpu,
+  imageMotherboard: imageMotherboard,
+  imageCooling: imageCooling,
+  imageRam: imageRam,
+  imagePSU: imagePSU,
+  imageChassi: imageChassi,
+  imageHarddrive: imageHarddrive,
 }
 
 const fetchData = async () => {
@@ -52,10 +52,8 @@ onMounted(fetchData)
 
 <template>
   <section>
-    <h2>Alla komponenter</h2>
-
     <p v-if="loading">Laddar komponenter...</p>
-    <p v-else-if="error" style="color:red">{{ error }}</p>
+    <p v-else-if="error" style="color: red">{{ error }}</p>
 
     <ul v-else>
       <li
@@ -63,13 +61,16 @@ onMounted(fetchData)
         :key="component.componentId"
         @click="selectComponent(component)"
       >
-        <img
-          v-if="component.componentImg"
-          :src="imageMap[component.componentImg]"
-          :alt="component.componentName"
-          @error="(e) => console.log('Image error:', e.target.src)"
-          @load="(e) => console.log('Image loaded:', e.target.src)"
-        />
+        <div class="componentImg-wrapper">
+          <img
+            class="imageGlow"
+            v-if="component.componentImg"
+            :src="imageMap[component.componentImg]"
+            :alt="component.componentName"
+            @error="(e) => console.log('Image error:', e.target.src)"
+            @load="(e) => console.log('Image loaded:', e.target.src)"
+          />
+        </div>
       </li>
     </ul>
   </section>
@@ -87,13 +88,10 @@ li {
   align-items: center;
   gap: 10px;
 
-  margin: 0.3rem 0;
-  padding: 0.5rem;
+  margin: 2rem;
+  padding: 0;
   border-radius: 6px;
   cursor: pointer;
-}
-li:hover {
-  background: #f1f1f1;
 }
 img {
   border-radius: 4px;

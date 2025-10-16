@@ -62,16 +62,6 @@ main {
   padding-left: 50px;
 }
 
-.imageGlow {
-  transition: all 0.5s ease;
-}
-
-.imageGlow:hover {
-  box-shadow: 0 0 25px 10px #ec4899;
-  border-radius: 20px;
-  transform: scale(1.05);
-}
-
 ul {
   list-style: none;
   padding: 10px 0;
@@ -79,5 +69,6 @@ ul {
 
 body {
   padding-top: 80px;
+  background-color: #fcd34d;
 }
 </style>

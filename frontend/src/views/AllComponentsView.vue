@@ -8,9 +8,7 @@ const selectedComponent = ref(null)
 
 <template>
   <main>
-    <h1>Components</h1>
-    <p>Den här sidan visar alla components</p>
-
+    <h1>All components</h1>
     <div class="grid">
       <ComponentList @select="selectedComponent = $event" />
       <ComponentDetails 
@@ -26,13 +24,25 @@ const selectedComponent = ref(null)
 main {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
   background-color: #FCD34D;
 }
 
 .grid {
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  main{
+    margin: 0 auto;
+    padding: 0.1rem;
+  }
+}
+
 </style>

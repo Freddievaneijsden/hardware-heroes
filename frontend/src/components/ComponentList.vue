@@ -52,12 +52,11 @@ onMounted(fetchData)
 
 <template>
   <section>
-    <h2>Alla komponenter</h2>
 
     <p v-if="loading">Laddar komponenter...</p>
     <p v-else-if="error" style="color:red">{{ error }}</p>
 
-    <ul v-else>
+    <ul v-else class="component-list">
       <li
         v-for="component in componentList"
         :key="component.componentId"
@@ -96,7 +95,40 @@ li:hover {
   background: #f1f1f1;
 }
 img {
-  border-radius: 4px;
+  border-radius: px;
   object-fit: cover;
+}
+
+
+
+@media (max-width: 600px) and (min-width: 375px) {
+  .component-list {
+  display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 0.1rem;                          
+    padding-left: 0px;                  
+    padding-right: 0.5rem;
+    justify-items: start;                   
+    margin: 0;                              
+  }
+  li{
+    justify-content: center;
+  }
+
+
+  img {
+    width: 70px;
+    height: auto;
+  }
+
+  ul{
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin: 0 auto;
+
+  };
+
+
 }
 </style>

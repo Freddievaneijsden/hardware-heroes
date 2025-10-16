@@ -8,11 +8,11 @@ import AllComponentsView from './AllComponentsView.vue'
     <Nav />
   </header>
   <main>
-  <h1>Här är hardware knowledge view</h1>
   <section>
   <AllComponentsView />
   </section>
 </main>
 </template>
+
 
 

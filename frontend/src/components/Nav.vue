@@ -39,7 +39,7 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: #14b8a6;
-  padding: 10px 20px;
+  padding: 0px;
   gap: 700px;
   width: 100%;
   left: 0;
@@ -65,4 +65,34 @@ button {
   background-color: #ec4899;
   min-width: 100px;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    text-align: center;
+    height: auto;
+    padding: 0px;
+    min-height: 70px; 
+    width: 100%;
+    
+  }
+  h1{
+    margin-bottom: 0px;
+  }
+
+  .nav {
+    justify-content: center;
+    flex-wrap: wrap;
+    
+  }
+
+  button{
+    margin-bottom: 20px;
+    
+  }
+}
+
 </style>

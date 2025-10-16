@@ -1,10 +1,8 @@
 <script setup>
-import UsersGet from '../components/UsersGet.vue';
-import UsersCreate from '../components/UsersCreate.vue';
-import UsersUpdate from '../components/UsersUpdate.vue';
-import UsersDelete from '../components/UsersDelete.vue';
+
 import Nav from '../components/Nav.vue';
 import imageHome from '../assets/completeComputer-removebg-preview.png'
+
 
 </script>
 
@@ -26,7 +24,7 @@ import imageHome from '../assets/completeComputer-removebg-preview.png'
       </li>
     </ul> 
 
-    <h2><RouterLink to="/aboutUs">About Us</RouterLink></h2>
+    <h2 class="about"><RouterLink to="/aboutUs">About Us</RouterLink></h2>
     </div>
     <RouterLink to="/hardwareKnowledge"><img :src="imageHome" alt="Home Image" /></RouterLink>
   </main>
@@ -48,4 +46,45 @@ main{
   height: 100%;
   padding: 1rem;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+  
+
+   main {
+    max-width: 100vw;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  header{
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sideBar {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    height: auto;
+    box-sizing: border-box;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  ul{
+    list-style: none;
+    padding: 0px;
+  }
+  .about{
+  }
+  
+}
+
+
+
 </style>

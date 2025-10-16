@@ -11,12 +11,17 @@ const selectedComponent = ref(null)
     <div class="grid">
       <ComponentList @select="selectedComponent = $event" class="component-list" />
 
-      <ComponentDetails
-        class="component-details"
-        v-if="selectedComponent"
-        :component="selectedComponent"
-        @close="selectedComponent = null"
-      />
+      <div class="component-details">
+        <ComponentDetails
+          v-if="selectedComponent"
+          :component="selectedComponent"
+          @close="selectedComponent = null"
+        />
+        <div v-else class="welcome-content">
+          <h2>Hello future hardware hero!</h2>
+          <h2>Select a component from the list to learn more</h2>
+        </div>
+      </div>
     </div>
   </main>
 </template>
@@ -24,6 +29,12 @@ const selectedComponent = ref(null)
 <style scoped>
 .title-wrapper {
   padding-top: 60px;
+}
+
+.welcome-content {
+  padding: 5rem 1rem;
+  text-align: center;
+  font-size: 1.3rem;
 }
 
 .component-list {

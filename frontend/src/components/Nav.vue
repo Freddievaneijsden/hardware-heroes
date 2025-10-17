@@ -5,6 +5,7 @@ import UserMenu from './UserMenu.vue'
 
 const { token, user, logout } = useAuth()
 const output = ref('Test')
+
 </script>
 
 <template>
@@ -12,6 +13,9 @@ const output = ref('Test')
     <div class="header-left">
       <h1>Hardware Heroes</h1>
     </div>
+
+      <h2 class="welcomeText" v-if="user">Welcome {{ user.userName }}!</h2>
+ 
     <div class="header-right">
       <nav class="nav">
         <RouterLink to="/">
@@ -40,7 +44,6 @@ header {
   align-items: center;
   background-color: #14b8a6;
   padding: 0px;
-  gap: 700px;
   width: 100%;
   left: 0;
 }
@@ -72,6 +75,27 @@ button {
   background-color: #ec4899;
   min-width: 100px;
   cursor: pointer;
+}
+
+.welcomeText {
+  font-family: 'Baloo 2', cursive;
+  color: #ec4899;
+  text-shadow: 1px 1px 0px #374151;
+  animation: hideAfter 10s forwards;
+  font-size: 34px;
+}
+
+@keyframes hideAfter {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
 }
 
 @media (max-width: 600px) and (min-width: 375px) {

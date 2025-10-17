@@ -103,27 +103,28 @@ img {
 @media (max-width: 600px) and (min-width: 375px) {
   .component-list {
   display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 0.1rem;                          
-    padding-left: 0px;                  
-    padding-right: 0.5rem;
-    justify-items: start;                   
-    margin: 0;                              
+  grid-template-columns: 4fr, 2fr; 
+  gap: 0.1rem;                          
+  padding-left: 0px;                  
+  padding-right: 0.5rem;
+  justify-items: start;                   
+  margin: 0;                              
   }
   li{
     justify-content: center;
   }
 
 
-  img {
+  .imgSettings {
     width: 70px;
     height: auto;
   }
 
   ul{
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem;
+    grid-template-columns: repeat(4, 2fr);
+    gap: 0.25rem;
+    padding: 0px;
     margin: 0 auto;
 
   };

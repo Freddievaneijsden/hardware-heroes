@@ -74,7 +74,6 @@ body {
 @media (max-width: 600px) and (min-width: 375px) {
   
    main {
-    margin-top: 50px;
     max-width: 100vw;
     width: 100vw;
     display: flex;
@@ -88,11 +87,17 @@ body {
     margin: 0;
   }
 
+  body{
+    padding: 0;
+    margin: 0;
+  }
+
   .sideBar {
     width: 100%;
     max-width: 100%;
     height: auto;
-    margin-top: 100p;
+    margin-top: 0px;
+    padding-top: 0px;
     margin: 0;
     height: auto;
     box-sizing: border-box;

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import SignUp from '@/components/SignUp.vue'
+import { useRouter } from 'vue-router'
 
 const userName = ref(null)
 const userPassword = ref(null)
@@ -8,6 +9,7 @@ const success = ref(false)
 const error = ref(false)
 const token = ref(null)
 const user = ref(null)
+const router = useRouter()
 
 const showSignUp = ref(false)
 
@@ -41,6 +43,10 @@ const validLogin = async () => {
     success.value = true
     userName.value = null
     userPassword.value = null
+
+    router.push('/').then(() => {
+      window.location.reload()
+    })
   } catch (err) {
     error.value = err.message
   }
@@ -52,7 +58,7 @@ const validLogin = async () => {
   <div class="login-view">
     <div class="form-stack">
       <div class="form-container">
-        <form class="form" @submit.prevent="validLogin">
+        <form class="form" @submit.prevent="validLogin" v-if="!success">
           <h1>Login</h1>
           <input class="input" v-model="userName" type="text" placeholder="Username" required />
           <input
@@ -65,7 +71,6 @@ const validLogin = async () => {
           <button class="custom-button">Login</button>
           <button class="custom-button" @click="showSignUp = !showSignUp">Sign Up</button>
         </form>
-        <p v-if="success">✅ Successfull Login!</p>
         <p v-if="error">❌ {{ error }}</p>
       </div>
       <div>

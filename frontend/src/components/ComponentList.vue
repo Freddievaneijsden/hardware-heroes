@@ -55,7 +55,7 @@ onMounted(fetchData)
     <p v-if="loading">Laddar komponenter...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>
 
-    <ul v-else>
+    <ul v-else class="component-list">
       <li
         v-for="component in componentList"
         :key="component.componentId"
@@ -91,12 +91,44 @@ li {
   cursor: pointer;
 }
 img {
-  border-radius: 4px;
+  border-radius: px;
   object-fit: cover;
 }
 
 .imgSettings {
   width: 180px;
   height: auto;
+}
+
+@media (max-width: 600px) and (min-width: 375px) {
+  .component-list {
+  display: grid;
+  grid-template-columns: 4fr, 2fr; 
+  gap: 0.1rem;                          
+  padding-left: 0px;                  
+  padding-right: 0.5rem;
+  justify-items: start;                   
+  margin: 0;                              
+  }
+  li{
+    justify-content: center;
+  }
+
+
+  .imgSettings {
+    width: 70px;
+    height: auto;
+  }
+
+  ul{
+    justify-content: center;
+    grid-template-columns: repeat(4, 2fr);
+    gap: 0.25rem;
+    padding: 0px;
+    margin: 0 auto;
+
+  };
+
+
 }
 </style>

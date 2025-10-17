@@ -59,4 +59,18 @@ onMounted(() => document.addEventListener('click', handleClickOutside))
 .dropdown button:hover {
   background-color: #ec4899;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+  .dropdown {
+    position: absolute;
+    top: 100%;
+  }
+
+
+  
+
+  button{
+    margin-bottom: 0;
+  }
+}
 </style>

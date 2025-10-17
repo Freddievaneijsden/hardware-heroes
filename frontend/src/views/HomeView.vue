@@ -1,16 +1,15 @@
 <script setup>
-import UsersGet from '../components/UsersGet.vue'
-import UsersCreate from '../components/UsersCreate.vue'
-import UsersUpdate from '../components/UsersUpdate.vue'
-import UsersDelete from '../components/UsersDelete.vue'
+
 import Nav from '../components/Nav.vue'
 import imageHome from '../assets/img/imgcompleteComputer.png'
-</script>
 
+
+
+</script>
 <template>
   <body>
     <header>
-      <Nav />
+      <Nav/>
     </header>
     <main>
       <div class="sideBar">
@@ -25,16 +24,16 @@ import imageHome from '../assets/img/imgcompleteComputer.png'
             <h2><RouterLink to="/Statistics">Statistics</RouterLink></h2>
           </li>
         </ul>
-        <h2><RouterLink to="/aboutUs">About</RouterLink></h2>
+        <h2 class="about"><RouterLink to="/aboutUs">About</RouterLink></h2>
       </div>
       <div class="imgContainer">
-        <RouterLink to="/hardwareKnowledge"
-          ><img :src="imageHome" alt="Home Image" class="imageGlow"
-        /></RouterLink>
+        <RouterLink to="/hardwareKnowledge"> <img :src="imageHome" alt="Home Image" class="imageGlow" /></RouterLink>
       </div>
     </main>
   </body>
+
 </template>
+
 
 <style scoped>
 main {
@@ -71,4 +70,54 @@ body {
   padding-top: 80px;
   background-color: #fcd34d;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+  
+   main {
+    max-width: 100vw;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  header{
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0;
+    margin: 0;
+  }
+
+  body{
+    padding: 0;
+    margin: 0;
+  }
+
+  .sideBar {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin: 0;
+    height: auto;
+    box-sizing: border-box;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  ul{
+    list-style: none;
+    padding: 0px;
+  }
+  .imgContainer {
+  padding-top: 20px;
+}
+  
+  
+}
+
+
+
 </style>

@@ -78,4 +78,15 @@ h2 {
 button {
   margin-top: 10px;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+  .article-content {
+    padding: 0 10px;
+  }
+
+  .details {
+    padding: 0;
+  }
+  
+}
 </style>

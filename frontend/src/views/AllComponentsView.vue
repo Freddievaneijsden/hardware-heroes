@@ -52,8 +52,41 @@ main {
 }
 
 .grid {
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 2rem;
 }
+
+@media (max-width: 600px) and (min-width: 375px) {
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  main{
+    margin: 0;
+    background-color: #fcd34d;
+  }
+  body{
+    padding: 0;
+    margin: 0;
+  }
+
+  .component-list {
+    padding: 20px 20px;
+  }
+
+  .component-details {
+  padding-top: 20px;
+}
+
+.welcome-content {
+  padding: 20px 20px;
+}
+
+
+
+}
+
 </style>

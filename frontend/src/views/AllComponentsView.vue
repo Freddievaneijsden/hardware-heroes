@@ -81,6 +81,10 @@ main {
   padding-top: 20px;
 }
 
+.welcome-content {
+  padding: 20px 20px;
+}
+
 
 
 }

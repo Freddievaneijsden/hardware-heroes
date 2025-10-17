@@ -97,6 +97,10 @@ button {
     
   }
 
+  .user-actions {
+  padding-bottom: 20px;
+}
+
   button{
     margin-bottom: 20px;
     

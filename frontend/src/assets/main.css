@@ -76,7 +76,6 @@ a,
     background-color: #ec4899;
     min-width: 150px;
     cursor: pointer;
-    
 }
 .form-stack {
   display: flex;
@@ -128,11 +127,7 @@ input::placeholder {
 
 
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
+
 
 @media (max-width: 600px) and (min-width: 375px) {
   html, body, header {
@@ -146,6 +141,37 @@ header{
   position: static;
 }
 
-
+.imageGlow:active {
+  box-shadow: 0 0 10px 10px #ec4899;
+  background-color: #ec4899;
+  border-radius: 20px;
+  transform: scale(1.05);
 }
 
+.login-view {
+  padding: 30px;
+}
+.form-container {
+  width: 200px;
+  padding: 2rem;
+  padding-top: 0;
+}
+.form{
+  gap: 0.5rem;
+}
+
+.input {
+  max-width: 200px;
+  min-width: 100px;
+}
+
+.custom-button {
+    margin: 0;
+}
+
+h2{
+  margin: 0;
+}
+
+
+}

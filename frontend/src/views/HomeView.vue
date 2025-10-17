@@ -111,6 +111,9 @@ body {
     list-style: none;
     padding: 0px;
   }
+  .imgContainer {
+  padding-top: 20px;
+}
   
   
 }

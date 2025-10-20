@@ -3,7 +3,7 @@ import {ref} from 'vue'
 
 const userName = ref(null);
 const userPassword = ref(null);
-const userRole = ref(null);
+const userRole = ref("1");
 const success = ref(false);
 const error = ref(false);
 
@@ -57,7 +57,10 @@ const handleSubmit = async() => {
         <h1>Sign up</h1>
         <input class="input" v-model="userName" type="text" placeholder="Name" /> 
         <input class="input" v-model="userPassword" type="password" placeholder="Password" /> 
-        <input class="input" v-model="userRole" type="text" placeholder="Roles id" /> 
+        <select class="selectrole" v-model="userRole">
+            <option class="option" value="1">Student</option>
+            <option class="option" value="2">Teacher</option>
+        </select>   
         <button class="custom-button">Register</button>
         </form>
         <p v-if="success" style="color: green">Thank you for signing up</p>
@@ -65,4 +68,24 @@ const handleSubmit = async() => {
 </template>
 
 
+<style scoped>
+    .selectrole {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 400px;
+  min-width: 317px;
+  min-height: 44px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ec4899;
+  align-self: center;
+}
 
+.option {
+  padding: 0.5rem;
+  font-size: 14px;
+    font-weight: bold;
+    color: #ec4899;
+}
+</style>

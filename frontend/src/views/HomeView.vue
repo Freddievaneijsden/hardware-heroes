@@ -15,16 +15,16 @@ import imageHome from '../assets/img/imgcompleteComputer.png'
       <div class="sideBar">
         <ul>
           <li>
-            <h2><RouterLink to="/hardwareKnowledge">Hardware Knowledge</RouterLink></h2>
+            <h2><RouterLink to="/hardwareKnowledge" class="h2-side-menu">Hardware Knowledge</RouterLink></h2>
           </li>
           <li>
-            <h2><RouterLink to="/hardwareQuiz">Hardware Quiz</RouterLink></h2>
+            <h2><RouterLink to="/hardwareQuiz" class="h2-side-menu">Hardware Quiz</RouterLink></h2>
           </li>
           <li>
-            <h2><RouterLink to="/Statistics">Statistics</RouterLink></h2>
+            <h2><RouterLink to="/Statistics" class="h2-side-menu">Statistics</RouterLink></h2>
           </li>
         </ul>
-        <h2 class="about"><RouterLink to="/aboutUs">About</RouterLink></h2>
+        <h2><RouterLink to="/aboutUs" class="h2-side-menu">About</RouterLink></h2>
       </div>
       <div class="imgContainer">
         <RouterLink to="/hardwareKnowledge"> <img :src="imageHome" alt="Home Image" class="imageGlow" /></RouterLink>

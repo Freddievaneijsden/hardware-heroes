@@ -77,6 +77,10 @@ button {
   cursor: pointer;
 }
 
+button:hover{
+  background-color: #ee71b0ff;
+}
+
 .welcomeText {
   font-family: 'Baloo 2', cursive;
   color: #ec4899;

@@ -27,6 +27,13 @@ h2, h3 {
   text-shadow: 1px 1px 0px #374151;
 }
 
+.h2-side-menu:hover {
+  background-color: white;
+  border-radius: 30px;
+  background-color: #FCD34D;
+  padding: 10px 10px;
+}
+
 p, input {
   font-family: 'Nunito';
   color: #374151; 

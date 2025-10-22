@@ -4,8 +4,18 @@ import { useAuth } from '@/composables/useAuth'
 import UserMenu from './UserMenu.vue'
 
 const { token, user, logout } = useAuth()
-const output = ref('Test')
+const showWelcome = ref(false)
 
+onMounted(() => {
+  if (user.value && !localStorage.getItem('welcomeShown')) {
+    showWelcome.value = true
+    localStorage.setItem('welcomeShown', 'true')
+
+    setTimeout(() => {
+      showWelcome.value = false
+    }, 10000) // 10 seconds
+  }
+})
 </script>
 
 <template>
@@ -14,8 +24,8 @@ const output = ref('Test')
       <h1>Hardware Heroes</h1>
     </div>
 
-      <h2 class="welcomeText" v-if="user">Welcome {{ user.userName }}!</h2>
- 
+    <h2 class="welcomeText" v-if="user && showWelcome">Welcome {{ user.userName }}!</h2>
+
     <div class="header-right">
       <nav class="nav">
         <RouterLink to="/">
@@ -77,7 +87,7 @@ button {
   cursor: pointer;
 }
 
-button:hover{
+button:hover {
   background-color: #ee71b0ff;
 }
 
@@ -111,28 +121,24 @@ button:hover{
     text-align: center;
     height: auto;
     padding: 0px;
-    min-height: 70px; 
+    min-height: 70px;
     width: 100%;
-    
   }
-  h1{
+  h1 {
     margin-bottom: 0px;
   }
 
   .nav {
     justify-content: center;
     flex-wrap: wrap;
-    
   }
 
   .user-actions {
-  padding-bottom: 20px;
-}
+    padding-bottom: 20px;
+  }
 
-  button{
+  button {
     margin-bottom: 20px;
-    
   }
 }
-
 </style>

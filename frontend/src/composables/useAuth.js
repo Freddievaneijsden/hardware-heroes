@@ -17,6 +17,7 @@ watch([token, user], ([newToken, newUser]) => {
 const logout = () => {
   token.value = null
   user.value = null
+  localStorage.removeItem('welcomeShown')
 }
 
 export function useAuth() {

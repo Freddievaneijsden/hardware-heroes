@@ -10,7 +10,6 @@ const error = ref(false)
 const token = ref(null)
 const user = ref(null)
 const router = useRouter()
-
 const showSignUp = ref(false)
 
 const validLogin = async () => {
@@ -53,7 +52,6 @@ const validLogin = async () => {
 }
 </script>
 
-
 <template>
   <div class="login-view">
     <div class="form-stack">
@@ -79,5 +77,3 @@ const validLogin = async () => {
     </div>
   </div>
 </template>
-
-    

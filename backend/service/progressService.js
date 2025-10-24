@@ -8,6 +8,15 @@ async function getProgressByUserId(userId) {
     return rows;
 }
 
+async function createProgress(progressUserId, progressChapterId) {
+    let sql = "INSERT INTO progress (progressUserId, progressChapterId) VALUES (?, ?)"
+    let params = [progressUserId, progressChapterId];
+
+    let [rows] = await connectionMySQL.promise().query(sql, params);
+    return rows;
+}
+
 module.exports = {
-    getProgressByUserId
+    getProgressByUserId,
+    createProgress
 }

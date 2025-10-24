@@ -57,7 +57,42 @@ async function createProgress (req, res) {
         }
 }
 
+async function updateProgressChapterIdByUserId (req, res) {
+    let {progressChapterId} = req.body;
+    let {userId} = req.params;
+
+       if (!progressChapterId || !userId) {
+            return res.status(400).json({
+                success: false, 
+                error: "All fields are required"
+            })
+        }
+    
+        if (progressChapterId < 1 || progressChapterId > 5 ){
+             return res.status(400).json({
+                success: false, 
+                error: "ProgressChapterId must be 1 - 5"
+            })
+        }
+        
+        try {
+            let result = await progressService.updateProgressChapter(progressChapterId, userId);
+            return res.status(201).json({
+                success: true, 
+                data: result,
+                message: 'You have updated a progress!'
+            })
+    
+        } catch (error) {
+             return res.status(500).json({
+                success: false, 
+                error: error.message
+             });
+        }
+}
+
 module.exports = {
     getProgressByUserId,
-    createProgress
+    createProgress,
+    updateProgressChapterIdByUserId
 }

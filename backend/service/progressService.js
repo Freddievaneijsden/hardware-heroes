@@ -9,8 +9,16 @@ async function getProgressByUserId(userId) {
 }
 
 async function createProgress(progressUserId, progressChapterId) {
-    let sql = "INSERT INTO progress (progressUserId, progressChapterId) VALUES (?, ?)"
+    let sql = "INSERT INTO progress (progressUserId, progressChapterId) VALUES (?, ?)";
     let params = [progressUserId, progressChapterId];
+
+    let [rows] = await connectionMySQL.promise().query(sql, params);
+    return rows;
+}
+
+async function updateProgressChapter(progressChapterId, userId) {
+    let sql = "UPDATE progress SET progressChapterId = ? WHERE progressUserId = ?";
+    let params = [progressChapterId, userId];
 
     let [rows] = await connectionMySQL.promise().query(sql, params);
     return rows;
@@ -18,5 +26,6 @@ async function createProgress(progressUserId, progressChapterId) {
 
 module.exports = {
     getProgressByUserId,
-    createProgress
+    createProgress,
+    updateProgressChapter
 }

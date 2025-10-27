@@ -54,6 +54,8 @@ body {
   background-color: #ec4899;
   border-radius: 20px;
   transform: scale(1.05);
+  width: 400px;
+  height: auto;
 }
 
 a,

@@ -1,8 +1,21 @@
 import { ref } from 'vue'
 
 const currentChapter = ref(null);
+const userId = ref(null);
 
-const createNewProgress = async (userId) => {
+const loadUser = () => {
+  try {
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      const parsedUser = JSON.parse(userData)
+      userId.value = parsedUser.userId
+    }
+  } catch (err) {
+    console.error('Failed to load user from storage:', err)
+  }
+}
+
+const createNewProgress = async () => {
   try {
     const response = await fetch('http://localhost:3000/users/progress', {
       method: 'POST',
@@ -10,8 +23,8 @@ const createNewProgress = async (userId) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        progressUserId: userId,
-        progressChapterId: 1,
+        progressUserId: userId.value,
+        progressChapterId: 0,
       }),
     })
 
@@ -23,12 +36,12 @@ const createNewProgress = async (userId) => {
   }
 }
 
-const updateProgressChapter = async (userId, currentChapter) => {
+const updateProgressChapter = async (currentChapter) => {
     try {
 
     const newChapter = currentChapter + 1
     
-    const response = await fetch(`http://localhost:3000/users/progress/${userId}`, {
+    const response = await fetch(`http://localhost:3000/users/progress/${userId.value}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -47,9 +60,9 @@ const updateProgressChapter = async (userId, currentChapter) => {
   }
 }
 
-const getCurrentChapter = async (userId) => {
+const getCurrentChapter = async () => {
     try {
-    const response = await fetch(`http://localhost:3000/users/progress/${userId}`, {
+    const response = await fetch(`http://localhost:3000/users/progress/${userId.value}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -60,7 +73,9 @@ const getCurrentChapter = async (userId) => {
 
     if (!response.ok) throw new Error(result.error || 'Failed to get progress by userId')
     
-    currentChapter.value = result.data[0].progressChapterId;
+    const chapter = result.data?.[0]?.progressChapterId ?? null;;
+
+    return chapter;
 
     } catch (err) {
     console.error(err.message);
@@ -68,5 +83,6 @@ const getCurrentChapter = async (userId) => {
 }
 
 export function useProgress() {
-  return { createNewProgress, updateProgressChapter, getCurrentChapter, currentChapter}
+  loadUser();
+  return { createNewProgress, updateProgressChapter, getCurrentChapter, currentChapter, userId }
 }

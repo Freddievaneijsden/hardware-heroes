@@ -1,10 +1,14 @@
 <script setup>
-
+import { onMounted } from 'vue';
 import Nav from '../components/Nav.vue'
 import ProgressComponent from '@/components/ProgressComponentBar.vue';
 import { useQuizProgress } from '@/composables/useQuizProgress';
 
-const { quizLevel, levelImage } = useQuizProgress();
+const { fetchQuizLevel, levelImage, quizLevel } = useQuizProgress();
+
+onMounted(() => {
+  fetchQuizLevel();
+});
 
 </script>
 <template>

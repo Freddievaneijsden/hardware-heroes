@@ -1,7 +1,23 @@
 import { ref, computed } from 'vue';
+import { useProgress } from './useProgress';
 
 export function useQuizProgress() {
-  const quizLevel = ref(5);
+  const quizLevel = ref(null);
+  const progress =  useProgress();
+  console.log('Progress object:', progress);
+  
+  
+
+  const fetchQuizLevel = async () => {
+    try {
+      quizLevel.value = await progress.getCurrentChapter();
+      console.log('Fetched quiz level:', quizLevel.value);
+      
+    } catch (err) {
+      console.error('Failed to fetch quiz level:', err);
+    }
+  };
+
 
   const levelImage = computed(() => {
     const images = [
@@ -15,8 +31,9 @@ export function useQuizProgress() {
   });
 
   return {
-    quizLevel,
-    levelImage
+    quizLevel, 
+    levelImage,
+    fetchQuizLevel
   };
 }
 

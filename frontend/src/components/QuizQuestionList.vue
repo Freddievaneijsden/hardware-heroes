@@ -46,7 +46,7 @@ onMounted(fetchData)
         :key="question.quizId"
         @click="selectQuizQuestion(question)"
       >
-      {{ question.quizQuestion }}
+        <h2>{{ question.quizQuestion }}</h2>
       </li>
     </ul>
   </section>
@@ -57,7 +57,7 @@ ul {
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 li {
   display: flex;

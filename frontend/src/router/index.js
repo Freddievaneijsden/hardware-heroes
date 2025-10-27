@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import AllComponentsView from '@/views/AllComponentsView.vue'
 import HardwareKnowledgeView from '@/views/HardwareKnowledgeView.vue'
 import LoginView from '@/views/LoginView.vue'
+import QuizView from '@/views/QuizView.vue'
+import AllQuestionsView from '@/views/AllQuestionsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,17 @@ const router = createRouter({
         {
           path: 'components',
           component: AllComponentsView,
+        }
+      ]
+    },
+    {
+      path: '/HardwareQuiz',
+      name: 'HardwareQuiz',
+      component: QuizView,
+      children: [
+        {
+          path: 'questions',
+          component: AllQuestionsView,
         }
       ]
     },

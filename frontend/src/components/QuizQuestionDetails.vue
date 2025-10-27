@@ -16,9 +16,9 @@ const emit = defineEmits(['close'])
     <h2>{{ question.quizQuestion }}</h2>
     <div class="article-content">
       <ul>
-        <li>{{ question.quizWrongAnswer1 }}</li>
-        <li>{{ question.quizWrongAnswer2 }}</li>
-        <li>{{ question.quizRightAnswer }}</li>
+        <li > <h3>{{ question.quizWrongAnswer1 }} </h3></li>
+        <li> <h3>{{ question.quizWrongAnswer2 }} </h3></li>
+        <li> <h3>{{ question.quizRightAnswer }} </h3></li>
       </ul>
       
       <button @click="emit('close')">Close</button>
@@ -36,6 +36,13 @@ h2 {
   text-align: center;
 }
 
+ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  list-style: none;
+  padding: 0;
+}
+
 .article-text {
   white-space: pre-line;
 }
@@ -46,13 +53,6 @@ h2 {
   padding: 0 80px;
 }
 
-.article-image {
-  float: left;
-  margin: 0 10px 10px 0;
-  max-width: 200px;
-  height: auto;
-  object-fit: cover;
-}
 
 button {
   margin-top: 10px;

@@ -54,7 +54,7 @@ main {
 .grid {
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 2rem;
 }
 

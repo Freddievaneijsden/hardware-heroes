@@ -1,9 +1,10 @@
 <script setup>
 
 import Nav from '../components/Nav.vue'
-import imageHome from '../assets/img/imgcompleteComputer.png'
+import ProgressComponent from '@/components/ProgressComponentBar.vue';
+import { useQuizProgress } from '@/composables/useQuizProgress';
 
-
+const { quizLevel, levelImage } = useQuizProgress();
 
 </script>
 <template>
@@ -27,17 +28,35 @@ import imageHome from '../assets/img/imgcompleteComputer.png'
         <h2><RouterLink to="/aboutUs" class="h2-side-menu">About</RouterLink></h2>
       </div>
       <div class="imgContainer">
-        <RouterLink to="/hardwareKnowledge"> <img :src="imageHome" alt="Home Image" class="imageGlow" /></RouterLink>
+        <RouterLink to="/hardwareKnowledge">
+           <img :src="levelImage" alt="Home Image" class="imageGlow" />
+          </RouterLink>
+        <ProgressComponent :currentLevel="quizLevel" class="progressBar" />
       </div>
+      
     </main>
   </body>
 
 </template>
 
-
 <style scoped>
+
+img {
+  margin-top: 20px;
+  min-width: 400px;
+  max-width: 400px;
+  height: auto;
+}
+
+.progressBar {
+  width: 100%;
+  margin-top: 80px;
+  padding-right: 200px;
+}
+
 main {
-  max-width: 200%;
+  max-width: 100%;
+  width: 100%;
   min-height: 90vh;
   margin: 0 auto;
   font-weight: normal;
@@ -55,10 +74,15 @@ main {
   padding: 20px 20px;
 }
 
+
 .imgContainer {
   display: flex;
-  align-items: center;
-  padding-left: 50px;
+  flex-direction: column; 
+  align-items: center;     
+  justify-content: center;  
+  padding: 20px;
+  padding-right: 300px;
+  margin-top: 50px;
 }
 
 ul {
@@ -69,6 +93,7 @@ ul {
 body {
   padding-top: 80px;
   background-color: #fcd34d;
+  overflow-x: hidden;
 }
 
 @media (max-width: 600px) and (min-width: 375px) {
@@ -113,11 +138,15 @@ body {
   }
   .imgContainer {
   padding-top: 20px;
-}
-  
-  
-}
+  margin-top: 20px;
+  padding-right: 30px;
+  }
 
-
+  .progressBar {
+    width: 70%;  
+    padding-left: 75px;     
+    margin-top: 20px;
+  }
+}
 
 </style>

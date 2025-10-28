@@ -1,26 +1,30 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 import Nav from '../components/Nav.vue'
-import ProgressComponent from '@/components/ProgressComponentBar.vue';
-import { useQuizProgress } from '@/composables/useQuizProgress';
+import ProgressComponent from '@/components/ProgressComponentBar.vue'
+import { useQuizProgress } from '@/composables/useQuizProgress'
+import ShowCertificate from '../components/ShowCertificate.vue'
 
-const { fetchQuizLevel, levelImage, quizLevel } = useQuizProgress();
+const { fetchQuizLevel, levelImage, quizLevel } = useQuizProgress()
 
 onMounted(() => {
-  fetchQuizLevel();
-});
-
+  fetchQuizLevel()
+})
 </script>
 <template>
   <body>
     <header>
-      <Nav/>
+      <Nav />
     </header>
     <main>
       <div class="sideBar">
         <ul>
           <li>
-            <h2><RouterLink to="/hardwareKnowledge" class="h2-side-menu">Hardware Knowledge</RouterLink></h2>
+            <h2>
+              <RouterLink to="/hardwareKnowledge" class="h2-side-menu"
+                >Hardware Knowledge</RouterLink
+              >
+            </h2>
           </li>
           <li>
             <h2><RouterLink to="/hardwareQuiz" class="h2-side-menu">Hardware Quiz</RouterLink></h2>
@@ -33,18 +37,16 @@ onMounted(() => {
       </div>
       <div class="imgContainer">
         <RouterLink to="/hardwareKnowledge">
-           <img :src="levelImage" alt="Home Image" class="imageGlow" />
-          </RouterLink>
+          <img :src="levelImage" alt="Home Image" class="imageGlow" />
+        </RouterLink>
+        <ShowCertificate />
         <ProgressComponent :currentLevel="quizLevel" class="progressBar" />
       </div>
-      
     </main>
   </body>
-
 </template>
 
 <style scoped>
-
 img {
   margin-top: 20px;
   min-width: 400px;
@@ -54,7 +56,6 @@ img {
 
 .progressBar {
   width: 100%;
-  margin-top: 80px;
   padding-right: 200px;
 }
 
@@ -78,12 +79,11 @@ main {
   padding: 20px 20px;
 }
 
-
 .imgContainer {
   display: flex;
-  flex-direction: column; 
-  align-items: center;     
-  justify-content: center;  
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   padding-right: 300px;
   margin-top: 50px;
@@ -101,22 +101,20 @@ body {
 }
 
 @media (max-width: 600px) and (min-width: 375px) {
-  
-   main {
+  main {
     max-width: 100vw;
     width: 100vw;
     display: flex;
     flex-direction: column;
-    
   }
-  header{
+  header {
     width: 100vw;
     max-width: 100vw;
     padding: 0;
     margin: 0;
   }
 
-  body{
+  body {
     padding: 0;
     margin: 0;
   }
@@ -136,21 +134,20 @@ body {
     height: auto;
     object-fit: cover;
   }
-  ul{
+  ul {
     list-style: none;
     padding: 0px;
   }
   .imgContainer {
-  padding-top: 20px;
-  margin-top: 20px;
-  padding-right: 30px;
+    padding-top: 20px;
+    margin-top: 20px;
+    padding-right: 30px;
   }
 
   .progressBar {
-    width: 70%;  
-    padding-left: 75px;     
+    width: 70%;
+    padding-left: 75px;
     margin-top: 20px;
   }
 }
-
 </style>

@@ -30,6 +30,7 @@ const downloadCertificate = () => {
 <template>
   <div>
     <button
+      class="download-button"
       @click="downloadCertificate"
       :style="{ visibility: allChapthersCompleted ? 'visible' : 'hidden' }"
     >
@@ -39,7 +40,7 @@ const downloadCertificate = () => {
 </template>
 
 <style scope>
-button {
+.download-button {
   margin: 20px;
 }
 </style>

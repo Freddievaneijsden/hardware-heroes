@@ -3,7 +3,7 @@ const quizService = require('../service/quizService');
 async function getquizzes(req, res) {
 
     try {
-        let result = await quizService.getquizes();
+        let result = await quizService.getquizzes();
 
         return res.status(200).json({
             success: true, 

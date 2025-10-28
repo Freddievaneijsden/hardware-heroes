@@ -1,14 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 import { useProgress } from '../composables/useProgress.js'
+import Login from './Login.vue'
+import router from '@/router/index.js'
 
 const userName = ref(null)
 const userPassword = ref(null)
+const repeatPassword = ref(null)
 const userRole = ref('1')
 const userId = ref(null)
 const success = ref(false)
 const error = ref(false)
 const progress = useProgress()
+const logInAfterSignUp = ref(false)
 
 const validatePassword = (password) => {
   const hasUpperCase = /[A-Z]/.test(password)
@@ -17,12 +21,23 @@ const validatePassword = (password) => {
   return hasUpperCase && isLongEnough && noSpaces
 }
 
+const repeatedPassword = (repeatPassword) => {
+  return userPassword.value === repeatPassword
+}
+
+
+
 const handleSubmit = async () => {
   success.value = false
   error.value = ''
 
   if (!userName.value || !userPassword.value || !userRole.value) {
     error.value = 'All fields must not be blank'
+    return
+  }
+
+  if (!repeatedPassword(repeatPassword.value)) {
+    error.value = 'Passwords do not match'
     return
   }
 
@@ -50,7 +65,35 @@ const handleSubmit = async () => {
     const result = await response.json()
     userId.value = result.data.insertId
     await progress.createNewProgress(userId.value)
-    success.value = true
+
+    const loginAfterSignup = await fetch('http://localhost:3000/login/user', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        userName: userName.value,
+        userPassword: userPassword.value,
+      })
+    })
+    const loginResult = await loginAfterSignup.json()
+    if (!loginAfterSignup.ok) {
+      throw new Error(loginResult.error || 'Login after signup failed')
+      }
+    localStorage.setItem('token', loginResult.token)
+    localStorage.setItem('user', JSON.stringify(loginResult.data)),
+    
+    success.value = true,
+    userName.value = null,
+    userPassword.value = null
+
+    router.push('/').then(() => {
+      window.location.reload()
+    })
+
+    if (success.value === true) {
+      logInAfterSignUp
+    }
   } catch (err) {
     error.value = err.message
   }
@@ -64,6 +107,7 @@ const handleSubmit = async () => {
       <h1>Sign up</h1>
       <input class="input" v-model="userName" type="text" placeholder="Name" />
       <input class="input" v-model="userPassword" type="password" placeholder="Password" />
+      <input class="input" v-model="repeatPassword" type="password" placeholder="Repeat Password" />
       <select class="selectrole" v-model="userRole">
         <option class="option" value="1">Student</option>
         <option class="option" value="2">Teacher</option>

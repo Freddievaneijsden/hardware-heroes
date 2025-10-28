@@ -5,7 +5,7 @@ import { ref, onMounted } from 'vue'
 
 const emit = defineEmits(['select'])
 
-const quizId = 1 // eller få detta från props/route
+const chapterId = 1 // eller få detta från props/route
 const quizQuestionList = ref([])
 const loading = ref(false)
 const error = ref(null)
@@ -16,11 +16,11 @@ const fetchData = async () => {
   loading.value = true
   error.value = null
   try {
-    const response = await fetch(`http://localhost:3000/quizzes/${quizId}`)
+    const response = await fetch(`http://localhost:3000/quizzes/${chapterId}`)
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
     quizQuestionList.value = data.data.map(q => ({
-      quizId: q.quizId,
+      chapterId: q.chapterId,
       quizQuestion: q.quizQuestion,
       quizRightAnswer: q.quizRightAnswer,
       quizWrongAnswer1: q.quizWrongAnswer1,
@@ -71,8 +71,9 @@ onMounted(fetchData)
 
 <style scoped>
 ul {
+  margin-top: 10px;
   list-style: none;
-  padding: 0;
+  padding: 95px;
   display: grid;
   grid-template-columns: 1fr;
 }

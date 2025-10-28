@@ -11,12 +11,14 @@ app.use(express.json());
 const userRoute = require('./routes/userRoute');
 const loginRoute = require('./routes/loginRoute');
 const componentRoute = require('./routes/componentRoute');
+const articleRoute = require('./routes/articleRoute');
 const progressRoute = require('./routes/progressRoute')
 const quizRoute = require('./routes/quizRoute');
 
 app.use(userRoute);
 app.use(loginRoute);
 app.use(componentRoute);
+app.use(articleRoute);
 app.use(progressRoute);
 app.use(quizRoute);
 

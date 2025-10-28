@@ -47,7 +47,7 @@ const fetchData = async () => {
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
     quizQuestionList.value = data.data.map(q => ({
-      quizId: q.quizId,
+      chapterId: q.chapterId,
       quizQuestion: q.quizQuestion,
       quizRightAnswer: q.quizRightAnswer,
       quizWrongAnswer1: q.quizWrongAnswer1,

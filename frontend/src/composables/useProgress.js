@@ -1,6 +1,5 @@
 import { ref } from 'vue'
 
-const currentChapter = ref(null);
 const userId = ref(null);
 
 const loadUser = () => {
@@ -15,7 +14,7 @@ const loadUser = () => {
   }
 }
 
-const createNewProgress = async () => {
+const createNewProgress = async (userId) => {
   try {
     const response = await fetch('http://localhost:3000/users/progress', {
       method: 'POST',
@@ -23,7 +22,7 @@ const createNewProgress = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        progressUserId: userId.value,
+        progressUserId: userId,
         progressChapterId: 0,
       }),
     })
@@ -84,5 +83,5 @@ const getCurrentChapter = async () => {
 
 export function useProgress() {
   loadUser();
-  return { createNewProgress, updateProgressChapter, getCurrentChapter, currentChapter, userId }
+  return { createNewProgress, updateProgressChapter, getCurrentChapter, userId }
 }

@@ -27,17 +27,18 @@ async function getProgressByUserId(req, res) {
 async function createProgress (req, res) {
     let {progressUserId, progressChapterId} = req.body;
 
-       if (!progressUserId || !progressChapterId) {
+       if (progressUserId == null || progressChapterId == null)
+         {
             return res.status(400).json({
                 success: false, 
-                error: "All fields are required"
+                error: "UserId and chapter are required"
             })
         }
     
-        if (progressChapterId < 1 || progressChapterId > 5 ){
+        if (progressChapterId < 0 || progressChapterId > 5 ){
              return res.status(400).json({
                 success: false, 
-                error: "ProgressChapterId must be 1 - 5"
+                error: "ProgressChapterId must be 0 - 5"
             })
         }
         

@@ -49,9 +49,7 @@ const handleSubmit = async () => {
 
     const result = await response.json()
     userId.value = result.data.insertId
-
     await progress.createNewProgress(userId.value)
-
     success.value = true
   } catch (err) {
     error.value = err.message

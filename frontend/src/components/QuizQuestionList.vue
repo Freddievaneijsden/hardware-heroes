@@ -19,7 +19,14 @@ const fetchData = async () => {
     const response = await fetch(`http://localhost:3000/quizzes/${quizId}`)
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
-    quizQuestionList.value = data.data
+    quizQuestionList.value = data.data.map(q => ({
+      quizId: q.quizId,
+      quizQuestion: q.quizQuestion,
+      quizRightAnswer: q.quizRightAnswer,
+      quizWrongAnswer1: q.quizWrongAnswer1,
+      quizWrongAnswer2: q.quizWrongAnswer2,
+      status: null //'correct' | 'incorrect' | null
+    }))
     console.log('Quizzes loaded:', quizQuestionList.value)
   } catch (err) {
     error.value = err.message
@@ -29,15 +36,24 @@ const fetchData = async () => {
 }
 
 const selectQuizQuestion = (quiz) => {
-  emit('select', quiz)
+  if(quiz.status === null) emit('select', quiz)
 }
+
+const handleSubmit = ({ questionId, isCorrect }) => {
+  const question = quizQuestionList.value.find(q => q.quizId === questionId)
+  if (question) question.status = isCorrect ? 'correct' : 'incorrect'
+}
+
+defineExpose({
+  quizQuestionList, handleSubmit
+})
 
 onMounted(fetchData)
 </script>
 
 <template>
   <section>
-    <p v-if="loading">Laddar komponenter...</p>
+    <p v-if="loading">Loading questions...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>
 
     <ul v-else class="question-list">
@@ -45,6 +61,7 @@ onMounted(fetchData)
         v-for="question in quizQuestionList"
         :key="question.quizId"
         @click="selectQuizQuestion(question)"
+        :class="question.status"
       >
         <h2>{{ question.quizQuestion }}</h2>
       </li>
@@ -68,15 +85,16 @@ li {
   border-radius: 6px;
   cursor: pointer;
 }
-img {
-  border-radius: px;
-  object-fit: cover;
+li.correct {
+  background-color: #86efac;
+  border-color: #16a34a;
+}
+li.incorrect {
+  background-color: #fca5a5;
+  border-color: #b91c1c;
 }
 
-.imgSettings {
-  width: 180px;
-  height: auto;
-}
+
 
 @media (max-width: 600px) and (min-width: 375px) {
   .question-list {

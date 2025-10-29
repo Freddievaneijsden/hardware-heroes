@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue'
+
 import imageCpu from '../assets/img/imgcpu.png'
 import imageGpu from '../assets/img/imggpu.png'
 import imageMotherboard from '../assets/img/imgmotherboard.png'
@@ -12,10 +14,24 @@ const props = defineProps({
   component: {
     type: Object,
     required: true,
-  },
+  }
 })
 
 const emit = defineEmits(['close'])
+
+const currentChapterIndex = ref(0)
+
+const nextChapter = () => {
+  if (currentChapterIndex.value < props.component.articles.length - 1) {
+    currentChapterIndex.value++
+  }
+}
+
+const previousChapter = () => {
+  if (currentChapterIndex.value > 0) {
+    currentChapterIndex.value--
+  }
+}
 
 const imageMap = {
   imageCpu: imageCpu,
@@ -38,11 +54,29 @@ const imageMap = {
         :src="imageMap[component.componentImg]"
         :alt="component.componentName"
         class="article-image"
-        @error="(e) => console.log('Selected image error:', e.target.src)"
-        @load="(e) => console.log('Selected image loaded:', e.target.src)"
       />
-      <p class="article-text">{{ component.componentArticle }}</p>
-      <button @click="emit('close')">Close</button>
+      
+      <div v-if="component.articles && component.articles.length > 0">
+        <div class="article-section">
+          <h3>Chapter {{ currentChapterIndex + 1 }} of {{ component.articles.length }}</h3>
+          <p class="article-text">{{ component.articles[currentChapterIndex].articleBody }}</p>
+        </div>
+        
+       <button
+              @click="previousChapter" 
+              :disabled="currentChapterIndex === 0"
+            >
+              Previous Chapter
+            </button>
+            
+            <button
+              @click="nextChapter" 
+              :disabled="currentChapterIndex >= component.articles.length - 1"
+              >
+              Next Chapter
+            </button>
+
+            <button @click="emit('close')">Close</button>
     </div>
   </section>
 </template>
@@ -76,7 +110,8 @@ h2 {
 }
 
 button {
-  margin-top: 10px;
+  width: 180px;
+  margin:20px 10px 10px 0
 }
 
 @media (max-width: 600px) and (min-width: 375px) {

@@ -34,8 +34,34 @@ const fetchData = async () => {
     const response = await fetch('http://localhost:3000/components')
     if (!response.ok) throw new Error('Could not fetch components: ' + response.status)
     const data = await response.json()
-    componentList.value = data.data
-    console.log('Components loaded:', componentList.value)
+
+    const componentsWithArticles = await Promise.all(
+      data.data.map(async (component) => {
+        try {
+          const articleResponse = await fetch(`http://localhost:3000/articles/component/${component.componentId}`)
+          if (articleResponse.ok) {
+            const articleData = await articleResponse.json()
+            return {
+              ...component,
+              articles: articleData.data || []
+            }
+          }
+          return {
+            ...component,
+            articles: []
+          }
+        } catch (err) {
+          console.warn(`Could not fetch articles for component ${component.componentId}:`, err)
+          return {
+            ...component,
+            articles: []
+          }
+        }
+      })
+    )
+    
+    componentList.value = componentsWithArticles
+    console.log('Components with articles loaded:', componentList.value)
   } catch (err) {
     error.value = err.message
   } finally {

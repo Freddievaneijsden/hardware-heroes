@@ -40,11 +40,6 @@ const fetchData = async () => {
   }
 }
 
-const selectQuiz = (quiz) => {
-  selectedChapterId.value = quiz.quizChapterId
-  fetchData()
-}
-
 const selectQuizQuestion = (quiz) => {
   if(quiz.status === null) emit('select', quiz)
 }
@@ -82,15 +77,7 @@ defineExpose({
   <section>
     <p v-if="loading">Loading quizzes...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>  
-    <ul v-else class="quiz-list">
-      <li
-        v-for="quiz in quizList"
-        :key="quiz.chapterId"
-        @click="selectQuiz(quiz)"
-        >
-        <h2> Quiz {{ quiz.quizChapterId }}</h2>
-      </li>
-    </ul>
+    <h2> Quiz {{ selectedChapterId }}</h2>
   </section>
 
   <section>

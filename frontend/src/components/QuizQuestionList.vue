@@ -1,51 +1,29 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useProgress } from '@/composables/useProgress'
 
 
 const quizList = ref([])
-const selectedChapterId = ref(1)
-
-const fetchQuizList = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/quizzes')
-    if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
-    const data = await response.json()
-    const uniqueChapters = Array.from(
-      new Map(
-        data.data.map(q => [q.quizChapterId, q]) 
-      ).values()
-    ).map(q => ({
-      quizChapterId: q.quizChapterId
-    }))
-
-    quizList.value = uniqueChapters
-    console.log('Unique chapters loaded:', quizList.value)
-  } catch (err) {
-    console.error(err.message)
-  }
-}
-
-const selectQuiz = (quiz) => {
-  selectedChapterId.value = quiz.quizChapterId
-  fetchData()
-}
-
-
-const emit = defineEmits(['select'])
-
+const selectedChapterId = ref(null)
 const quizQuestionList = ref([])
 const loading = ref(false)
 const error = ref(null)
 
+const {getCurrentChapter} = useProgress()
+
+const emit = defineEmits(['select'])
 
 
 const fetchData = async () => {
+  if (!selectedChapterId.value) return
   loading.value = true
   error.value = null
+
   try {
     const response = await fetch(`http://localhost:3000/quizzes/${selectedChapterId.value}`)
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
+
     quizQuestionList.value = data.data.map(q => ({
       quizId: q.quizId,
       quizQuestion: q.quizQuestion,
@@ -62,6 +40,11 @@ const fetchData = async () => {
   }
 }
 
+const selectQuiz = (quiz) => {
+  selectedChapterId.value = quiz.quizChapterId
+  fetchData()
+}
+
 const selectQuizQuestion = (quiz) => {
   if(quiz.status === null) emit('select', quiz)
 }
@@ -71,14 +54,27 @@ const handleSubmit = ({ questionId, isCorrect }) => {
   if (question) question.status = isCorrect ? 'correct' : 'incorrect'
 }
 
+
+
+onMounted(async () => {
+  try {
+    const chapter = await getCurrentChapter() + 1
+    if (chapter !== null) {
+      selectedChapterId.value = chapter
+      console.log('User current chapter:', chapter)
+      await fetchData()
+    } else {
+      console.warn('No chapter found for user progress.')
+    }
+  } catch (err) {
+    console.error('Failed to load user progress:', err)
+  }
+})
+
 defineExpose({
   quizQuestionList, handleSubmit
 })
 
-onMounted(() => {
-  fetchQuizList() 
-  fetchData()
-})
 </script>
 
 <template>

@@ -2,10 +2,37 @@
 import { ref, onMounted } from 'vue'
 
 
+const quizList = ref([])
+const selectedChapterId = ref(1)
+
+const fetchQuizList = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/quizzes')
+    if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
+    const data = await response.json()
+    const uniqueChapters = Array.from(
+      new Map(
+        data.data.map(q => [q.quizChapterId, q]) 
+      ).values()
+    ).map(q => ({
+      quizChapterId: q.quizChapterId
+    }))
+
+    quizList.value = uniqueChapters
+    console.log('Unique chapters loaded:', quizList.value)
+  } catch (err) {
+    console.error(err.message)
+  }
+}
+
+const selectQuiz = (quiz) => {
+  selectedChapterId.value = quiz.quizChapterId
+  fetchData()
+}
+
 
 const emit = defineEmits(['select'])
 
-const quizId = 1 // eller få detta från props/route
 const quizQuestionList = ref([])
 const loading = ref(false)
 const error = ref(null)
@@ -16,7 +43,7 @@ const fetchData = async () => {
   loading.value = true
   error.value = null
   try {
-    const response = await fetch(`http://localhost:3000/quizzes/${quizId}`)
+    const response = await fetch(`http://localhost:3000/quizzes/${selectedChapterId.value}`)
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
     quizQuestionList.value = data.data.map(q => ({
@@ -48,10 +75,28 @@ defineExpose({
   quizQuestionList, handleSubmit
 })
 
-onMounted(fetchData)
+onMounted(() => {
+  fetchQuizList() 
+  fetchData()
+})
 </script>
 
 <template>
+  <section>
+  <section>
+    <p v-if="loading">Loading quizzes...</p>
+    <p v-else-if="error" style="color: red">{{ error }}</p>  
+    <ul v-else class="quiz-list">
+      <li
+        v-for="quiz in quizList"
+        :key="quiz.chapterId"
+        @click="selectQuiz(quiz)"
+        >
+        <h2> Quiz {{ quiz.quizChapterId }}</h2>
+      </li>
+    </ul>
+  </section>
+
   <section>
     <p v-if="loading">Loading questions...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>
@@ -67,12 +112,14 @@ onMounted(fetchData)
       </li>
     </ul>
   </section>
+  </section>
 </template>
 
 <style scoped>
 ul {
+  margin-top: 10px;
   list-style: none;
-  padding: 0;
+  padding: 40px;
   display: grid;
   grid-template-columns: 1fr;
 }

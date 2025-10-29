@@ -3,7 +3,7 @@ const quizService = require('../service/quizService');
 async function getquizzes(req, res) {
 
     try {
-        let result = await quizService.getquizes();
+        let result = await quizService.getquizzes();
 
         return res.status(200).json({
             success: true, 
@@ -17,18 +17,18 @@ async function getquizzes(req, res) {
     }
 }
 
-async function getquizById(req, res) {
-    let {quizId} = req.params;
+async function getquizByChapterId(req, res) {
+    let {chapterId} = req.params;
 
-    if (!quizId) {
+    if (!chapterId) {
          return res.status(400).json({
             success: false, 
-            error: "QuizId must be included"
+            error: "ChapterId must be included"
         })
     }
 
     try {
-        let result = await quizService.getquizById(quizId);
+        let result = await quizService.getquizByChapterId(chapterId);
         return res.status(200).json({
             success: true, 
             data: result
@@ -43,5 +43,5 @@ async function getquizById(req, res) {
 
 module.exports = {
     getquizzes,
-    getquizById
+    getquizByChapterId
 }

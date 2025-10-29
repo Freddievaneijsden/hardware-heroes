@@ -7,9 +7,9 @@ async function getquizzes() {
     return rows; 
 }
 
-async function getquizById(quizId) {
+async function getquizByChapterId(chapterId) {
     let sql = "SELECT * FROM quiz WHERE quizChapterId = ?";
-    let params = [quizId];
+    let params = [chapterId];
 
     let [rows] = await connectionMySQL.promise().query(sql, params);
     return rows;
@@ -17,5 +17,5 @@ async function getquizById(quizId) {
 
 module.exports = {
     getquizzes,
-    getquizById
+    getquizByChapterId
 }

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import imageCertificate from '../assets/img/certificate.png'
+import downloadArrow from '../assets/svg/downloadArrow.svg'
 
 const allChapthersCompleted = ref(true)
 const success = ref(false)
@@ -35,6 +36,7 @@ const downloadCertificate = () => {
       :style="{ visibility: allChapthersCompleted ? 'visible' : 'hidden' }"
     >
       Download Certificate
+      <img :src="downloadArrow" alt="Download icon" class="download-icon" />
     </button>
   </div>
 </template>
@@ -42,5 +44,12 @@ const downloadCertificate = () => {
 <style scope>
 .download-button {
   margin: 20px;
+  display: inline-flex;
+  gap: 4px;
+}
+
+.download-icon {
+  width: 20px;
+  height: 20px;
 }
 </style>

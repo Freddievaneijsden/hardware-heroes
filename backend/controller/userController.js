@@ -1,7 +1,6 @@
 const userService = require('../service/userService');
 
 async function getUsers(req, res) {
-
     try {
         let result = await userService.getUsers(); 
 
@@ -135,10 +134,27 @@ async function deleteUser(req, res) {
     }
 }
 
+async function getUsersWithProgress(req, res) {
+  try {
+    console.log("Controller")
+    let result = await userService.getUsersWithProgress();
+    res.status(200).json({
+      success: true,
+      data: result
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+}
+
 module.exports = {
     getUsers,
     createUser,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUsersWithProgress
 }

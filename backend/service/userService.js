@@ -32,11 +32,23 @@ async function updateUser(userName, userPassword, rolesId, userId) {
 }
 
 async function deleteUser(userId) {
-let progressSql = "DELETE FROM progress WHERE progressUserId = ?";
+    let progressSql = "DELETE FROM progress WHERE progressUserId = ?";
     await connectionMySQL.promise().query(progressSql, [userId]);
     
     let userSql = "DELETE FROM users WHERE userId = ?";
     let [rows] = await connectionMySQL.promise().query(userSql, [userId]);
+    return rows;
+}
+
+async function getUsersWithProgress() {
+    let sql = `SELECT 
+      u.userId,
+      u.userName,
+      p.progressChapterId
+    FROM users u
+    LEFT JOIN progress p ON u.userId = p.progressUserId`
+
+    let [rows] = await connectionMySQL.promise().query(sql);
     return rows;
 }
 
@@ -45,7 +57,8 @@ module.exports = {
     createUser,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUsersWithProgress
 }
 
 

@@ -12,7 +12,7 @@ const props = defineProps({
   component: {
     type: Object,
     required: true,
-  },
+  }
 })
 
 const emit = defineEmits(['close'])
@@ -38,10 +38,14 @@ const imageMap = {
         :src="imageMap[component.componentImg]"
         :alt="component.componentName"
         class="article-image"
-        @error="(e) => console.log('Selected image error:', e.target.src)"
-        @load="(e) => console.log('Selected image loaded:', e.target.src)"
       />
-      <p class="article-text">{{ component.componentArticle }}</p>
+      
+      <div v-if="component.articles && component.articles.length > 0">
+        <div v-for="article in component.articles" :key="article.articleId" class="article-section">
+          <p class="article-text">{{ article.articleBody }}</p>
+        </div>
+      </div>
+      
       <button @click="emit('close')">Close</button>
     </div>
   </section>

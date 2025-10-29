@@ -18,7 +18,7 @@ const handleSubmit = (payload) => {
     <template>
   <main>
     <div class="grid">
-      <QuizQuestionList ref="quizListRef" @select="selectedQuizQuestion = $event"/>
+      <QuizQuestionList ref="quizListRef" @select="selectedQuizQuestion = $event"  class="question-list"/>
 
       <div class="question-details">
         <QuizQuestionDetails
@@ -64,7 +64,7 @@ main {
 .grid {
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
 

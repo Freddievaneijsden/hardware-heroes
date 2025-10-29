@@ -83,6 +83,7 @@ onMounted(() => {
 
 <template>
   <section>
+  <section>
     <p v-if="loading">Loading quizzes...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>  
     <ul v-else class="quiz-list">
@@ -111,13 +112,14 @@ onMounted(() => {
       </li>
     </ul>
   </section>
+  </section>
 </template>
 
 <style scoped>
 ul {
   margin-top: 10px;
   list-style: none;
-  padding: 95px;
+  padding: 40px;
   display: grid;
   grid-template-columns: 1fr;
 }

@@ -64,24 +64,26 @@ const imageMap = {
         
         <div>
           <div>
-            <button  class="navButton"
+           
+          </div>
+        </div>
+      </div>
+       
+       <button
               @click="previousChapter" 
               :disabled="currentChapterIndex === 0"
             >
               Previous Chapter
             </button>
             
-            <button class="navButton"
+            <button
               @click="nextChapter" 
               :disabled="currentChapterIndex >= component.articles.length - 1"
               >
               Next Chapter
             </button>
-          </div>
-        </div>
-      </div>
-      
-      <button @click="emit('close')">Close</button>
+
+            <button @click="emit('close')">Close</button>
     </div>
   </section>
 </template>
@@ -115,11 +117,12 @@ h2 {
 }
 
 .navButton {
-  margin: 0 10px 0 0
+
 }
 
 button {
-  margin-top: 10px;
+  width: 180px;
+  margin:20px 10px 10px 0
 }
 
 @media (max-width: 600px) and (min-width: 375px) {

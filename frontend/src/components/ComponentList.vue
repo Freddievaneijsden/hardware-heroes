@@ -43,7 +43,7 @@ const fetchData = async () => {
             const articleData = await articleResponse.json()
             return {
               ...component,
-              articles: articleData.data ? [articleData.data[0]] : []
+              articles: articleData.data || []
             }
           }
           return {

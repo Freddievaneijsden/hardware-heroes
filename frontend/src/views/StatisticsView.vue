@@ -7,19 +7,15 @@ import Statistics from '../components/Statistics.vue'
     <Nav />
   </header>
   <main>
-    <div class="sideBar">
+    <div>
       <Statistics />
     </div>
   </main>
 </template>
 
 <style scope>
-.sideBar {
-  background-color: #fef3c7;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-width: 400px;
-  padding: 20px 20px;
+main {
+  background-color: #fcd34d;
+  min-height: 100vh;
 }
 </style>

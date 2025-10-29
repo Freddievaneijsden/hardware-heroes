@@ -62,13 +62,6 @@ const imageMap = {
           <p class="article-text">{{ component.articles[currentChapterIndex].articleBody }}</p>
         </div>
         
-        <div>
-          <div>
-           
-          </div>
-        </div>
-      </div>
-       
        <button
               @click="previousChapter" 
               :disabled="currentChapterIndex === 0"
@@ -114,10 +107,6 @@ h2 {
   max-width: 200px;
   height: auto;
   object-fit: cover;
-}
-
-.navButton {
-
 }
 
 button {

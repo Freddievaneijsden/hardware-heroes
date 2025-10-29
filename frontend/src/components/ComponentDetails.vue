@@ -61,7 +61,8 @@ const imageMap = {
           <h3>Chapter {{ currentChapterIndex + 1 }} of {{ component.articles.length }}</h3>
           <p class="article-text">{{ component.articles[currentChapterIndex].articleBody }}</p>
         </div>
-        
+      </div>
+       
        <button
               @click="previousChapter" 
               :disabled="currentChapterIndex === 0"
@@ -107,6 +108,10 @@ h2 {
   max-width: 200px;
   height: auto;
   object-fit: cover;
+}
+
+.navButton {
+
 }
 
 button {

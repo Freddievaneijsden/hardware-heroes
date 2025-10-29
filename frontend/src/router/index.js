@@ -5,6 +5,7 @@ import HardwareKnowledgeView from '@/views/HardwareKnowledgeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import QuizView from '@/views/QuizView.vue'
 import AllQuestionsView from '@/views/AllQuestionsView.vue'
+import StatisticsView from '@/views/StatisticsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,11 @@ const router = createRouter({
           component: AllQuestionsView,
         }
       ]
+    },
+     {
+      path: '/Statistics',
+      name: 'Statistics',
+      component: StatisticsView,
     },
   {
       path: '/login',

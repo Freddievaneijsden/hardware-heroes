@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue'
+
 import imageCpu from '../assets/img/imgcpu.png'
 import imageGpu from '../assets/img/imggpu.png'
 import imageMotherboard from '../assets/img/imgmotherboard.png'
@@ -16,6 +18,20 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
+
+const currentChapterIndex = ref(0)
+
+const nextChapter = () => {
+  if (currentChapterIndex.value < props.component.articles.length - 1) {
+    currentChapterIndex.value++
+  }
+}
+
+const previousChapter = () => {
+  if (currentChapterIndex.value > 0) {
+    currentChapterIndex.value--
+  }
+}
 
 const imageMap = {
   imageCpu: imageCpu,
@@ -41,8 +57,27 @@ const imageMap = {
       />
       
       <div v-if="component.articles && component.articles.length > 0">
-        <div v-for="article in component.articles" :key="article.articleId" class="article-section">
-          <p class="article-text">{{ article.articleBody }}</p>
+        <div class="article-section">
+          <h3>Chapter {{ currentChapterIndex + 1 }} of {{ component.articles.length }}</h3>
+          <p class="article-text">{{ component.articles[currentChapterIndex].articleBody }}</p>
+        </div>
+        
+        <div>
+          <div>
+            <button  class="navButton"
+              @click="previousChapter" 
+              :disabled="currentChapterIndex === 0"
+            >
+              Previous Chapter
+            </button>
+            
+            <button class="navButton"
+              @click="nextChapter" 
+              :disabled="currentChapterIndex >= component.articles.length - 1"
+              >
+              Next Chapter
+            </button>
+          </div>
         </div>
       </div>
       
@@ -77,6 +112,10 @@ h2 {
   max-width: 200px;
   height: auto;
   object-fit: cover;
+}
+
+.navButton {
+  margin: 0 10px 0 0
 }
 
 button {

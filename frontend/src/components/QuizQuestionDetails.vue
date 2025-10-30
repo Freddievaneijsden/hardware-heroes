@@ -55,6 +55,7 @@ const submitAnswer = () => {
 
 <style scoped>
 .details {
+  position: fixed;
   padding: 1rem;
 }
 

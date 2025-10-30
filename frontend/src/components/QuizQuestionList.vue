@@ -1,51 +1,30 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useProgress } from '@/composables/useProgress'
 
 
-const quizList = ref([])
-const selectedChapterId = ref(1)
-
-const fetchQuizList = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/quizzes')
-    if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
-    const data = await response.json()
-    const uniqueChapters = Array.from(
-      new Map(
-        data.data.map(q => [q.quizChapterId, q]) 
-      ).values()
-    ).map(q => ({
-      quizChapterId: q.quizChapterId
-    }))
-
-    quizList.value = uniqueChapters
-    console.log('Unique chapters loaded:', quizList.value)
-  } catch (err) {
-    console.error(err.message)
-  }
-}
-
-const selectQuiz = (quiz) => {
-  selectedChapterId.value = quiz.quizChapterId
-  fetchData()
-}
-
-
-const emit = defineEmits(['select'])
-
+const selectedChapterId = ref(null)
 const quizQuestionList = ref([])
 const loading = ref(false)
 const error = ref(null)
 
+const {getCurrentChapter, updateProgressChapter } = useProgress()
+
+const emit = defineEmits(['select'])
 
 
 const fetchData = async () => {
+  if (selectedChapterId.value === null) return
   loading.value = true
   error.value = null
+
   try {
-    const response = await fetch(`http://localhost:3000/quizzes/${selectedChapterId.value}`)
+    const chapterToFetch = selectedChapterId.value + 1
+
+    const response = await fetch(`http://localhost:3000/quizzes/${chapterToFetch}`)
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
+
     quizQuestionList.value = data.data.map(q => ({
       quizId: q.quizId,
       quizQuestion: q.quizQuestion,
@@ -66,19 +45,46 @@ const selectQuizQuestion = (quiz) => {
   if(quiz.status === null) emit('select', quiz)
 }
 
-const handleSubmit = ({ questionId, isCorrect }) => {
+const handleSubmit = async ({ questionId, isCorrect }) => {
   const question = quizQuestionList.value.find(q => q.quizId === questionId)
   if (question) question.status = isCorrect ? 'correct' : 'incorrect'
+
+  const allAnswered = quizQuestionList.value.every(q => q.status !== null)
+  const allCorrect = quizQuestionList.value.every(q => q.status === 'correct')
+
+    if (allAnswered && allCorrect) {
+      console.log('🎉 All questions correct! Advancing to next chapter...')
+      await updateProgressChapter(selectedChapterId.value)
+
+      const newChapter = await getCurrentChapter() 
+      if (newChapter !== selectedChapterId.value) {
+        selectedChapterId.value = newChapter 
+        await fetchData()
+    }
+  }
 }
+
+
+
+onMounted(async () => {
+  try {
+    const chapter = await getCurrentChapter() 
+    if (chapter !== null) {
+      selectedChapterId.value = chapter
+      console.log('User current chapter:', chapter)
+      await fetchData()
+    } else {
+      console.warn('No chapter found for user progress.')
+    }
+  } catch (err) {
+    console.error('Failed to load user progress:', err)
+  }
+})
 
 defineExpose({
   quizQuestionList, handleSubmit
 })
 
-onMounted(() => {
-  fetchQuizList() 
-  fetchData()
-})
 </script>
 
 <template>
@@ -86,15 +92,7 @@ onMounted(() => {
   <section>
     <p v-if="loading">Loading quizzes...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>  
-    <ul v-else class="quiz-list">
-      <li
-        v-for="quiz in quizList"
-        :key="quiz.chapterId"
-        @click="selectQuiz(quiz)"
-        >
-        <h2> Quiz {{ quiz.quizChapterId }}</h2>
-      </li>
-    </ul>
+    <h2> Quiz {{ selectedChapterId + 1 }}</h2>
   </section>
 
   <section>

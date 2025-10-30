@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useChapterNavigation } from '@/composables/useChapterNavigation'
 
 import imageCpu from '../assets/img/imgcpu.png'
 import imageGpu from '../assets/img/imggpu.png'
@@ -19,19 +20,20 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const currentChapterIndex = ref(0)
+// Konvertera component.articles till en reactive reference för komposabeln
+const articles = computed(() => props.component.articles || [])
 
-const nextChapter = () => {
-  if (currentChapterIndex.value < props.component.articles.length - 1) {
-    currentChapterIndex.value++
-  }
-}
-
-const previousChapter = () => {
-  if (currentChapterIndex.value > 0) {
-    currentChapterIndex.value--
-  }
-}
+// Använd den nya komposabeln för kapitel-navigation
+const {
+  currentChapterIndex,
+  isChapterUnlocked,
+  isCurrentChapterUnlocked,
+  canGoToNextChapter,
+  canGoToPreviousChapter,
+  currentChapter,
+  nextChapter,
+  previousChapter
+} = useChapterNavigation(articles)
 
 const imageMap = {
   imageCpu: imageCpu,
@@ -47,7 +49,9 @@ const imageMap = {
 
 <template>
   <section class="details">
+  
     <h2>{{ component.componentName }}</h2>
+    
     <div class="article-content">
       <img
         v-if="component.componentImg"
@@ -58,22 +62,27 @@ const imageMap = {
       
       <div v-if="component.articles && component.articles.length > 0">
         <div class="article-section">
-          <h3>Chapter {{ currentChapterIndex + 1 }} of {{ component.articles.length }}</h3>
-          <p class="article-text">{{ component.articles[currentChapterIndex].articleBody }}</p>
+          <h3>
+            Chapter {{ currentChapterIndex + 1 }} of {{ component.articles.length }}
+          </h3>
+          
+          <div v-if="isCurrentChapterUnlocked">
+            <p class="article-text">{{ component.articles[currentChapterIndex].articleBody }}</p>
+          </div>
         </div>
       </div>
        
        <button
               @click="previousChapter" 
-              :disabled="currentChapterIndex === 0"
+              :disabled="!canGoToPreviousChapter"
             >
               Previous Chapter
             </button>
             
             <button
               @click="nextChapter" 
-              :disabled="currentChapterIndex >= component.articles.length - 1"
-              >
+              :disabled="!canGoToNextChapter"
+            >
               Next Chapter
             </button>
 

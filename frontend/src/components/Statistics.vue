@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import ProgressComponent from '@/components/ProgressComponentBar.vue'
 
 const usersList = ref([])
 const usersWithRoleStudent = ref([])
@@ -31,11 +32,10 @@ onMounted(fetchData)
         <li>
           <h2>Name</h2>
         </li>
-        <li><h2>Chapter</h2></li>
       </div>
       <li v-for="user in usersWithRoleStudent" class="user-wrapper">
         <h2>{{ user.userName }}</h2>
-        <h2>{{ user.progressChapterId }}/5</h2>
+        <ProgressComponent :currentLevel="user.progressChapterId" class="progressBar" />
       </li>
     </ul>
   </div>
@@ -64,5 +64,44 @@ onMounted(fetchData)
 ul {
   list-style: none;
   padding: 100px 200px;
+}
+
+.progressBar {
+  width: 300px;
+  padding: 2px;
+}
+
+@media (max-width: 600px) and (min-width: 375px) {
+  ul {
+    padding: 20px;
+    justify-content: center;
+  }
+
+  .title-wrapper {
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .title-wrapper h2 {
+    font-size: 1.2rem;
+  }
+
+  .user-wrapper {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .user-wrapper h2 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .progressBar {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>

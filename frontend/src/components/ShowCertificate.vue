@@ -1,11 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import imageCertificate from '../assets/img/certificate.png'
 import downloadArrow from '../assets/svg/downloadArrow.svg'
+import { useProgress } from '@/composables/useProgress'
 
-const allChapthersCompleted = ref(true)
+const allChapthersCompleted = ref(false)
 const success = ref(false)
 const error = ref(false)
+const progress = useProgress()
 
 const downloadCertificate = () => {
   success.value = false
@@ -26,6 +28,17 @@ const downloadCertificate = () => {
     error.value = true
   }
 }
+
+async function checkIfAllChaptersCompleted() {
+  const currentChapter = await progress.getCurrentChapter()
+  if (currentChapter === 5) {
+    allChapthersCompleted.value = true
+  }
+}
+
+onMounted(() => {
+  checkIfCompleted()
+})
 </script>
 
 <template>

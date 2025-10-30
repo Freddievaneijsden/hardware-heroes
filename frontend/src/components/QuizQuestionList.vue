@@ -92,7 +92,8 @@ defineExpose({
   <section>
     <p v-if="loading">Loading quizzes...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>  
-    <h2> Quiz {{ selectedChapterId + 1 }}</h2>
+    <h2 v-if="selectedChapterId === 5"> Congratulations! You've completed all quizzes.</h2>
+    <h2 v-else> Quiz {{ selectedChapterId + 1 }}</h2>
   </section>
 
   <section>

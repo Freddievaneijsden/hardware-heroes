@@ -37,7 +37,7 @@ async function checkIfAllChaptersCompleted() {
 }
 
 onMounted(() => {
-  checkIfCompleted()
+  checkIfAllChaptersCompleted()
 })
 </script>
 

@@ -44,6 +44,7 @@ async function getUsersWithProgress() {
     let sql = `SELECT 
       u.userId,
       u.userName,
+      u.rolesId,
       p.progressChapterId
     FROM users u
     LEFT JOIN progress p ON u.userId = p.progressUserId`

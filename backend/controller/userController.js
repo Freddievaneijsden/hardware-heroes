@@ -136,7 +136,6 @@ async function deleteUser(req, res) {
 
 async function getUsersWithProgress(req, res) {
   try {
-    console.log("Controller")
     let result = await userService.getUsersWithProgress();
     res.status(200).json({
       success: true,

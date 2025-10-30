@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 
 const usersList = ref([])
+const usersWithRoleStudent = ref([])
 
 const fetchData = async () => {
   try {
@@ -9,10 +10,15 @@ const fetchData = async () => {
     if (!response.ok) throw new Error('Could not fetch users: ' + response.status)
     const data = await response.json()
     usersList.value = data.data
-    console.log('Users loaded:', usersList.value)
+
+    removeAllNonStudentUsers()
   } catch (err) {
     console.log(err.message)
   }
+}
+
+function removeAllNonStudentUsers() {
+  usersWithRoleStudent.value = usersList.value.filter((user) => user.rolesId === 1)
 }
 
 onMounted(fetchData)
@@ -27,7 +33,7 @@ onMounted(fetchData)
         </li>
         <li><h2>Chapter</h2></li>
       </div>
-      <li v-for="user in usersList" class="user-wrapper">
+      <li v-for="user in usersWithRoleStudent" class="user-wrapper">
         <h2>{{ user.userName }}</h2>
         <h2>{{ user.progressChapterId }}/5</h2>
       </li>

@@ -20,10 +20,8 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-// Konvertera component.articles till en reactive reference för komposabeln
 const articles = computed(() => props.component.articles || [])
 
-// Använd den nya komposabeln för kapitel-navigation
 const {
   currentChapterIndex,
   isChapterUnlocked,
@@ -32,8 +30,25 @@ const {
   canGoToPreviousChapter,
   currentChapter,
   nextChapter,
-  previousChapter
+  previousChapter,
+  quizLevel
 } = useChapterNavigation(articles)
+
+const nextChapterTooltip = computed(() => {
+  const nextIndex = currentChapterIndex.value + 1
+  
+  if (nextIndex >= articles.value.length) {
+    return "No more chapters!"
+  }
+  
+  if (!isChapterUnlocked.value(nextIndex)) {
+    const requiredLevel = nextIndex
+    const currentLevel = quizLevel.value || 0
+    return `Finish quiz ${requiredLevel} to unlock next chapter!`
+  }
+  
+  return ""
+})
 
 const imageMap = {
   imageCpu: imageCpu,
@@ -82,6 +97,7 @@ const imageMap = {
             <button
               @click="nextChapter" 
               :disabled="!canGoToNextChapter"
+              :title="!canGoToNextChapter ? nextChapterTooltip : ''"
             >
               Next Chapter
             </button>

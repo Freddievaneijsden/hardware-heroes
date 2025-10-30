@@ -4,8 +4,10 @@ import Nav from '../components/Nav.vue'
 import ProgressComponent from '@/components/ProgressComponentBar.vue'
 import { useQuizProgress } from '@/composables/useQuizProgress'
 import ShowCertificate from '../components/ShowCertificate.vue'
+import { getCurrentUser } from '../composables/getCurrentUser.js'
 
 const { fetchQuizLevel, levelImage, quizLevel } = useQuizProgress()
+const user = getCurrentUser()
 
 onMounted(() => {
   fetchQuizLevel()
@@ -29,7 +31,7 @@ onMounted(() => {
           <li>
             <h2><RouterLink to="/hardwareQuiz" class="h2-side-menu">Hardware Quiz</RouterLink></h2>
           </li>
-          <li>
+          <li v-if="user.roleId.value === 2">
             <h2><RouterLink to="/Statistics" class="h2-side-menu">Statistics</RouterLink></h2>
           </li>
         </ul>

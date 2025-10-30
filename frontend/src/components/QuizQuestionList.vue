@@ -3,24 +3,25 @@ import { ref, onMounted } from 'vue'
 import { useProgress } from '@/composables/useProgress'
 
 
-const quizList = ref([])
 const selectedChapterId = ref(null)
 const quizQuestionList = ref([])
 const loading = ref(false)
 const error = ref(null)
 
-const {getCurrentChapter} = useProgress()
+const {getCurrentChapter, updateProgressChapter } = useProgress()
 
 const emit = defineEmits(['select'])
 
 
 const fetchData = async () => {
-  if (!selectedChapterId.value) return
+  if (selectedChapterId.value === null) return
   loading.value = true
   error.value = null
 
   try {
-    const response = await fetch(`http://localhost:3000/quizzes/${selectedChapterId.value}`)
+    const chapterToFetch = selectedChapterId.value + 1
+
+    const response = await fetch(`http://localhost:3000/quizzes/${chapterToFetch}`)
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
 
@@ -44,16 +45,30 @@ const selectQuizQuestion = (quiz) => {
   if(quiz.status === null) emit('select', quiz)
 }
 
-const handleSubmit = ({ questionId, isCorrect }) => {
+const handleSubmit = async ({ questionId, isCorrect }) => {
   const question = quizQuestionList.value.find(q => q.quizId === questionId)
   if (question) question.status = isCorrect ? 'correct' : 'incorrect'
+
+  const allAnswered = quizQuestionList.value.every(q => q.status !== null)
+  const allCorrect = quizQuestionList.value.every(q => q.status === 'correct')
+
+    if (allAnswered && allCorrect) {
+      console.log('🎉 All questions correct! Advancing to next chapter...')
+      await updateProgressChapter(selectedChapterId.value)
+
+      const newChapter = await getCurrentChapter() 
+      if (newChapter !== selectedChapterId.value) {
+        selectedChapterId.value = newChapter 
+        await fetchData()
+    }
+  }
 }
 
 
 
 onMounted(async () => {
   try {
-    const chapter = await getCurrentChapter() + 1
+    const chapter = await getCurrentChapter() 
     if (chapter !== null) {
       selectedChapterId.value = chapter
       console.log('User current chapter:', chapter)
@@ -77,7 +92,7 @@ defineExpose({
   <section>
     <p v-if="loading">Loading quizzes...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>  
-    <h2> Quiz {{ selectedChapterId }}</h2>
+    <h2> Quiz {{ selectedChapterId + 1 }}</h2>
   </section>
 
   <section>

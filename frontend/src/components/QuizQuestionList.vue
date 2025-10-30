@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useProgress } from '@/composables/useProgress'
 
-
+const completedChapters = ref([])
 const selectedChapterId = ref(null)
 const quizQuestionList = ref([])
 const loading = ref(false)
@@ -56,12 +56,29 @@ const handleSubmit = async ({ questionId, isCorrect }) => {
       console.log('🎉 All questions correct! Advancing to next chapter...')
       await updateProgressChapter(selectedChapterId.value)
 
+      if (!completedChapters.value.includes(selectedChapterId.value)) {
+      completedChapters.value.push(selectedChapterId.value)
+      }
+
       const newChapter = await getCurrentChapter() 
       if (newChapter !== selectedChapterId.value) {
         selectedChapterId.value = newChapter 
         await fetchData()
     }
   }
+}
+
+const selectChapter = async (chapterIndex) => {
+  selectedChapterId.value = chapterIndex
+  await fetchData()
+}
+
+const getLatestChapter = () => {
+  const maxChapter = 5 
+  for (let i = 0; i <= maxChapter; i++) {
+    if (!completedChapters.value.includes(i)) return i
+  }
+  return null
 }
 
 
@@ -73,6 +90,7 @@ onMounted(async () => {
       selectedChapterId.value = chapter
       console.log('User current chapter:', chapter)
       await fetchData()
+      completedChapters.value = Array.from({ length: chapter }, (_, i) => i)
     } else {
       console.warn('No chapter found for user progress.')
     }
@@ -93,7 +111,20 @@ defineExpose({
     <p v-if="loading">Loading quizzes...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>  
     <h2 v-if="selectedChapterId === 5"> Congratulations! You've completed all quizzes.</h2>
-    <h2 v-else> Quiz {{ selectedChapterId + 1 }}</h2>
+    <h2 v-else> Current Quiz {{ selectedChapterId + 1 }}</h2>
+
+   <ul class="completed-list" v-if="completedChapters.length || selectedChapterId !== null">
+  <li
+    v-for="chapter in [...new Set([...completedChapters, getLatestChapter()])] "
+    :key="chapter"
+    v-if="chapter !== null"
+    @click="selectChapter(chapter)"
+    :class="{ current: chapter === selectedChapterId, completed: completedChapters.includes(chapter) }"
+  >
+    {{ completedChapters.includes(chapter) ? 'Completed Quiz ' + (chapter + 1) : 'Current Quiz ' + (chapter + 1) }}
+  </li>
+</ul>
+
   </section>
 
   <section>

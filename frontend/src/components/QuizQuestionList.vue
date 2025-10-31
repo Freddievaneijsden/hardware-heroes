@@ -74,8 +74,8 @@ const selectChapter = async (chapterIndex) => {
 }
 
 const getLatestChapter = () => {
-  const maxChapter = 5 
-  for (let i = 0; i <= maxChapter; i++) {
+  const maxChapter = 5
+  for (let i = 0; i < maxChapter; i++) {
     if (!completedChapters.value.includes(i)) return i
   }
   return null
@@ -107,25 +107,19 @@ defineExpose({
 
 <template>
   <section>
-  <section>
-    <p v-if="loading">Loading quizzes...</p>
-    <p v-else-if="error" style="color: red">{{ error }}</p>  
-    <h2 v-if="selectedChapterId === 5"> Congratulations! You've completed all quizzes.</h2>
-    <h2 v-else> Current Quiz {{ selectedChapterId + 1 }}</h2>
-
-   <ul class="completed-list" v-if="completedChapters.length || selectedChapterId !== null">
-  <li
-    v-for="chapter in [...new Set([...completedChapters, getLatestChapter()])] "
-    :key="chapter"
-    v-if="chapter !== null"
-    @click="selectChapter(chapter)"
-    :class="{ current: chapter === selectedChapterId, completed: completedChapters.includes(chapter) }"
-  >
-    {{ completedChapters.includes(chapter) ? 'Completed Quiz ' + (chapter + 1) : 'Current Quiz ' + (chapter + 1) }}
-  </li>
-</ul>
-
-  </section>
+    <section>
+      <ul class="completed-list" v-if="completedChapters.length || selectedChapterId !== null">
+        <li
+          v-for="chapter in [...new Set([...completedChapters, getLatestChapter()].filter(c => c !== null))]"
+          :key="chapter"
+          v-if="chapter !== null"
+          @click="selectChapter(chapter)"
+          :class="{ current: chapter === selectedChapterId, completed: completedChapters.includes(chapter) }"
+        >
+          <h2>{{ completedChapters.includes(chapter) ? 'Completed Quiz ' + (chapter + 1) : 'Current Quiz ' + (chapter + 1) }}</h2>
+        </li>
+      </ul>
+    </section>
 
   <section>
     <p v-if="loading">Loading questions...</p>

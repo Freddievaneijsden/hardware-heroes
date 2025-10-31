@@ -37,7 +37,7 @@ onMounted(() => {
             </h2>
           </li>
         </ul>
-        <h2><RouterLink to="/aboutUs" class="h2-side-menu">About</RouterLink></h2>
+        <h2><RouterLink to="/about" class="h2-side-menu">About</RouterLink></h2>
       </div>
       <div class="imgContainer">
         <RouterLink to="/hardwareKnowledge">

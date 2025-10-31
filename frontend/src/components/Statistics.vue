@@ -83,10 +83,6 @@ ul {
     justify-content: center;
   }
 
-  .title-wrapper h2 {
-    font-size: 1.2rem;
-  }
-
   .user-wrapper {
     flex-direction: column;
     align-items: center;
@@ -94,7 +90,6 @@ ul {
   }
 
   .user-wrapper h2 {
-    font-size: 1.2rem;
     margin-bottom: 8px;
   }
 

@@ -32,7 +32,9 @@ onMounted(() => {
             <h2><RouterLink to="/hardwareQuiz" class="h2-side-menu">Hardware Quiz</RouterLink></h2>
           </li>
           <li v-if="user.roleId.value === 2">
-            <h2><RouterLink to="/Statistics" class="h2-side-menu">Statistics</RouterLink></h2>
+            <h2>
+              <RouterLink to="/Statistics" class="h2-side-menu">Students Progress</RouterLink>
+            </h2>
           </li>
         </ul>
         <h2><RouterLink to="/aboutUs" class="h2-side-menu">About</RouterLink></h2>
@@ -57,8 +59,10 @@ img {
 }
 
 .progressBar {
-  width: 100%;
-  padding-right: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150%;
 }
 
 main {
@@ -147,9 +151,8 @@ body {
   }
 
   .progressBar {
-    width: 70%;
-    padding-left: 75px;
-    margin-top: 20px;
+    width: 90%;
+    margin: 10px auto 20px auto;
   }
 }
 </style>

@@ -1,21 +1,21 @@
 <script setup>
-import {computed} from 'vue';
+import { computed } from 'vue'
 
 const props = defineProps({
   currentLevel: {
     type: Number,
-    required: true
-  }
-});
+    required: true,
+  },
+})
 
-const progressPercentage = computed(() => (props.currentLevel / 5) * 100, 100);
+const progressPercentage = computed(() => (props.currentLevel / 5) * 100, 100)
 </script>
 
 <template>
   <div class="progress-container">
     <div class="progress-bar">
       <div class="progress-fill" :style="{ width: progressPercentage + '%' }"></div>
-              <span class="progress-text">{{ Math.round(progressPercentage) }}% Knowledge</span>
+      <span class="progress-text">{{ Math.round(progressPercentage) }}% Knowledge</span>
     </div>
   </div>
 </template>
@@ -35,24 +35,22 @@ const progressPercentage = computed(() => (props.currentLevel / 5) * 100, 100);
 .progress-fill {
   grid-area: 1/1;
   height: 100%;
-  background-color: #F97316;
+  background-color: #f97316;
   transition: width 0.3s ease;
 }
 
 .progress-text {
   grid-area: 1/1;
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex;
-  padding-left: 35%;
-  color: black;
-  font-weight: bold;
-  font-size: 20px;
-  pointer-events: none; 
+  justify-content: center;
+  font-size: 18px;
+  font-family: 'Baloo 2';
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #374151;
+  text-shadow:
+    0 0 3px rgba(252, 211, 77, 0.6),
+    0 0 8px rgba(252, 211, 77, 0.4);
 }
 </style>

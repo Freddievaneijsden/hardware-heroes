@@ -57,8 +57,10 @@ img {
 }
 
 .progressBar {
-  width: 100%;
-  padding-right: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150%;
 }
 
 main {
@@ -147,9 +149,8 @@ body {
   }
 
   .progressBar {
-    width: 70%;
-    padding-left: 75px;
-    margin-top: 20px;
+    width: 90%;
+    margin: 10px auto 20px auto;
   }
 }
 </style>

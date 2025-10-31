@@ -11,11 +11,3 @@ import About from '../components/About.vue'
     <About />
   </div>
 </template>
-
-<style scope>
-.boy-band {
-  display: flex;
-  justefy-content: center;
-  align-items: center;
-}
-</style>

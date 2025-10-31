@@ -4,7 +4,7 @@ import boyBand from '../assets/img/boyBandNoBG.png'
 
 <template>
   <div>
-    <img :src="boyBand" :alt="BoyBand" />
+    <img :src="boyBand" :alt="BoyBand" class="boy-band" />
     <div class="names-grid">
       <div class="names-wrapper">
         <h2>Jesper</h2>
@@ -19,7 +19,7 @@ import boyBand from '../assets/img/boyBandNoBG.png'
 </template>
 
 <style scope>
-img {
+.boy-band {
   padding-top: 160px;
 }
 .names-wrapper {
@@ -40,7 +40,7 @@ img {
     padding-right: 30px;
   }
 
-  img {
+  .boy-band {
     max-width: 400px;
     padding-top: 80px;
   }

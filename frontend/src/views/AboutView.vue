@@ -7,7 +7,14 @@ import About from '../components/About.vue'
   <header>
     <Nav />
   </header>
-  <div class="boy-band">
+  <div class="about">
     <About />
   </div>
 </template>
+
+<style scope>
+.about {
+  display: flex;
+  justify-content: center;
+}
+</style>

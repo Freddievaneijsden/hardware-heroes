@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useChapterNavigation } from '@/composables/useChapterNavigation'
 
 import imageCpu from '../assets/img/imgcpu.png'
@@ -103,6 +104,27 @@ const imageMap = {
             </button>
 
             <button @click="emit('close')">Close</button>
+
+            <div v-if="currentChapterIndex < articles.length - 1">
+              <div v-if="!isChapterUnlocked(currentChapterIndex + 1)" class="unlock-message">
+                <p>
+                  To unlock the next chapter, you need to complete Quiz {{ currentChapterIndex + 1 }}.
+                </p>
+                <button @click="$router.push({ name: 'HardwareQuiz' })">
+                  Take Quiz {{ currentChapterIndex + 1 }}
+                </button>
+              </div>
+              <div v-else>
+                <p>
+                  Next chapter is unlocked! You can proceed to Chapter {{ currentChapterIndex + 2 }}.
+                </p>
+              </div>
+            </div>
+            <div v-else>
+              <p class="unlock-text final-chapter">
+                Congratulations! You've completed all chapters!
+              </p>
+            </div>
     </div>
   </section>
 </template>

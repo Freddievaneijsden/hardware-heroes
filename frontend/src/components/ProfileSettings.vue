@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-
 const userName = ref(null)
 const userPassword = ref('')
 const repeatPassword = ref('')
@@ -223,15 +222,15 @@ if(!confirmed) {
 .input-button-row {
   display: flex;
   align-items: center;
-  gap: 10px; /* Avstånd mellan input och knapp */
+  gap: 10px;
 }
 
 .input-button-row .input {
-  flex: 1; /* Gör input bredare än knappen */
+  flex: 1; 
 }
 
 .input-button-row .custom-button {
-  white-space: nowrap; /* Hindrar text från att brytas */
+  white-space: nowrap;
 }
 
 .form {

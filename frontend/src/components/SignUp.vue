@@ -138,4 +138,10 @@ const handleSubmit = async () => {
   font-weight: bold;
   color: #ec4899;
 }
+
+@media (max-width: 600px) {
+  .selectrole {
+    min-width: 210px;
+  }
+}
 </style>

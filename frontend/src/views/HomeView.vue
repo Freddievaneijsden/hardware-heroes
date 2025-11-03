@@ -136,9 +136,13 @@ body {
     box-sizing: border-box;
   }
   img {
-    max-width: 100%;
+    min-width: 270px;
     height: auto;
     object-fit: cover;
+  }
+  .imageGlow {
+    min-width: 270px;
+    max-width: 270px
   }
   ul {
     list-style: none;

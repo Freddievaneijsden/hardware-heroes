@@ -25,8 +25,8 @@ const handleSubmit = (payload) => {
           v-if="selectedQuizQuestion"
           :question="selectedQuizQuestion"
           @close="selectedQuizQuestion = null"
-          @submitted="handleSubmit"
-        />
+          @answer-selected="quizListRef.handleAnswerSelected($event)"         
+          />
         <div v-else class="welcome-content">
           <h2>Hello future hardware hero!</h2>
           <h2>Select a question from the list to learn more</h2>

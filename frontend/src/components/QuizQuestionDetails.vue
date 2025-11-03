@@ -7,11 +7,15 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  selectedAnswer :{
+    type: String,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['close', 'answer-selected']);
 
-const selectedAnswer = ref(null);
+const selectedAnswer = ref(props.selectedAnswer);
 
 const selectAnswer = (answer) => {
   selectedAnswer.value = answer;
@@ -19,9 +23,11 @@ const selectAnswer = (answer) => {
 };
 
 
-watch(() => props.question, () => {
-  selectedAnswer.value = null;
-});
+watch(() => props.selectedAnswer, (newVal) => {
+  selectedAnswer.value = newVal;
+},
+{ immediate: true }
+);
 
 
 </script>

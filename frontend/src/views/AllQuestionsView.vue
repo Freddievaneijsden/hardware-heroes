@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import QuizQuestionDetails from '@/components/QuizQuestionDetails.vue'
 import QuizQuestionList from '@/components/QuizQuestionList.vue'
 
@@ -11,7 +11,16 @@ const handleSubmit = (payload) => {
   quizListRef.value.handleSubmit(payload)
   selectedQuizQuestion.value = null
 }
+const handleAnswerSelected = (payload) => {
+  if (!quizListRef.value) return
+  quizListRef.value.handleAnswerSelected(payload)
+}
 
+const selectedAnswer = computed(() => {
+  if (!selectedQuizQuestion.value || !quizListRef.value) return null
+  const answerObj = quizListRef.value.userAnswers.find(a => a.id === selectedQuizQuestion.value.quizId)
+  return answerObj?.selectedAnswer || null
+})
 
 </script>
 
@@ -24,8 +33,9 @@ const handleSubmit = (payload) => {
         <QuizQuestionDetails
           v-if="selectedQuizQuestion"
           :question="selectedQuizQuestion"
+          :selected-answer="selectedAnswer"
           @close="selectedQuizQuestion = null"
-          @answer-selected="quizListRef.handleAnswerSelected($event)"         
+          @answer-selected="handleAnswerSelected"
           />
         <div v-else class="welcome-content">
           <h2>Hello future hardware hero!</h2>

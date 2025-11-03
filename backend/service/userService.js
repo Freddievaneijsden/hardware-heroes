@@ -23,11 +23,33 @@ async function getUserById(userId) {
     return rows;
 }
 
-async function updateUser(userName, userPassword, rolesId, userId) {
-    let sql = "UPDATE users SET userName = ?, userPassword = ?, rolesId = ? WHERE userId = ?";
-    let params = [userName, userPassword, rolesId, userId];
+async function updateUser(updateData, userId) {
+    let fields = [];
+    let values = [];
 
-    let [rows] = await connectionMySQL.promise().query(sql, params);
+    if (updateData.userName !== undefined) {
+        fields.push("userName = ?");
+        values.push(updateData.userName);
+    }
+
+    if (updateData.userPassword !== undefined) {
+        fields.push("userPassword = ?");
+        values.push(updateData.userPassword);
+    } 
+
+    if (updateData.rolesId !== undefined) {
+        fields.push("rolesId = ?");
+        values.push(updateData.rolesId);
+    }
+
+    if (fields.length === 0) {
+        throw new Error ("No fields to update");
+    }
+
+    const sql = `UPDATE users SET ${fields.join(", ")} WHERE userId = ?`;
+    values.push(userId);
+
+    const [rows] = await connectionMySQL.promise().query(sql, values);
     return rows;
 }
 

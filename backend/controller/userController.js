@@ -74,31 +74,45 @@ async function createUser(req, res){
 }
 
 async function updateUser(req, res) {
-    let {userId} = req.params; 
-    let {userName, userPassword, rolesId} = req.body;
+  const { userId } = req.params;
+  const { userName, userPassword, rolesId } = req.body;
 
-     if (!userName || !userPassword || !rolesId || userName.trim().length < 1) {
-        return res.status(400).json({
-            success: false, 
-            error: "All fields are required"
-        })
-    }
+  if (!userId) {
+    return res.status(400).json({
+      success: false,
+      error: "UserId must be included"
+    });
+  }
 
-        try {
-        let result = await userService.updateUser(userName, userPassword, rolesId, userId);
-        return res.status(200).json({
-            success: true, 
-            data: result,
-            message: 'You have updated an account!'
-        })
+  const updateData = {};
+  if (userName !== undefined) updateData.userName = userName;
+  if (userPassword !== undefined) updateData.userPassword = userPassword;
+  if (rolesId !== undefined) updateData.rolesId = rolesId;
 
-    } catch (error) {
-         return res.status(500).json({
-            success: false, 
-            error: error.message
-         });
-    }
+  try {
+    const result = await userService.updateUser(updateData, userId);
+
+    const user = await userService.getUserById(userId);
+    if (!user || user.length === 0) {
+        return res.status(404).json({
+        success: false,
+        error: "User not found"
+  });
 }
+
+    return res.status(200).json({
+      success: true,
+      data: result,
+      message: "You have updated an account!"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+}
+
 async function deleteUser(req, res) {
     let {userId} = req.params;
 

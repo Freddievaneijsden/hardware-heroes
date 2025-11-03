@@ -7,6 +7,7 @@ import QuizView from '@/views/QuizView.vue'
 import AllQuestionsView from '@/views/AllQuestionsView.vue'
 import StatisticsView from '@/views/StatisticsView.vue'
 import AboutView from '@/views/AboutView.vue'
+import ProfileView from '@/views/SettingsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,11 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
     },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: ProfileView,
+  },
     
   
     {

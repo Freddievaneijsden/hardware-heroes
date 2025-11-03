@@ -119,7 +119,7 @@ onMounted(async () => {
 })
 
 defineExpose({
-  quizQuestionList, handleSubmit, handleAnswerSelected 
+  quizQuestionList,userAnswers, handleSubmit, handleAnswerSelected
 })
 
 </script>

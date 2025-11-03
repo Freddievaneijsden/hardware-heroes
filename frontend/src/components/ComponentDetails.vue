@@ -83,7 +83,7 @@ const imageMap = {
           </h3>
           
           <div v-if="isCurrentChapterUnlocked">
-            <p class="article-text">{{ component.articles[currentChapterIndex].articleBody }}</p>
+            <p class="article-text" v-html="component.articles[currentChapterIndex].articleBody"></p>
           </div>
         </div>
       </div>

@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useProgress } from '@/composables/useProgress'
 
 const completedChapters = ref([])
 const selectedChapterId = ref(null)
 const quizQuestionList = ref([])
+const userAnswers = ref([])
 const loading = ref(false)
 const error = ref(null)
 
@@ -33,6 +34,7 @@ const fetchData = async () => {
       quizWrongAnswer2: q.quizWrongAnswer2,
       status: null //'correct' | 'incorrect' | null
     }))
+    userAnswers.value = []
     console.log('Quizzes loaded:', quizQuestionList.value)
   } catch (err) {
     error.value = err.message
@@ -41,18 +43,34 @@ const fetchData = async () => {
   }
 }
 
-const selectQuizQuestion = (quiz) => {
-  if(quiz.status === null) emit('select', quiz)
+const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
+  const existing = userAnswers.value.find(a => a.id === questionId)
+  if (existing) {
+    existing.selectedAnswer = selectedAnswer
+  } else {
+    userAnswers.value.push({ id: questionId, selectedAnswer })
+  }
 }
 
-const handleSubmit = async ({ questionId, isCorrect }) => {
-  const question = quizQuestionList.value.find(q => q.quizId === questionId)
-  if (question) question.status = isCorrect ? 'correct' : 'incorrect'
+const allAnswered = computed(() => 
+  userAnswers.value.length === quizQuestionList.value.length
+)
 
-  const allAnswered = quizQuestionList.value.every(q => q.status !== null)
+const handleSubmit = async () => {
+  if (!allAnswered.value) {
+    alert('Please answer all questions before submitting!')
+      return
+    }
+
+  quizQuestionList.value.forEach(q => {
+    const ans = userAnswers.value.find(a => a.id === q.quizId)
+    const isCorrect = ans?.selectedAnswer === q.quizRightAnswer
+    q.status = isCorrect ? 'correct' : 'incorrect'
+  })
+
   const allCorrect = quizQuestionList.value.every(q => q.status === 'correct')
 
-    if (allAnswered && allCorrect) {
+    if (allCorrect) {
       console.log('🎉 All questions correct! Advancing to next chapter...')
       await updateProgressChapter(selectedChapterId.value)
 
@@ -64,9 +82,10 @@ const handleSubmit = async ({ questionId, isCorrect }) => {
       if (newChapter !== selectedChapterId.value) {
         selectedChapterId.value = newChapter 
         await fetchData()
+        userAnswers.value = []
+      }
     }
   }
-}
 
 const selectChapter = async (chapterIndex) => {
   selectedChapterId.value = chapterIndex
@@ -100,7 +119,7 @@ onMounted(async () => {
 })
 
 defineExpose({
-  quizQuestionList, handleSubmit
+  quizQuestionList, handleSubmit, handleAnswerSelected 
 })
 
 </script>
@@ -128,13 +147,17 @@ defineExpose({
     <ul v-else class="question-list">
       <li
         v-for="question in quizQuestionList"
-        :key="question.quizId"
-        @click="selectQuizQuestion(question)"
-        :class="question.status"
-      >
-        <h2>{{ question.quizQuestion }}</h2>
+          :key="question.quizId"
+          :class="[question.status, { answered: userAnswers.find(a => a.id === question.quizId) }]"
+          @click="emit('select', question)">
+        <h3>{{ question.quizQuestion }}</h3>
+        
       </li>
     </ul>
+    <button v-if="quizQuestionList.length && allAnswered"
+    class="submit-btn"
+    @click="handleSubmit">Submit all answers</button>
+
   </section>
   </section>
 </template>
@@ -156,6 +179,11 @@ li {
   border-radius: 6px;
   cursor: pointer;
 }
+li.answered {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
 li.correct {
   background-color: #86efac;
   border-color: #16a34a;

@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted } from 'vue'
-import Nav from '../components/Nav.vue'
 import ProgressComponent from '@/components/ProgressComponentBar.vue'
 import { useQuizProgress } from '@/composables/useQuizProgress'
 import ShowCertificate from '../components/ShowCertificate.vue'
@@ -15,9 +14,6 @@ onMounted(() => {
 </script>
 <template>
   <body>
-    <header>
-      <Nav />
-    </header>
     <main>
       <div class="sideBar">
         <ul>
@@ -110,9 +106,11 @@ body {
   main {
     max-width: 100vw;
     width: 100vw;
+    min-height: 20vw;
     display: flex;
     flex-direction: column;
   }
+
   header {
     width: 100vw;
     max-width: 100vw;
@@ -135,14 +133,19 @@ body {
     height: auto;
     box-sizing: border-box;
   }
+
+  .imgContainer{
+  height:80vw;
+  }
+
   img {
-    min-width: 270px;
     height: auto;
     object-fit: cover;
+    margin-top:-20px;
   }
   .imageGlow {
-    min-width: 270px;
-    max-width: 270px
+    min-width: 100px;
+    max-width: 230px;
   }
   ul {
     list-style: none;

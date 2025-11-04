@@ -38,28 +38,30 @@ const fetchData = async () => {
     const componentsWithArticles = await Promise.all(
       data.data.map(async (component) => {
         try {
-          const articleResponse = await fetch(`http://localhost:3000/articles/component/${component.componentId}`)
+          const articleResponse = await fetch(
+            `http://localhost:3000/articles/component/${component.componentId}`,
+          )
           if (articleResponse.ok) {
             const articleData = await articleResponse.json()
             return {
               ...component,
-              articles: articleData.data || []
+              articles: articleData.data || [],
             }
           }
           return {
             ...component,
-            articles: []
+            articles: [],
           }
         } catch (err) {
           console.warn(`Could not fetch articles for component ${component.componentId}:`, err)
           return {
             ...component,
-            articles: []
+            articles: [],
           }
         }
-      })
+      }),
     )
-    
+
     componentList.value = componentsWithArticles
     console.log('Components with articles loaded:', componentList.value)
   } catch (err) {
@@ -81,7 +83,7 @@ onMounted(fetchData)
     <p v-if="loading">Laddar komponenter...</p>
     <p v-else-if="error" style="color: red">{{ error }}</p>
 
-    <ul v-else class="component-list">
+    <transition-group name="grow-in" tag="ul" class="component-list" mode="out-in">
       <li
         v-for="component in componentList"
         :key="component.componentId"
@@ -96,7 +98,7 @@ onMounted(fetchData)
           />
         </div>
       </li>
-    </ul>
+    </transition-group>
   </section>
 </template>
 
@@ -128,33 +130,29 @@ img {
 
 @media (max-width: 600px) and (min-width: 375px) {
   .component-list {
-  display: grid;
-  grid-template-columns: 4fr, 2fr; 
-  gap: 0.1rem;                          
-  padding-left: 0px;                  
-  padding-right: 0.5rem;
-  justify-items: start;                   
-  margin: 0;                              
+    display: grid;
+    grid-template-columns: 4fr, 2fr;
+    gap: 0.1rem;
+    padding-left: 0px;
+    padding-right: 0.5rem;
+    justify-items: start;
+    margin: 0;
   }
-  li{
+  li {
     justify-content: center;
   }
-
 
   .imgSettings {
     width: 70px;
     height: auto;
   }
 
-  ul{
+  ul {
     justify-content: center;
     grid-template-columns: repeat(4, 2fr);
     gap: 0.25rem;
     padding: 0px;
     margin: 0 auto;
-
-  };
-
-
+  }
 }
 </style>

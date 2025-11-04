@@ -135,7 +135,6 @@ img {
     gap: 0.1rem;
     padding-left: 0px;
     padding-right: 0.5rem;
-    justify-items: start;
     margin: 0;
   }
   li {

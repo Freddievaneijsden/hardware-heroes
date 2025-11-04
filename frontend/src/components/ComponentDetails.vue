@@ -16,7 +16,7 @@ const props = defineProps({
   component: {
     type: Object,
     required: true,
-  }
+  },
 })
 
 const emit = defineEmits(['close'])
@@ -32,23 +32,23 @@ const {
   currentChapter,
   nextChapter,
   previousChapter,
-  quizLevel
+  quizLevel,
 } = useChapterNavigation(articles)
 
 const nextChapterTooltip = computed(() => {
   const nextIndex = currentChapterIndex.value + 1
-  
+
   if (nextIndex >= articles.value.length) {
-    return "No more chapters!"
+    return 'No more chapters!'
   }
-  
+
   if (!isChapterUnlocked.value(nextIndex)) {
     const requiredLevel = nextIndex
     const currentLevel = quizLevel.value || 0
     return `Finish quiz ${requiredLevel} to unlock next chapter!`
   }
-  
-  return ""
+
+  return ''
 })
 
 const imageMap = {
@@ -64,69 +64,66 @@ const imageMap = {
 </script>
 
 <template>
-  <section class="details">
-  
-    <h2>{{ component.componentName }}</h2>
-    
-    <div class="article-content">
-      <img
-        v-if="component.componentImg"
-        :src="imageMap[component.componentImg]"
-        :alt="component.componentName"
-        class="article-image"
-      />
-      
-      <div v-if="component.articles && component.articles.length > 0">
-        <div class="article-section">
-          <h3>
-            Chapter {{ currentChapterIndex + 1 }} of {{ component.articles.length }}
-          </h3>
-          
-          <div v-if="isCurrentChapterUnlocked">
-            <p class="article-text" v-html="component.articles[currentChapterIndex].articleBody"></p>
+  <transition name="grow-in" mode="out-in">
+    <section :key="component.componentId" class="details">
+      <h2>{{ component.componentName }}</h2>
+
+      <div class="article-content">
+        <img
+          v-if="component.componentImg"
+          :src="imageMap[component.componentImg]"
+          :alt="component.componentName"
+          class="article-image"
+        />
+
+        <div v-if="component.articles && component.articles.length > 0">
+          <div class="article-section">
+            <h3>Chapter {{ currentChapterIndex + 1 }} of {{ component.articles.length }}</h3>
+
+            <div v-if="isCurrentChapterUnlocked">
+              <p
+                class="article-text"
+                v-html="component.articles[currentChapterIndex].articleBody"
+              ></p>
+            </div>
           </div>
         </div>
+
+        <button @click="previousChapter" :disabled="!canGoToPreviousChapter">
+          Previous Chapter
+        </button>
+
+        <button
+          @click="nextChapter"
+          :disabled="!canGoToNextChapter"
+          :title="!canGoToNextChapter ? nextChapterTooltip : ''"
+        >
+          Next Chapter
+        </button>
+
+        <button @click="emit('close')">Close</button>
+
+        <div v-if="currentChapterIndex < articles.length - 1">
+          <div v-if="!isChapterUnlocked(currentChapterIndex + 1)" class="unlock-message">
+            <p>
+              To unlock the next chapter, you need to complete Quiz {{ currentChapterIndex + 1 }}.
+            </p>
+            <button @click="$router.push({ name: 'HardwareQuiz' })">
+              Take Quiz {{ currentChapterIndex + 1 }}
+            </button>
+          </div>
+          <div v-else>
+            <p>
+              Next chapter is unlocked! You can proceed to Chapter {{ currentChapterIndex + 2 }}.
+            </p>
+          </div>
+        </div>
+        <div v-else>
+          <p class="unlock-text final-chapter">Congratulations! You've completed all chapters!</p>
+        </div>
       </div>
-       
-       <button
-              @click="previousChapter" 
-              :disabled="!canGoToPreviousChapter"
-            >
-              Previous Chapter
-            </button>
-            
-            <button
-              @click="nextChapter" 
-              :disabled="!canGoToNextChapter"
-              :title="!canGoToNextChapter ? nextChapterTooltip : ''"
-            >
-              Next Chapter
-            </button>
-
-            <button @click="emit('close')">Close</button>
-
-            <div v-if="currentChapterIndex < articles.length - 1">
-              <div v-if="!isChapterUnlocked(currentChapterIndex + 1)" class="unlock-message">
-                <p>
-                  To unlock the next chapter, you need to complete Quiz {{ currentChapterIndex + 1 }}.
-                </p>
-                <button @click="$router.push({ name: 'HardwareQuiz' })">
-                  Take Quiz {{ currentChapterIndex + 1 }}
-                </button>
-              </div>
-              <div v-else>
-                <p>
-                  Next chapter is unlocked! You can proceed to Chapter {{ currentChapterIndex + 2 }}.
-                </p>
-              </div>
-            </div>
-            <div v-else>
-              <p class="unlock-text final-chapter">
-                Congratulations! You've completed all chapters!
-              </p>
-            </div>
-    </div>
-  </section>
+    </section>
+  </transition>
 </template>
 
 <style scoped>
@@ -158,12 +155,11 @@ h2 {
 }
 
 .navButton {
-
 }
 
 button {
   width: 180px;
-  margin:20px 10px 10px 0
+  margin: 20px 10px 10px 0;
 }
 
 @media (max-width: 600px) and (min-width: 375px) {
@@ -175,19 +171,18 @@ button {
     padding: 0;
   }
 
-.article-content {
-  text-align: center;
-}
+  .article-content {
+    text-align: center;
+  }
 
-.article-image {
-  float: none;
-}
+  .article-image {
+    float: none;
+  }
 
-button{
-  font-size: 13px;
-  width: 160px;
-  margin:5px 5px 20px 0;
-}
-  
+  button {
+    font-size: 13px;
+    width: 160px;
+    margin: 5px 5px 20px 0;
+  }
 }
 </style>

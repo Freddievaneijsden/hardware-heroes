@@ -1,35 +1,67 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import QuizQuestionDetails from '@/components/QuizQuestionDetails.vue'
 import QuizQuestionList from '@/components/QuizQuestionList.vue'
 
 const selectedQuizQuestion = ref(null)
 const quizListRef = ref(null)
+const quizStatus = ref("start")
 
 const handleSubmit = (payload) => {
   if(!payload) return
   quizListRef.value.handleSubmit(payload)
   selectedQuizQuestion.value = null
 }
+const handleAnswerSelected = (payload) => {
+  if (!quizListRef.value) return
+  quizListRef.value.handleAnswerSelected(payload)
+}
 
+const handleQuizFinished = (allCorrect) => {
+  quizStatus.value = allCorrect ? "success" : "fail"
+  selectedQuizQuestion.value = null
+}
+
+const selectedAnswer = computed(() => {
+  if (!selectedQuizQuestion.value || !quizListRef.value) return null
+  const answerObj = quizListRef.value.userAnswers.find(a => a.id === selectedQuizQuestion.value.quizId)
+  return answerObj?.selectedAnswer || null
+})
 
 </script>
 
-    <template>
+<template>
   <main>
     <div class="grid">
-      <QuizQuestionList ref="quizListRef" @select="selectedQuizQuestion = $event"  class="question-list"/>
+      <QuizQuestionList 
+      ref="quizListRef" 
+      @select="selectedQuizQuestion = $event" 
+      @quiz-finished="handleQuizFinished"
+      class="question-list"/>
 
       <div class="question-details">
         <QuizQuestionDetails
           v-if="selectedQuizQuestion"
           :question="selectedQuizQuestion"
+          :selected-answer="selectedAnswer"
           @close="selectedQuizQuestion = null"
-          @submitted="handleSubmit"
-        />
+          @answer-selected="handleAnswerSelected"
+          />
         <div v-else class="welcome-content">
-          <h2>Hello future hardware hero!</h2>
-          <h2>Select a question from the list to learn more</h2>
+          <template v-if="quizStatus === 'start'">
+            <h2>Hello future hardware hero!</h2>
+            <h2>Select a question from the list to learn more</h2>
+          </template>
+
+          <template v-else-if="quizStatus === 'success'">
+            <h2>🎉 Congratulations! 🎉</h2>
+            <h2>You aced this quiz!</h2>
+          </template>
+
+          <template v-else-if="quizStatus === 'fail'">
+            <h2>😕 Better luck next time!</h2>
+            <h2>Try again — you’ve got this!</h2>
+          </template>
         </div>
       </div>
     </div>

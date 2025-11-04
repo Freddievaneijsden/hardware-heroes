@@ -1,16 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useProgress } from '@/composables/useProgress'
 
 const completedChapters = ref([])
 const selectedChapterId = ref(null)
 const quizQuestionList = ref([])
+const userAnswers = ref([])
 const loading = ref(false)
 const error = ref(null)
 
 const {getCurrentChapter, updateProgressChapter } = useProgress()
 
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select', 'quiz-finished'])
 
 
 const fetchData = async () => {
@@ -33,6 +34,7 @@ const fetchData = async () => {
       quizWrongAnswer2: q.quizWrongAnswer2,
       status: null //'correct' | 'incorrect' | null
     }))
+    userAnswers.value = []
     console.log('Quizzes loaded:', quizQuestionList.value)
   } catch (err) {
     error.value = err.message
@@ -41,18 +43,36 @@ const fetchData = async () => {
   }
 }
 
-const selectQuizQuestion = (quiz) => {
-  if(quiz.status === null) emit('select', quiz)
+const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
+  const existing = userAnswers.value.find(a => a.id === questionId)
+  if (existing) {
+    existing.selectedAnswer = selectedAnswer
+  } else {
+    userAnswers.value.push({ id: questionId, selectedAnswer })
+  }
 }
 
-const handleSubmit = async ({ questionId, isCorrect }) => {
-  const question = quizQuestionList.value.find(q => q.quizId === questionId)
-  if (question) question.status = isCorrect ? 'correct' : 'incorrect'
+const allAnswered = computed(() => 
+  userAnswers.value.length === quizQuestionList.value.length
+)
 
-  const allAnswered = quizQuestionList.value.every(q => q.status !== null)
+const handleSubmit = async () => {
+  if (!allAnswered.value) {
+    alert('Please answer all questions before submitting!')
+      return
+    }
+
+  quizQuestionList.value.forEach(q => {
+    const ans = userAnswers.value.find(a => a.id === q.quizId)
+    const isCorrect = ans?.selectedAnswer === q.quizRightAnswer
+    q.status = isCorrect ? 'correct' : 'incorrect'
+  })
+
   const allCorrect = quizQuestionList.value.every(q => q.status === 'correct')
 
-    if (allAnswered && allCorrect) {
+   emit('quiz-finished', allCorrect)
+
+    if (allCorrect) {
       console.log('🎉 All questions correct! Advancing to next chapter...')
       await updateProgressChapter(selectedChapterId.value)
 
@@ -64,9 +84,10 @@ const handleSubmit = async ({ questionId, isCorrect }) => {
       if (newChapter !== selectedChapterId.value) {
         selectedChapterId.value = newChapter 
         await fetchData()
+        userAnswers.value = []
+      }
     }
   }
-}
 
 const selectChapter = async (chapterIndex) => {
   selectedChapterId.value = chapterIndex
@@ -74,8 +95,8 @@ const selectChapter = async (chapterIndex) => {
 }
 
 const getLatestChapter = () => {
-  const maxChapter = 5 
-  for (let i = 0; i <= maxChapter; i++) {
+  const maxChapter = 5
+  for (let i = 0; i < maxChapter; i++) {
     if (!completedChapters.value.includes(i)) return i
   }
   return null
@@ -100,32 +121,26 @@ onMounted(async () => {
 })
 
 defineExpose({
-  quizQuestionList, handleSubmit
+  quizQuestionList,userAnswers, handleSubmit, handleAnswerSelected
 })
 
 </script>
 
 <template>
   <section>
-  <section>
-    <p v-if="loading">Loading quizzes...</p>
-    <p v-else-if="error" style="color: red">{{ error }}</p>  
-    <h2 v-if="selectedChapterId === 5"> Congratulations! You've completed all quizzes.</h2>
-    <h2 v-else> Current Quiz {{ selectedChapterId + 1 }}</h2>
-
-   <ul class="completed-list" v-if="completedChapters.length || selectedChapterId !== null">
-  <li
-    v-for="chapter in [...new Set([...completedChapters, getLatestChapter()])] "
-    :key="chapter"
-    v-if="chapter !== null"
-    @click="selectChapter(chapter)"
-    :class="{ current: chapter === selectedChapterId, completed: completedChapters.includes(chapter) }"
-  >
-    {{ completedChapters.includes(chapter) ? 'Completed Quiz ' + (chapter + 1) : 'Current Quiz ' + (chapter + 1) }}
-  </li>
-</ul>
-
-  </section>
+    <section>
+      <ul class="completed-list" v-if="completedChapters.length || selectedChapterId !== null">
+        <li
+          v-for="chapter in [...new Set([...completedChapters, getLatestChapter()].filter(c => c !== null))]"
+          :key="chapter"
+          v-if="chapter !== null"
+          @click="selectChapter(chapter)"
+          :class="{ current: chapter === selectedChapterId, completed: completedChapters.includes(chapter) }"
+        >
+          <h2>{{ completedChapters.includes(chapter) ? 'Completed Quiz ' + (chapter + 1) : 'Current Quiz ' + (chapter + 1) }}</h2>
+        </li>
+      </ul>
+    </section>
 
   <section>
     <p v-if="loading">Loading questions...</p>
@@ -134,13 +149,17 @@ defineExpose({
     <ul v-else class="question-list">
       <li
         v-for="question in quizQuestionList"
-        :key="question.quizId"
-        @click="selectQuizQuestion(question)"
-        :class="question.status"
-      >
-        <h2>{{ question.quizQuestion }}</h2>
+          :key="question.quizId"
+          :class="[question.status, { answered: userAnswers.find(a => a.id === question.quizId) }]"
+          @click="emit('select', question)">
+        <h3>{{ question.quizQuestion }}</h3>
+        
       </li>
     </ul>
+    <button v-if="quizQuestionList.length && allAnswered"
+    class="submit-btn"
+    @click="handleSubmit">Submit all answers</button>
+
   </section>
   </section>
 </template>
@@ -162,6 +181,11 @@ li {
   border-radius: 6px;
   cursor: pointer;
 }
+li.answered {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
 li.correct {
   background-color: #86efac;
   border-color: #16a34a;

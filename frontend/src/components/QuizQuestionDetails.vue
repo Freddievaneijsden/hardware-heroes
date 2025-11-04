@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 
 const props = defineProps({
@@ -7,29 +7,27 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  selectedAnswer :{
+    type: String,
+    default: null,
+  },
 })
 
-const emit = defineEmits(['close', 'submitted'])
+const emit = defineEmits(['close', 'answer-selected']);
 
-const selectedAnswer = ref(null);
-const isSubmitted = ref(false);
+const selectedAnswer = ref(props.selectedAnswer);
 
 const selectAnswer = (answer) => {
-  if (!isSubmitted.value) {
-    selectedAnswer.value = answer;
-  }
+  selectedAnswer.value = answer;
+  emit('answer-selected', { questionId: props.question.quizId, selectedAnswer: answer });
 };
 
-const submitAnswer = () => {
-  if (!selectedAnswer.value) {
-    alert('Please select an answer before submitting.');
-    return;
-  }
 
-  isSubmitted.value = true;
-  const isCorrect = selectedAnswer.value === props.question.quizRightAnswer;
-  emit('submitted', { questionId: props.question.quizId, isCorrect });
-};
+watch(() => props.selectedAnswer, (newVal) => {
+  selectedAnswer.value = newVal;
+},
+{ immediate: true }
+);
 
 
 </script>
@@ -49,7 +47,6 @@ const submitAnswer = () => {
       </ul>
       
       <button @click="emit('close')">Close</button>
-      <button @click="submitAnswer" :disabled="isSubmitted">Submit</button>
   </section>
 </template>
 

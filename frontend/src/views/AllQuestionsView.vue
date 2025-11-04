@@ -29,6 +29,27 @@ const selectedAnswer = computed(() => {
   )
   return answerObj?.selectedAnswer || null
 })
+
+const goToNextQuestion = () => {
+  if (!quizListRef.value || !selectedQuizQuestion.value) return
+
+  const questions = quizListRef.value.quizQuestionList
+  const currentIndex = questions.findIndex(
+    (q) => q.quizId === selectedQuizQuestion.value.quizId,
+  )
+
+  if (currentIndex !== -1 && currentIndex < questions.length - 1) {
+    selectedQuizQuestion.value = questions[currentIndex + 1]
+  } else {
+    // Optionally: auto-submit if all questions answered
+    if (quizListRef.value.allAnswered) {
+      quizListRef.value.handleSubmit()
+    } else {
+      selectedQuizQuestion.value = null
+    }
+  }
+}
+
 </script>
 
 <template>
@@ -49,6 +70,7 @@ const selectedAnswer = computed(() => {
             :selected-answer="selectedAnswer"
             @close="selectedQuizQuestion = null"
             @answer-selected="handleAnswerSelected"
+            @next-question="goToNextQuestion"
           />
           <div v-else class="welcome-content">
             <template v-if="quizStatus === 'start'">

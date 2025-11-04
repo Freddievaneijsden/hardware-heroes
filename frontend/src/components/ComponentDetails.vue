@@ -174,6 +174,20 @@ button {
   .details {
     padding: 0;
   }
+
+.article-content {
+  text-align: center;
+}
+
+.article-image {
+  float: none;
+}
+
+button{
+  font-size: 13px;
+  width: 160px;
+  margin:5px 5px 20px 0;
+}
   
 }
 </style>

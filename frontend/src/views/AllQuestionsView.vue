@@ -40,14 +40,7 @@ const goToNextQuestion = () => {
 
   if (currentIndex !== -1 && currentIndex < questions.length - 1) {
     selectedQuizQuestion.value = questions[currentIndex + 1]
-  } else {
-    // Optionally: auto-submit if all questions answered
-    if (quizListRef.value.allAnswered) {
-      quizListRef.value.handleSubmit()
-    } else {
-      selectedQuizQuestion.value = null
-    }
-  }
+  } 
 }
 
 </script>

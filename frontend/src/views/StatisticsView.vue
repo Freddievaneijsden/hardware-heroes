@@ -1,11 +1,7 @@
 <script setup>
-import Nav from '../components/Nav.vue'
 import Statistics from '../components/Statistics.vue'
 </script>
 <template>
-  <header>
-    <Nav />
-  </header>
   <main>
     <div>
       <Statistics />

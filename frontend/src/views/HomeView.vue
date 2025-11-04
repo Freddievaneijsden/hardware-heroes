@@ -134,14 +134,14 @@ body {
     box-sizing: border-box;
   }
 
-  .imgContainer{
-  height:80vw;
+  .imgContainer {
+    height: 80vw;
   }
 
   img {
     height: auto;
     object-fit: cover;
-    margin-top:-20px;
+    margin-top: -20px;
   }
   .imageGlow {
     min-width: 100px;

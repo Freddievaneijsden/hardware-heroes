@@ -16,9 +16,6 @@ import ProfileSettings from '@/components/ProfileSettings.vue';
           <li>
             <h2><RouterLink to="/hardwareQuiz" class="h2-side-menu">Hardware Quiz</RouterLink></h2>
           </li>
-          <li>
-            <h2><RouterLink to="/Statistics" class="h2-side-menu">Statistics</RouterLink></h2>
-          </li>
         </ul>
         <h2><RouterLink to="/aboutUs" class="h2-side-menu">About</RouterLink></h2>
       </div>
@@ -46,7 +43,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-height: 90vh;
+  min-height: 89vh;
   max-width: 400px;
   padding: 20px 20px;
   margin-top: 40px;
@@ -85,6 +82,7 @@ html, body {
   .sideBar {
     width: 100%;
     max-width: 100%;
+    min-height: 0vh;
     height: auto;
     margin-top: 0px;
     padding-top: 0px;

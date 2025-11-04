@@ -132,6 +132,7 @@ body {
     margin: 0;
     height: auto;
     box-sizing: border-box;
+    text-align: center;
   }
 
   .imgContainer {

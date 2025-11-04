@@ -75,6 +75,11 @@ body {
     margin: 0;
   }
 
+  ul {
+    padding: 10px 0px;
+    margin-top: 0;
+  }
+
   .sideBar {
     width: 100%;
     max-width: 100%;
@@ -85,6 +90,7 @@ body {
     margin: 0;
     height: auto;
     box-sizing: border-box;
+    text-align: center;
   }
 }
 </style>

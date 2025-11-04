@@ -120,7 +120,7 @@ main {
 }
 
 @media (max-width: 600px) and (min-width: 375px) {
-  .grid { 
+  .grid {
     grid-template-columns: 2fr;
     gap: 0;
   }

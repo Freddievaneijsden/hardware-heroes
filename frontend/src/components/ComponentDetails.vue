@@ -21,6 +21,8 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
+const loggedIn = localStorage.getItem('user')
+
 const articles = computed(() => props.component.articles || [])
 
 const {
@@ -108,7 +110,7 @@ const imageMap = {
             <p>
               To unlock the next chapter, you need to complete Quiz {{ currentChapterIndex + 1 }}.
             </p>
-            <button @click="$router.push({ name: 'HardwareQuiz' })">
+            <button v-if="loggedIn" @click="$router.push({ name: 'HardwareQuiz' })" >
               Take Quiz {{ currentChapterIndex + 1 }}
             </button>
           </div>

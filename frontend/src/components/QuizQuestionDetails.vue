@@ -1,53 +1,58 @@
 <script setup>
-import { ref, watch } from 'vue';
-
+import { ref, watch } from 'vue'
 
 const props = defineProps({
   question: {
     type: Object,
     required: true,
   },
-  selectedAnswer :{
+  selectedAnswer: {
     type: String,
     default: null,
   },
 })
 
-const emit = defineEmits(['close', 'answer-selected']);
+const emit = defineEmits(['close', 'answer-selected'])
 
-const selectedAnswer = ref(props.selectedAnswer);
+const selectedAnswer = ref(props.selectedAnswer)
 
 const selectAnswer = (answer) => {
-  selectedAnswer.value = answer;
-  emit('answer-selected', { questionId: props.question.quizId, selectedAnswer: answer });
-};
+  selectedAnswer.value = answer
+  emit('answer-selected', { questionId: props.question.quizId, selectedAnswer: answer })
+}
 
-
-watch(() => props.selectedAnswer, (newVal) => {
-  selectedAnswer.value = newVal;
-},
-{ immediate: true }
-);
-
-
+watch(
+  () => props.selectedAnswer,
+  (newVal) => {
+    selectedAnswer.value = newVal
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
-  <section class="details">
-    <h2>{{ question.quizQuestion }}</h2>
+  <transition name="grow-in" mode="out-in">
+    <section class="details" :key="question.quizId">
+      <h2>{{ question.quizQuestion }}</h2>
 
       <ul class="answers">
-        <li v-for="(answer, i) in [question.quizWrongAnswer1, question.quizWrongAnswer2, question.quizRightAnswer]" 
-            :key="i"
-            :class="{ selected: selectedAnswer === answer}"
-            @click="selectAnswer(answer)"
-            >
-            <h3>{{ answer }}</h3>
+        <li
+          v-for="(answer, i) in [
+            question.quizWrongAnswer1,
+            question.quizWrongAnswer2,
+            question.quizRightAnswer,
+          ]"
+          :key="i"
+          :class="{ selected: selectedAnswer === answer }"
+          @click="selectAnswer(answer)"
+        >
+          <h3>{{ answer }}</h3>
         </li>
       </ul>
-      
+
       <button @click="emit('close')">Close</button>
-  </section>
+    </section>
+  </transition>
 </template>
 
 <style scoped>
@@ -62,7 +67,7 @@ watch(() => props.selectedAnswer, (newVal) => {
 }
 
 li {
-   background: #fef3c7;
+  background: #fef3c7;
   border: 2px solid #fbbf24;
   border-radius: 8px;
   padding: 0.8rem;
@@ -97,7 +102,6 @@ ul {
   padding: 0 80px;
 }
 
-
 button {
   margin-top: 10px;
 }
@@ -110,6 +114,5 @@ button {
   .details {
     padding: 0;
   }
-  
 }
 </style>

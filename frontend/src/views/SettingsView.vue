@@ -43,7 +43,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 89vh;
+  min-height: 90vh;
   max-width: 400px;
   padding: 20px 20px;
   margin-top: 40px;
@@ -52,6 +52,7 @@ main {
 ul {
   list-style: none;
   padding: 10px 0;
+  margin-top: 60px;
 }
 
 html, body {

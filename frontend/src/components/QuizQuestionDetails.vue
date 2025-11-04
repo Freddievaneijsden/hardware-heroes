@@ -109,6 +109,7 @@ button {
 
   .details {
     padding: 0;
+    position: relative;
   }
   
 }

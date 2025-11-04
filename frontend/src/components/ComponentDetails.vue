@@ -65,7 +65,7 @@ const imageMap = {
 
 <template>
   <transition name="grow-in" mode="out-in">
-    <section :key="component.componentId" class="details">
+    <section :key="component.componentId - currentChapterIndex" class="details">
       <h2>{{ component.componentName }}</h2>
 
       <div class="article-content">

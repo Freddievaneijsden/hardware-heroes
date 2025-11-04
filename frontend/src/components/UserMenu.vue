@@ -19,7 +19,6 @@ onMounted(() => document.addEventListener('click', handleClickOutside))
   <div class="user-menu">
     <button @click="toggleMenu">{{ user?.userName || 'User' }}</button>
     <div v-if="showMenu" class="dropdown">
-      <button>Profile</button>
       <router-link to="/settings">
       <button>Settings</button>
       </router-link>

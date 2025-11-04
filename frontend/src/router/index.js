@@ -64,4 +64,16 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem('user')
+
+  if (to.path==='/hardwareQuiz' && !isLoggedIn) {
+    alert('You need to be logged in to take a quiz')
+    next(false)
+  }
+  else {
+    next()
+  }
+})
+
 export default router

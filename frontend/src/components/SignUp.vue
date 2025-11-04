@@ -42,7 +42,7 @@ const handleSubmit = async () => {
   }
 
   if (!validatePassword(userPassword.value)) {
-    error.value = 'Password must contain one upper case, 8 charachters and no spaces'
+    error.value = 'Password must contain one upper case, 8 characters and no spaces'
     return
   }
 

@@ -13,9 +13,6 @@ import ProfileSettings from '@/components/ProfileSettings.vue'
         <li>
           <h2><RouterLink to="/hardwareQuiz" class="h2-side-menu">Hardware Quiz</RouterLink></h2>
         </li>
-        <li>
-          <h2><RouterLink to="/Statistics" class="h2-side-menu">Statistics</RouterLink></h2>
-        </li>
       </ul>
       <h2><RouterLink to="/aboutUs" class="h2-side-menu">About</RouterLink></h2>
     </div>

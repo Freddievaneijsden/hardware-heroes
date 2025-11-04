@@ -65,4 +65,19 @@ onMounted(() => {
   width: 20px;
   height: 20px;
 }
+
+@media (max-width: 600px) and (min-width: 375px){
+.download-button {
+  margin: 0px;
+  display: inline-flex;
+  gap: 4px;
+  font-size:13px;
+}
+
+.download-icon {
+  width: 15px;
+  height: 15px;
+}
+
+}
 </style>

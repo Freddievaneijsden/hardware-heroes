@@ -11,7 +11,7 @@ const error = ref(null)
 
 const {getCurrentChapter, updateProgressChapter } = useProgress()
 
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select', 'quiz-finished'])
 
 
 const fetchData = async () => {
@@ -69,6 +69,8 @@ const handleSubmit = async () => {
   })
 
   const allCorrect = quizQuestionList.value.every(q => q.status === 'correct')
+
+   emit('quiz-finished', allCorrect)
 
     if (allCorrect) {
       console.log('🎉 All questions correct! Advancing to next chapter...')

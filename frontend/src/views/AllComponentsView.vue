@@ -15,7 +15,6 @@ const selectedComponent = ref(null)
         <transition name="grow-in" mode="out-in">
           <ComponentDetails
             v-if="selectedComponent"
-            :key="selectedComponent.id"
             :component="selectedComponent"
             @close="selectedComponent = null"
           />

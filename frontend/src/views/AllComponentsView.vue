@@ -29,7 +29,7 @@ const selectedComponent = ref(null)
   </main>
 </template>
 
-<style scoped>
+<style>
 .title-wrapper {
   padding-top: 60px;
 }
@@ -59,32 +59,6 @@ main {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 2rem;
-}
-
-.grow-in-enter-from {
-  opacity: 0;
-  transform: scale(0.3);
-}
-
-.grow-in-enter-to {
-  opacity: 1;
-}
-
-.grow-in-enter-active {
-  transition:
-    opacity 0.5s ease-out,
-    transform 0.5s ease-out;
-}
-
-.grow-in-leave-to {
-  opacity: 0;
-  transform: scale(0.3);
-}
-
-.grow-in-leave-active {
-  transition:
-    opacity 0.3s ease-in,
-    transform 0.3s ease-in;
 }
 
 @media (max-width: 600px) and (min-width: 375px) {

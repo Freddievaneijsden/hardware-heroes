@@ -9,10 +9,9 @@ const userAnswers = ref([])
 const loading = ref(false)
 const error = ref(null)
 
-const {getCurrentChapter, updateProgressChapter } = useProgress()
+const { getCurrentChapter, updateProgressChapter } = useProgress()
 
 const emit = defineEmits(['select', 'quiz-finished'])
-
 
 const fetchData = async () => {
   if (selectedChapterId.value === null) return
@@ -26,13 +25,13 @@ const fetchData = async () => {
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
 
-    quizQuestionList.value = data.data.map(q => ({
+    quizQuestionList.value = data.data.map((q) => ({
       quizId: q.quizId,
       quizQuestion: q.quizQuestion,
       quizRightAnswer: q.quizRightAnswer,
       quizWrongAnswer1: q.quizWrongAnswer1,
       quizWrongAnswer2: q.quizWrongAnswer2,
-      status: null //'correct' | 'incorrect' | null
+      status: null, //'correct' | 'incorrect' | null
     }))
     userAnswers.value = []
     console.log('Quizzes loaded:', quizQuestionList.value)
@@ -44,7 +43,7 @@ const fetchData = async () => {
 }
 
 const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
-  const existing = userAnswers.value.find(a => a.id === questionId)
+  const existing = userAnswers.value.find((a) => a.id === questionId)
   if (existing) {
     existing.selectedAnswer = selectedAnswer
   } else {
@@ -52,42 +51,40 @@ const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
   }
 }
 
-const allAnswered = computed(() => 
-  userAnswers.value.length === quizQuestionList.value.length
-)
+const allAnswered = computed(() => userAnswers.value.length === quizQuestionList.value.length)
 
 const handleSubmit = async () => {
   if (!allAnswered.value) {
     alert('Please answer all questions before submitting!')
-      return
-    }
+    return
+  }
 
-  quizQuestionList.value.forEach(q => {
-    const ans = userAnswers.value.find(a => a.id === q.quizId)
+  quizQuestionList.value.forEach((q) => {
+    const ans = userAnswers.value.find((a) => a.id === q.quizId)
     const isCorrect = ans?.selectedAnswer === q.quizRightAnswer
     q.status = isCorrect ? 'correct' : 'incorrect'
   })
 
-  const allCorrect = quizQuestionList.value.every(q => q.status === 'correct')
+  const allCorrect = quizQuestionList.value.every((q) => q.status === 'correct')
 
-   emit('quiz-finished', allCorrect)
+  emit('quiz-finished', allCorrect)
 
-    if (allCorrect) {
-      console.log('🎉 All questions correct! Advancing to next chapter...')
-      await updateProgressChapter(selectedChapterId.value)
+  if (allCorrect) {
+    console.log('🎉 All questions correct! Advancing to next chapter...')
+    await updateProgressChapter(selectedChapterId.value)
 
-      if (!completedChapters.value.includes(selectedChapterId.value)) {
+    if (!completedChapters.value.includes(selectedChapterId.value)) {
       completedChapters.value.push(selectedChapterId.value)
-      }
+    }
 
-      const newChapter = await getCurrentChapter() 
-      if (newChapter !== selectedChapterId.value) {
-        selectedChapterId.value = newChapter 
-        await fetchData()
-        userAnswers.value = []
-      }
+    const newChapter = await getCurrentChapter()
+    if (newChapter !== selectedChapterId.value) {
+      selectedChapterId.value = newChapter
+      await fetchData()
+      userAnswers.value = []
     }
   }
+}
 
 const selectChapter = async (chapterIndex) => {
   selectedChapterId.value = chapterIndex
@@ -102,11 +99,9 @@ const getLatestChapter = () => {
   return null
 }
 
-
-
 onMounted(async () => {
   try {
-    const chapter = await getCurrentChapter() 
+    const chapter = await getCurrentChapter()
     if (chapter !== null) {
       selectedChapterId.value = chapter
       console.log('User current chapter:', chapter)
@@ -121,9 +116,11 @@ onMounted(async () => {
 })
 
 defineExpose({
-  quizQuestionList,userAnswers, handleSubmit, handleAnswerSelected
+  quizQuestionList,
+  userAnswers,
+  handleSubmit,
+  handleAnswerSelected,
 })
-
 </script>
 
 <template>
@@ -131,36 +128,55 @@ defineExpose({
     <section>
       <ul class="completed-list" v-if="completedChapters.length || selectedChapterId !== null">
         <li
-          v-for="chapter in [...new Set([...completedChapters, getLatestChapter()].filter(c => c !== null))]"
+          v-for="chapter in [
+            ...new Set([...completedChapters, getLatestChapter()].filter((c) => c !== null)),
+          ]"
           :key="chapter"
           v-if="chapter !== null"
           @click="selectChapter(chapter)"
-          :class="{ current: chapter === selectedChapterId, completed: completedChapters.includes(chapter) }"
+          :class="{
+            current: chapter === selectedChapterId,
+            completed: completedChapters.includes(chapter),
+          }"
         >
-          <h2>{{ completedChapters.includes(chapter) ? 'Completed Quiz ' + (chapter + 1) : 'Current Quiz ' + (chapter + 1) }}</h2>
+          <h2>
+            {{
+              completedChapters.includes(chapter)
+                ? 'Completed Quiz ' + (chapter + 1)
+                : 'Current Quiz ' + (chapter + 1)
+            }}
+          </h2>
         </li>
       </ul>
     </section>
 
-  <section>
-    <p v-if="loading">Loading questions...</p>
-    <p v-else-if="error" style="color: red">{{ error }}</p>
+    <transition name="grow-in" mode="out-in">
+      <section :key="selectedChapterId">
+        <p v-if="loading">Loading questions...</p>
+        <p v-else-if="error" style="color: red">{{ error }}</p>
 
-    <ul v-else class="question-list">
-      <li
-        v-for="question in quizQuestionList"
-          :key="question.quizId"
-          :class="[question.status, { answered: userAnswers.find(a => a.id === question.quizId) }]"
-          @click="emit('select', question)">
-        <h3>{{ question.quizQuestion }}</h3>
-        
-      </li>
-    </ul>
-    <button v-if="quizQuestionList.length && allAnswered"
-    class="submit-btn"
-    @click="handleSubmit">Submit all answers</button>
-
-  </section>
+        <ul v-else class="question-list">
+          <li
+            v-for="question in quizQuestionList"
+            :key="question.quizId"
+            :class="[
+              question.status,
+              { answered: userAnswers.find((a) => a.id === question.quizId) },
+            ]"
+            @click="emit('select', question)"
+          >
+            <h3>{{ question.quizQuestion }}</h3>
+          </li>
+        </ul>
+        <button
+          v-if="quizQuestionList.length && allAnswered"
+          class="submit-btn"
+          @click="handleSubmit"
+        >
+          Submit all answers
+        </button>
+      </section>
+    </transition>
   </section>
 </template>
 
@@ -195,37 +211,31 @@ li.incorrect {
   border-color: #b91c1c;
 }
 
-
-
 @media (max-width: 600px) and (min-width: 375px) {
   .question-list {
-  display: grid;
-  grid-template-columns: 4fr, 2fr; 
-  gap: 0.1rem;                          
-  padding-left: 0px;                  
-  padding-right: 0.5rem;
-  justify-items: start;                   
-  margin: 0;                              
+    display: grid;
+    grid-template-columns: 4fr, 2fr;
+    gap: 0.1rem;
+    padding-left: 0px;
+    padding-right: 0.5rem;
+    justify-items: start;
+    margin: 0;
   }
-  li{
+  li {
     justify-content: center;
   }
-
 
   .imgSettings {
     width: 70px;
     height: auto;
   }
 
-  ul{
+  ul {
     justify-content: center;
     grid-template-columns: repeat(4, 2fr);
     gap: 0.25rem;
     padding: 0px;
     margin: 0 auto;
-
-  };
-
-
+  }
 }
 </style>

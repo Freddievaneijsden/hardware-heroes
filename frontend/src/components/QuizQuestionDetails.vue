@@ -18,7 +18,8 @@ const selectedAnswer = ref(props.selectedAnswer)
 
 const selectAnswer = (answer) => {
   selectedAnswer.value = answer
-  emit('answer-selected', { questionId: props.question.quizId, selectedAnswer: answer }, 'next-question')
+  emit('answer-selected', { questionId: props.question.quizId, selectedAnswer: answer })
+  emit('next-question')
 }
 
 watch(

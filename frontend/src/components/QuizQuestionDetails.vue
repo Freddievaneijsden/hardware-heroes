@@ -37,11 +37,7 @@ watch(
 
       <ul class="answers">
         <li
-          v-for="(answer, i) in [
-            question.quizWrongAnswer1,
-            question.quizWrongAnswer2,
-            question.quizRightAnswer,
-          ]"
+          v-for="(answer, i) in question.answers"
           :key="i"
           :class="{ selected: selectedAnswer === answer }"
           @click="selectAnswer(answer)"

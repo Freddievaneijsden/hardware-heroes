@@ -25,14 +25,22 @@ const fetchData = async () => {
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
 
-    quizQuestionList.value = data.data.map((q) => ({
+    quizQuestionList.value = data.data.map(q => {
+      const answers =[
+        q.quizRightAnswer,
+        q.quizWrongAnswer1,
+        q.quizWrongAnswer2        
+      ]
+      const shuffleAnswers = answers.sort(() => Math.random()-0.5)
+
+      return{
       quizId: q.quizId,
       quizQuestion: q.quizQuestion,
       quizRightAnswer: q.quizRightAnswer,
-      quizWrongAnswer1: q.quizWrongAnswer1,
-      quizWrongAnswer2: q.quizWrongAnswer2,
+      answers:shuffleAnswers,
       status: null, //'correct' | 'incorrect' | null
-    }))
+      }
+    })
     userAnswers.value = []
     console.log('Quizzes loaded:', quizQuestionList.value)
   } catch (err) {

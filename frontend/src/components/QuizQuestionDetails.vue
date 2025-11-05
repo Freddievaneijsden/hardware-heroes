@@ -12,7 +12,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['close', 'answer-selected'])
+const emit = defineEmits(['close', 'answer-selected', 'next-question'])
 
 const selectedAnswer = ref(props.selectedAnswer)
 

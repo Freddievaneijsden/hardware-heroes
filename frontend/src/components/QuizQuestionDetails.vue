@@ -12,7 +12,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['close', 'answer-selected'])
+const emit = defineEmits(['close', 'answer-selected', 'next-question'])
 
 const selectedAnswer = ref(props.selectedAnswer)
 
@@ -38,11 +38,7 @@ watch(
 
       <ul class="answers">
         <li
-          v-for="(answer, i) in [
-            question.quizWrongAnswer1,
-            question.quizWrongAnswer2,
-            question.quizRightAnswer,
-          ]"
+          v-for="(answer, i) in question.answers"
           :key="i"
           :class="{ selected: selectedAnswer === answer }"
           @click="selectAnswer(answer)"
@@ -114,6 +110,7 @@ button {
 
   .details {
     padding: 0;
+    position: relative;
   }
 }
 </style>

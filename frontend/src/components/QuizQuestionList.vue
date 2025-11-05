@@ -25,14 +25,22 @@ const fetchData = async () => {
     if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
     const data = await response.json()
 
-    quizQuestionList.value = data.data.map((q) => ({
+    quizQuestionList.value = data.data.map(q => {
+      const answers =[
+        q.quizRightAnswer,
+        q.quizWrongAnswer1,
+        q.quizWrongAnswer2        
+      ]
+      const shuffleAnswers = answers.sort(() => Math.random()-0.5)
+
+      return{
       quizId: q.quizId,
       quizQuestion: q.quizQuestion,
       quizRightAnswer: q.quizRightAnswer,
-      quizWrongAnswer1: q.quizWrongAnswer1,
-      quizWrongAnswer2: q.quizWrongAnswer2,
+      answers:shuffleAnswers,
       status: null, //'correct' | 'incorrect' | null
-    }))
+      }
+    })
     userAnswers.value = []
     console.log('Quizzes loaded:', quizQuestionList.value)
   } catch (err) {
@@ -214,7 +222,7 @@ li.incorrect {
 @media (max-width: 600px) and (min-width: 375px) {
   .question-list {
     display: grid;
-    grid-template-columns: 4fr, 2fr;
+    grid-template-columns: 1fr;
     gap: 0.1rem;
     padding-left: 0px;
     padding-right: 0.5rem;
@@ -225,14 +233,10 @@ li.incorrect {
     justify-content: center;
   }
 
-  .imgSettings {
-    width: 70px;
-    height: auto;
-  }
 
   ul {
     justify-content: center;
-    grid-template-columns: repeat(4, 2fr);
+    grid-template-columns: 2fr;
     gap: 0.25rem;
     padding: 0px;
     margin: 0 auto;

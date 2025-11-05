@@ -120,13 +120,14 @@ main {
 }
 
 @media (max-width: 600px) and (min-width: 375px) {
-  .grid {
-    grid-template-columns: 1fr 2fr;
+  .grid { 
+    grid-template-columns: 2fr;
     gap: 0;
   }
   main {
     margin: 0;
     background-color: #fcd34d;
+    text-align: center;
   }
   body {
     padding: 0;
@@ -135,10 +136,14 @@ main {
 
   .question-list {
     padding: 20px 20px;
+    -ms-flex-order: 2;
+    order: 2;
   }
 
   .question-details {
     padding-top: 20px;
+    -ms-flex-order: 1;
+    order: 1;
   }
 
   .welcome-content {

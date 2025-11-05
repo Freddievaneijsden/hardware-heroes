@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useProgress } from '@/composables/useProgress'
+import { useQuiz } from '@/composables/useQuiz'
 
+const { quizQuestionList, userAnswers, handleSubmit } = useQuiz()
 const completedChapters = ref([])
 const selectedChapterId = ref(null)
-const quizQuestionList = ref([])
-const userAnswers = ref([])
 const loading = ref(false)
 const error = ref(null)
 
@@ -56,41 +56,6 @@ const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
     existing.selectedAnswer = selectedAnswer
   } else {
     userAnswers.value.push({ id: questionId, selectedAnswer })
-  }
-}
-
-const allAnswered = computed(() => userAnswers.value.length === quizQuestionList.value.length)
-
-const handleSubmit = async () => {
-  if (!allAnswered.value) {
-    alert('Please answer all questions before submitting!')
-    return
-  }
-
-  quizQuestionList.value.forEach((q) => {
-    const ans = userAnswers.value.find((a) => a.id === q.quizId)
-    const isCorrect = ans?.selectedAnswer === q.quizRightAnswer
-    q.status = isCorrect ? 'correct' : 'incorrect'
-  })
-
-  const allCorrect = quizQuestionList.value.every((q) => q.status === 'correct')
-
-  emit('quiz-finished', allCorrect)
-
-  if (allCorrect) {
-    console.log('🎉 All questions correct! Advancing to next chapter...')
-    await updateProgressChapter(selectedChapterId.value)
-
-    if (!completedChapters.value.includes(selectedChapterId.value)) {
-      completedChapters.value.push(selectedChapterId.value)
-    }
-
-    const newChapter = await getCurrentChapter()
-    if (newChapter !== selectedChapterId.value) {
-      selectedChapterId.value = newChapter
-      await fetchData()
-      userAnswers.value = []
-    }
   }
 }
 
@@ -176,13 +141,6 @@ defineExpose({
             <h3>{{ question.quizQuestion }}</h3>
           </li>
         </ul>
-        <button
-          v-if="quizQuestionList.length && allAnswered"
-          class="submit-btn"
-          @click="handleSubmit"
-        >
-          Submit all answers
-        </button>
       </section>
     </transition>
   </section>

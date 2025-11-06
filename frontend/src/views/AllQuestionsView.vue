@@ -148,6 +148,10 @@ main {
     order: 2;
   }
 
+  h2{
+    font-size: 25px;
+  }
+
   .question-details {
     padding-top: 20px;
     -ms-flex-order: 1;

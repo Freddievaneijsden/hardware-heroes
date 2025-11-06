@@ -83,7 +83,8 @@ main {
   }
 
   .welcome-content {
-    padding: 20px 20px;
+    padding: 10px 0 10px 0 ;
+    font-size: 15px;
   }
 }
 </style>

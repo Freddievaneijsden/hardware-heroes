@@ -124,5 +124,6 @@ export function useQuiz() {
     allAnswered,
     handleSubmit,
     resetQuiz,
+    fetchData,
   }
 }

@@ -47,8 +47,8 @@ defineExpose({
 
 <template>
   <section>
-    <section>
-      <ul class="completed-list" v-if="completedChapters.length || selectedChapterId !== null">
+    <section class="completed-list">
+      <ul  v-if="completedChapters.length || selectedChapterId !== null">
         <li
           v-for="chapter in [
             ...new Set([...completedChapters, getLatestChapter()].filter((c) => c !== null)),
@@ -160,11 +160,17 @@ li:hover{
 
 
   ul {
-    justify-content: center;
     grid-template-columns: 2fr;
     gap: 0.25rem;
     padding: 0px;
     margin: 0 auto;
   }
+  
+  .completed-list {
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+}
+
 }
 </style>

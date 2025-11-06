@@ -38,6 +38,15 @@ const goToNextQuestion = () => {
   } 
 }
 
+const resetQuiz = async() => {
+  quizStatus.value = 'start'
+  selectedQuizQuestion.value = null
+
+  if (quizListRef.value && quizListRef.value.resetQuiz){
+    await quizListRef.value.resetQuiz()
+  }
+}
+
 </script>
 
 <template>
@@ -74,6 +83,9 @@ const goToNextQuestion = () => {
             <template v-else-if="quizStatus === 'fail'">
               <h2>😕 Better luck next time!</h2>
               <h2>Try again — you’ve got this!</h2>
+              <button @click="resetQuiz" class="reset-btn"> 
+                Restart quiz  
+              </button>
             </template>
           </div>
         </transition>

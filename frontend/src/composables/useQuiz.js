@@ -101,6 +101,18 @@ const handleSubmit = async () => {
   return allCorrect.value
 }
 
+
+const resetQuiz = async() => {
+  if(selectedChapterId.value === null){
+    console.warn('no quiz to reset')
+    return
+  }
+  userAnswers.value = []
+  allCorrect.value= false
+
+  await fetchData()
+}
+
 export function useQuiz() {
   loadChapter();
   return {
@@ -111,5 +123,6 @@ export function useQuiz() {
     allCorrect,
     allAnswered,
     handleSubmit,
+    resetQuiz,
   }
 }

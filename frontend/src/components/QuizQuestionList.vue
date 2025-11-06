@@ -102,10 +102,11 @@ defineExpose({
 ul {
   margin-top: 10px;
   list-style: none;
-  padding: 40px;
+  padding: 10px;
   display: grid;
   grid-template-columns: 1fr;
 }
+
 li {
   display: flex;
   align-items: center;

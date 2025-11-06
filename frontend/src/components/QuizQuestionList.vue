@@ -15,43 +15,6 @@ const props = defineProps({
   }
 })
 
-const fetchData = async () => {
-  if (selectedChapterId.value === null) return
-  loading.value = true
-  error.value = null
-
-  try {
-    const chapterToFetch = selectedChapterId.value + 1
-
-    const response = await fetch(`http://localhost:3000/quizzes/${chapterToFetch}`)
-    if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
-    const data = await response.json()
-
-    quizQuestionList.value = data.data.map(q => {
-      const answers =[
-        q.quizRightAnswer,
-        q.quizWrongAnswer1,
-        q.quizWrongAnswer2        
-      ]
-      const shuffleAnswers = answers.sort(() => Math.random()-0.5)
-
-      return{
-      quizId: q.quizId,
-      quizQuestion: q.quizQuestion,
-      quizRightAnswer: q.quizRightAnswer,
-      answers:shuffleAnswers,
-      status: null, //'correct' | 'incorrect' | null
-      }
-    })
-    userAnswers.value = []
-    console.log('Quizzes loaded:', quizQuestionList.value)
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    loading.value = false
-  }
-}
-
 const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
   const existing = userAnswers.value.find((a) => a.id === questionId)
   if (existing) {

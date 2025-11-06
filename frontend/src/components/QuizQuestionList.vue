@@ -154,6 +154,7 @@ li {
 li.answered {
   background-color: #1fead2;
   border-color: #9ca3af;
+  transition: all 0.5s ease;
 }
 
 li.correct {

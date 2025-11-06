@@ -59,7 +59,7 @@ const handleSubmit = async () => {
       }),
     })
     if (!response.ok) {
-      throw new Error('Could not register: ' + response.status)
+      throw new Error('Could not register: Username is already in use')
     }
 
     const result = await response.json()
@@ -114,6 +114,7 @@ const handleSubmit = async () => {
       </select>
       <button class="custom-button">Register</button>
     </form>
+    <p v-if="error" style="color: red"></p>
     <p v-if="success" style="color: green">Thank you for signing up</p>
   </div>
 </template>

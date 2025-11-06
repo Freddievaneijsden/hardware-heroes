@@ -11,6 +11,7 @@ const error = ref(false)
 const router = useRouter()
 const showUserNameForm = ref(false)
 const showPasswordForm = ref(false)
+const submitted = ref(false)
 
 const validatePassword = (password) => {
   const hasUpperCase = /[A-Z]/.test(password)
@@ -24,6 +25,7 @@ const repeatedPassword = (repeatPassword) => {
 }
 
 const handleSubmit = async () => {
+  submitted.value = true
   success.value = false
   error.value = ''
 
@@ -73,12 +75,10 @@ const handleSubmit = async () => {
     parsedUser.userPassword = userPassword.value
   }
 
-  if (!updateData.userName && !updateData.userPassword) {
+  if (!updateData.userName && !updateData.userPassword && submitted) {
     error.value = 'Please fill in at least one field to update'
     return
   }
-
-  localStorage.setItem('user', JSON.stringify(parsedUser))
 
   try {
     const response = await fetch(`http://localhost:3000/users/${userId.value}`, {
@@ -89,10 +89,14 @@ const handleSubmit = async () => {
       body: JSON.stringify(updateData),
       })
     
-    if (!response.ok) throw new Error('Failed to update user: ' + response.status)
-
-  success.value = true
-  window.location.reload();
+     if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error('Username is already in use')
+  }
+    
+    localStorage.setItem('user', JSON.stringify(parsedUser))
+    success.value = true
+    window.location.reload();
   
   }catch (err) {
     error.value = err.message
@@ -133,7 +137,7 @@ if(!confirmed) {
         method: 'DELETE',
   })
 
-  if (!response.ok) throw new Error('Failed to delete user: ' + response.status)
+  if (!response.ok) throw new Error('Failed to update user, Username is already taken')
 
   localStorage.removeItem('user')
   localStorage.removeItem('token')
@@ -152,24 +156,24 @@ if(!confirmed) {
       <div class="settings-container">
     <form class="form" @submit.prevent="handleSubmit">
       <h1>Update account</h1>
-      <button class="custom-button" @click="showUserNameForm = !showUserNameForm">Change username</button>
-      <form v-if="showUserNameForm" class="form" @submit.prevent="handleSubmit">
+      <button class="custom-button" type="button" @click="showUserNameForm = !showUserNameForm">Change username</button>
+      <div v-if="showUserNameForm" class="form">
           <input class="input" v-model="userName" type="text" placeholder="New Username" />
-          <button class="custom-button">Update</button>
-        </form>
-      <button class="custom-button" @click="showPasswordForm = !showPasswordForm">
+          <button class="custom-button" @click="handleSubmit">Update</button>
+      </div>
+      <button class="custom-button" type="button" @click="showPasswordForm = !showPasswordForm">
           Change Password
         </button>
-        <form v-if="showPasswordForm" class="form" @submit.prevent="handleSubmit">
+        <div v-if="showPasswordForm" class="form">
           <div class="password-fields">
           <input class="input" v-model="userPassword" type="password" placeholder="New Password" />
           <input class="input" v-model="repeatPassword" type="password" placeholder="Repeat Password" />
-          <button class="custom-button">Update</button>
+          <button class="custom-button" @click="handleSubmit">Update</button>
           </div>
-        </form>
+        </div>
         <button class="custom-button" @click.prevent="handleDelete">Delete Account</button>
     </form>
-    <p v-if="error" style="color: red">{{ error }}</p>
+    <p v-if="submitted && error" style="color: red">{{ error }}</p>
     <p v-if="success" style="color: green">Account for {{ userName }} updated successfully!</p>
   </div>
   </div>
@@ -181,7 +185,7 @@ if(!confirmed) {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-height: 83vh;
+  min-height: 88vh;
   background-color: #FCD34D;
   margin-top: 120px;
 }
@@ -189,6 +193,7 @@ if(!confirmed) {
 .settings-container {
   width: 600px;
   padding: 1rem;
+  padding-bottom: 40px;
   background-color: #14B8A6;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(70, 58, 58, 0.1);
@@ -208,20 +213,6 @@ if(!confirmed) {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.input-button-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.input-button-row .input {
-  flex: 1; 
-}
-
-.input-button-row .custom-button {
-  white-space: nowrap;
 }
 
 .form {
@@ -259,7 +250,7 @@ if(!confirmed) {
     margin-top: 0px;
     min-height: 0vh;
     max-height: 72vh;
-    padding: 0px 0px;
+    padding: 0px 0px 20px;
   }
 
   .custom-button {
@@ -267,12 +258,14 @@ if(!confirmed) {
     text-align: center;
     align-content: center;
     padding: 0px 0px;
+    margin-bottom: 2px;
   }
 
   .input {
     min-height: 30px;
     max-height: 30px;
     text-align: center;
+    margin-bottom: 2px;
   }
 }
 </style>

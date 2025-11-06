@@ -1,54 +1,12 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useProgress } from '@/composables/useProgress'
+import { ref } from 'vue'
+import { useQuiz } from '@/composables/useQuiz'
 
-const completedChapters = ref([])
-const selectedChapterId = ref(null)
-const quizQuestionList = ref([])
-const userAnswers = ref([])
 const loading = ref(false)
 const error = ref(null)
-
-const { getCurrentChapter, updateProgressChapter } = useProgress()
+const { quizQuestionList, userAnswers, selectedChapterId, completedChapters} = useQuiz()
 
 const emit = defineEmits(['select', 'quiz-finished'])
-
-const fetchData = async () => {
-  if (selectedChapterId.value === null) return
-  loading.value = true
-  error.value = null
-
-  try {
-    const chapterToFetch = selectedChapterId.value + 1
-
-    const response = await fetch(`http://localhost:3000/quizzes/${chapterToFetch}`)
-    if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
-    const data = await response.json()
-
-    quizQuestionList.value = data.data.map(q => {
-      const answers =[
-        q.quizRightAnswer,
-        q.quizWrongAnswer1,
-        q.quizWrongAnswer2        
-      ]
-      const shuffleAnswers = answers.sort(() => Math.random()-0.5)
-
-      return{
-      quizId: q.quizId,
-      quizQuestion: q.quizQuestion,
-      quizRightAnswer: q.quizRightAnswer,
-      answers:shuffleAnswers,
-      status: null, //'correct' | 'incorrect' | null
-      }
-    })
-    userAnswers.value = []
-    console.log('Quizzes loaded:', quizQuestionList.value)
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    loading.value = false
-  }
-}
 
 const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
   const existing = userAnswers.value.find((a) => a.id === questionId)
@@ -56,41 +14,6 @@ const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
     existing.selectedAnswer = selectedAnswer
   } else {
     userAnswers.value.push({ id: questionId, selectedAnswer })
-  }
-}
-
-const allAnswered = computed(() => userAnswers.value.length === quizQuestionList.value.length)
-
-const handleSubmit = async () => {
-  if (!allAnswered.value) {
-    alert('Please answer all questions before submitting!')
-    return
-  }
-
-  quizQuestionList.value.forEach((q) => {
-    const ans = userAnswers.value.find((a) => a.id === q.quizId)
-    const isCorrect = ans?.selectedAnswer === q.quizRightAnswer
-    q.status = isCorrect ? 'correct' : 'incorrect'
-  })
-
-  const allCorrect = quizQuestionList.value.every((q) => q.status === 'correct')
-
-  emit('quiz-finished', allCorrect)
-
-  if (allCorrect) {
-    console.log('🎉 All questions correct! Advancing to next chapter...')
-    await updateProgressChapter(selectedChapterId.value)
-
-    if (!completedChapters.value.includes(selectedChapterId.value)) {
-      completedChapters.value.push(selectedChapterId.value)
-    }
-
-    const newChapter = await getCurrentChapter()
-    if (newChapter !== selectedChapterId.value) {
-      selectedChapterId.value = newChapter
-      await fetchData()
-      userAnswers.value = []
-    }
   }
 }
 
@@ -107,26 +30,9 @@ const getLatestChapter = () => {
   return null
 }
 
-onMounted(async () => {
-  try {
-    const chapter = await getCurrentChapter()
-    if (chapter !== null) {
-      selectedChapterId.value = chapter
-      console.log('User current chapter:', chapter)
-      await fetchData()
-      completedChapters.value = Array.from({ length: chapter }, (_, i) => i)
-    } else {
-      console.warn('No chapter found for user progress.')
-    }
-  } catch (err) {
-    console.error('Failed to load user progress:', err)
-  }
-})
-
 defineExpose({
   quizQuestionList,
   userAnswers,
-  handleSubmit,
   handleAnswerSelected,
 })
 </script>
@@ -156,6 +62,7 @@ defineExpose({
           </h2>
         </li>
       </ul>
+      <p v-else>Loading questions...</p>
     </section>
 
     <transition name="grow-in" mode="out-in">
@@ -176,13 +83,6 @@ defineExpose({
             <h3>{{ question.quizQuestion }}</h3>
           </li>
         </ul>
-        <button
-          v-if="quizQuestionList.length && allAnswered"
-          class="submit-btn"
-          @click="handleSubmit"
-        >
-          Submit all answers
-        </button>
       </section>
     </transition>
   </section>

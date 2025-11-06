@@ -1,5 +1,8 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { useQuiz } from '@/composables/useQuiz'
+
+const { allAnswered, handleSubmit } = useQuiz()
 
 const props = defineProps({
   question: {
@@ -12,7 +15,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['close', 'answer-selected', 'next-question'])
+const emit = defineEmits(['close', 'answer-selected', 'next-question', 'quiz-finished'])
 
 const selectedAnswer = ref(props.selectedAnswer)
 
@@ -20,6 +23,11 @@ const selectAnswer = (answer) => {
   selectedAnswer.value = answer
   emit('answer-selected', { questionId: props.question.quizId, selectedAnswer: answer })
   emit('next-question')
+}
+
+const submitAll = async () => {
+  const allCorrect = await handleSubmit() 
+  emit('quiz-finished', allCorrect)
 }
 
 watch(
@@ -48,6 +56,7 @@ watch(
       </ul>
 
       <button @click="emit('close')">Close</button>
+      <button @click="submitAll" v-if="allAnswered">Submit All Answers</button>
     </section>
   </transition>
 </template>

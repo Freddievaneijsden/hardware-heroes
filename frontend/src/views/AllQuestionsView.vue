@@ -7,11 +7,6 @@ const selectedQuizQuestion = ref(null)
 const quizListRef = ref(null)
 const quizStatus = ref('start')
 
-const handleSubmit = (payload) => {
-  if (!payload) return
-  quizListRef.value.handleSubmit(payload)
-  selectedQuizQuestion.value = null
-}
 const handleAnswerSelected = (payload) => {
   if (!quizListRef.value) return
   quizListRef.value.handleAnswerSelected(payload)
@@ -51,7 +46,6 @@ const goToNextQuestion = () => {
       <QuizQuestionList
         ref="quizListRef"
         @select="selectedQuizQuestion = $event"
-        @quiz-finished="handleQuizFinished"
         class="question-list"
       />
 
@@ -64,6 +58,7 @@ const goToNextQuestion = () => {
             @close="selectedQuizQuestion = null"
             @answer-selected="handleAnswerSelected"
             @next-question="goToNextQuestion"
+            @quiz-finished="handleQuizFinished"
           />
           <div v-else class="welcome-content">
             <template v-if="quizStatus === 'start'">

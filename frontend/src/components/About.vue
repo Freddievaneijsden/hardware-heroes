@@ -4,8 +4,8 @@ import boyBand from '../assets/img/boyBandNoBG.png'
 
 <template>
   <div>
-    <img :src="boyBand" :alt="BoyBand" class="boy-band" />
-    <div class="names-grid">
+    <img :src="boyBand" :alt="BoyBand" class="boy-band mobileView" />
+    <div class="names-grid mobileView">
       <div class="names-wrapper">
         <h2>Jesper</h2>
         <h2>Oskar</h2>
@@ -36,6 +36,8 @@ import boyBand from '../assets/img/boyBandNoBG.png'
 
 @media (max-width: 600px) and (min-width: 375px) {
   .names-wrapper {
+    margin-top: -35px;
+    margin-left:-20px;
     padding-left: 10px;
     padding-right: 30px;
   }
@@ -43,6 +45,11 @@ import boyBand from '../assets/img/boyBandNoBG.png'
   .boy-band {
     max-width: 400px;
     padding-top: 80px;
+    margin-left:-20px;
+  }
+
+  .mobileView{
+    transform: scale(0.8);
   }
 }
 </style>

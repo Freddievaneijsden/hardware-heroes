@@ -45,7 +45,6 @@ import boyBand from '../assets/img/boyBandNoBG.png'
   .boy-band {
     max-width: 400px;
     padding-top: 80px;
-    margin-left:-20px;
   }
 
   .mobileView{

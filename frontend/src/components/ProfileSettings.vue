@@ -81,9 +81,6 @@ const handleSubmit = async () => {
   localStorage.setItem('user', JSON.stringify(parsedUser))
 
   try {
-    console.log('userId:', userId.value)
-    console.log('userName:', userName.value)
-    console.log('userPassword:', userPassword.value)
     const response = await fetch(`http://localhost:3000/users/${userId.value}`, {
       method: 'PATCH',
       headers: {
@@ -157,23 +154,17 @@ if(!confirmed) {
       <h1>Update account</h1>
       <button class="custom-button" @click="showUserNameForm = !showUserNameForm">Change username</button>
       <form v-if="showUserNameForm" class="form" @submit.prevent="handleSubmit">
-        <div class="input-button-row">
           <input class="input" v-model="userName" type="text" placeholder="New Username" />
-          <button class="custom-button">Update Username</button>
-          </div>
+          <button class="custom-button">Update</button>
         </form>
       <button class="custom-button" @click="showPasswordForm = !showPasswordForm">
           Change Password
         </button>
         <form v-if="showPasswordForm" class="form" @submit.prevent="handleSubmit">
           <div class="password-fields">
-            <div class="input-button-row">
           <input class="input" v-model="userPassword" type="password" placeholder="New Password" />
-          </div>
-          <div class="input-button-row">
           <input class="input" v-model="repeatPassword" type="password" placeholder="Repeat Password" />
-          <button class="custom-button">Update Password</button>
-          </div>
+          <button class="custom-button">Update</button>
           </div>
         </form>
         <button class="custom-button" @click.prevent="handleDelete">Delete Account</button>
@@ -250,9 +241,8 @@ if(!confirmed) {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 50vh;
     box-sizing: border-box;
-    min-height: 49vh;
+    min-height: 80vh;
     margin-top: 0;
   }
 
@@ -266,7 +256,23 @@ if(!confirmed) {
   .settings-container {
     width: 100%;
     max-width: 360px;
-    margin-top: 20px;
+    margin-top: 0px;
+    min-height: 0vh;
+    max-height: 72vh;
+    padding: 0px 0px;
+  }
+
+  .custom-button {
+    min-height: 30px;
+    text-align: center;
+    align-content: center;
+    padding: 0px 0px;
+  }
+
+  .input {
+    min-height: 30px;
+    max-height: 30px;
+    text-align: center;
   }
 }
 </style>

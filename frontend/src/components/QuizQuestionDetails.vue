@@ -113,6 +113,13 @@ button {
   margin-top: 10px;
 }
 
+  .btn-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+
 @media (max-width: 600px) and (min-width: 375px) {
   .article-content {
     padding: 0 10px;
@@ -130,13 +137,6 @@ button {
 
   .questionText{
     font-size: 20px;
-  }
-
-  .btn-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
   }
 }
 </style>

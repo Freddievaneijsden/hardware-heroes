@@ -25,9 +25,9 @@ const selectAnswer = (answer) => {
   emit('next-question')
 }
 
-const submitAll = () => {
-  const result = handleSubmit() 
-  emit('quiz-finished', result)
+const submitAll = async () => {
+  const allCorrect = await handleSubmit() 
+  emit('quiz-finished', allCorrect)
 }
 
 watch(

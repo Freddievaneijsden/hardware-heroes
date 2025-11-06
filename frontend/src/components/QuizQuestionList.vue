@@ -131,8 +131,8 @@ li.incorrect {
 }
 
 li.current{
-  box-shadow: 0 0 5px 5px #f8de89;
-  background-color: #f8de89;
+  box-shadow: 0 0 5px 5px #ffe796;
+  background-color: #ffe796;
   border-radius: 20px;
   transition: all 1s ease; 
   transform: scale(1.03);   

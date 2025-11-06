@@ -82,6 +82,8 @@ const handleSubmit = async () => {
 
   allCorrect.value = quizQuestionList.value.every((q) => q.status === 'correct')
 
+   await new Promise((resolve) => setTimeout(resolve, 2000))
+
   if (allCorrect.value) {
     console.log('🎉 All questions correct! Advancing to next chapter...')
     await updateProgressChapter(selectedChapterId.value)

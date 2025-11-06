@@ -4,7 +4,7 @@ import { useQuiz } from '@/composables/useQuiz'
 
 const loading = ref(false)
 const error = ref(null)
-const { quizQuestionList, userAnswers, selectedChapterId, completedChapters, resetQuiz } = useQuiz()
+const { quizQuestionList, userAnswers, selectedChapterId, completedChapters, resetQuiz, fetchData,} = useQuiz()
 
 const emit = defineEmits(['select', 'quiz-finished'])
 

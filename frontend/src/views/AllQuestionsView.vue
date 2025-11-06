@@ -34,7 +34,9 @@ const goToNextQuestion = () => {
   )
 
   if (currentIndex !== -1 && currentIndex < questions.length - 1) {
-    selectedQuizQuestion.value = questions[currentIndex + 1]
+      setTimeout(() => {
+      selectedQuizQuestion.value = questions[currentIndex + 1]
+    }, 500)
   } 
 }
 

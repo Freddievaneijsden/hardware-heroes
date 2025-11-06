@@ -54,9 +54,10 @@ watch(
           <h3>{{ answer }}</h3>
         </li>
       </ul>
-
+      <div class="btn-wrapper">
       <button @click="emit('close')">Close</button>
       <button @click="submitAll" v-if="allAnswered">Submit All Answers</button>
+      </div>
     </section>
   </transition>
 </template>
@@ -121,5 +122,12 @@ button {
     padding: 0;
     position: relative;
   }
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 </style>

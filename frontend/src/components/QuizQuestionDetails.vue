@@ -42,7 +42,7 @@ watch(
 <template>
   <transition name="grow-in" mode="out-in">
     <section class="details" :key="question.quizId">
-      <h2>{{ question.quizQuestion }}</h2>
+      <h2 class="questionText">{{ question.quizQuestion }}</h2>
 
       <ul class="answers">
         <li
@@ -113,6 +113,13 @@ button {
   margin-top: 10px;
 }
 
+  .btn-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+
 @media (max-width: 600px) and (min-width: 375px) {
   .article-content {
     padding: 0 10px;
@@ -122,12 +129,14 @@ button {
     padding: 0;
     position: relative;
   }
-}
 
-.btn-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
+
+  li {
+    padding: 0;
+  }
+
+  .questionText{
+    font-size: 20px;
+  }
 }
 </style>

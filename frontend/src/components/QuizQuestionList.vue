@@ -8,6 +8,50 @@ const { quizQuestionList, userAnswers, selectedChapterId, completedChapters} = u
 
 const emit = defineEmits(['select', 'quiz-finished'])
 
+const props = defineProps({
+  selectedQuestionId: {
+    type:Number,
+    default: null
+  }
+})
+
+const fetchData = async () => {
+  if (selectedChapterId.value === null) return
+  loading.value = true
+  error.value = null
+
+  try {
+    const chapterToFetch = selectedChapterId.value + 1
+
+    const response = await fetch(`http://localhost:3000/quizzes/${chapterToFetch}`)
+    if (!response.ok) throw new Error('Could not fetch quizzes: ' + response.status)
+    const data = await response.json()
+
+    quizQuestionList.value = data.data.map(q => {
+      const answers =[
+        q.quizRightAnswer,
+        q.quizWrongAnswer1,
+        q.quizWrongAnswer2        
+      ]
+      const shuffleAnswers = answers.sort(() => Math.random()-0.5)
+
+      return{
+      quizId: q.quizId,
+      quizQuestion: q.quizQuestion,
+      quizRightAnswer: q.quizRightAnswer,
+      answers:shuffleAnswers,
+      status: null, //'correct' | 'incorrect' | null
+      }
+    })
+    userAnswers.value = []
+    console.log('Quizzes loaded:', quizQuestionList.value)
+  } catch (err) {
+    error.value = err.message
+  } finally {
+    loading.value = false
+  }
+}
+
 const handleAnswerSelected = ({ questionId, selectedAnswer }) => {
   const existing = userAnswers.value.find((a) => a.id === questionId)
   if (existing) {
@@ -76,11 +120,13 @@ defineExpose({
             :key="question.quizId"
             :class="[
               question.status,
-              { answered: userAnswers.find((a) => a.id === question.quizId) },
+              { answered: userAnswers.find((a) => a.id === question.quizId),
+                current: question.quizId === props.selectedQuestionId
+               },
             ]"
             @click="emit('select', question)"
           >
-            <h3>{{ question.quizQuestion }}</h3>
+            <h3 class="quizQuestion">{{ question.quizQuestion }}</h3>
           </li>
         </ul>
       </section>
@@ -101,12 +147,12 @@ li {
   align-items: center;
   gap: 10px;
   margin: 5px 5px;
-  padding: 0;
-  border-radius: 6px;
+  padding: 0 10px 0 10px;
+  border-radius: 10px;
   cursor: pointer;
 }
 li.answered {
-  background-color: #f3f4f6;
+  background-color: #1fead2;
   border-color: #9ca3af;
 }
 
@@ -117,6 +163,19 @@ li.correct {
 li.incorrect {
   background-color: #fca5a5;
   border-color: #b91c1c;
+}
+
+li.current{
+  box-shadow: 0 0 5px 5px #fcd34d;
+  background-color: #fcd34d;
+  border-radius: 20px;
+  transition: all 1s ease; 
+  transform: scale(1.03);   
+}
+
+li:hover{
+  transition: all 0.5s ease;
+  transform: scale(1.02);
 }
 
 @media (max-width: 600px) and (min-width: 375px) {

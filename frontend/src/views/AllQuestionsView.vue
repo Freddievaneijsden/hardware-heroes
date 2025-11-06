@@ -45,6 +45,7 @@ const goToNextQuestion = () => {
     <div class="grid">
       <QuizQuestionList
         ref="quizListRef"
+        :selected-question-id="selectedQuizQuestion?.quizId"
         @select="selectedQuizQuestion = $event"
         class="question-list"
       />

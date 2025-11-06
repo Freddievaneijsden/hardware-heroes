@@ -81,6 +81,10 @@ main {
   padding: 20px 20px;
 }
 
+.imageGlow {
+  transition: all 0.2s ease;
+}
+
 .imgContainer {
   display: flex;
   flex-direction: column;

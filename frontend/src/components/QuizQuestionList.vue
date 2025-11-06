@@ -117,8 +117,7 @@ li {
   cursor: pointer;
 }
 li.answered {
-  background-color: #1fead2;
-  border-color: #9ca3af;
+  background-color: #fcd34d;
   transition: all 0.5s ease;
 }
 
@@ -132,8 +131,8 @@ li.incorrect {
 }
 
 li.current{
-  box-shadow: 0 0 5px 5px #fcd34d;
-  background-color: #fcd34d;
+  box-shadow: 0 0 5px 5px #f8de89;
+  background-color: #f8de89;
   border-radius: 20px;
   transition: all 1s ease; 
   transform: scale(1.03);   

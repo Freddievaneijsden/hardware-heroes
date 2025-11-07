@@ -38,7 +38,7 @@ import boyBand from '../assets/img/boyBandNoBG.png'
   .names-wrapper {
     margin-top: -35px;
     margin-left:-20px;
-    padding-left: 10px;
+    padding-left: 25px;
     padding-right: 30px;
   }
 
